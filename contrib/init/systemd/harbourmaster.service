@@ -1,0 +1,14 @@
+[Unit]
+Description=Docker Harbourmaster
+After=network.target
+
+[Service]
+Type=simple
+TimeoutStartSec=0
+Restart=always
+RestartSec=10s
+ExecStartPre=-/usr/sbin/hbm init
+ExecStart=/usr/sbin/hbm server
+
+[Install]
+WantedBy=multi-user.target docker.service
