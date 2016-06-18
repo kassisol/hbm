@@ -56,8 +56,11 @@ func init() {
 func configListOptions(cmd *cobra.Command, args []string) {
 	data := config.New()
 
+	fmt.Printf("%-30s | %s\n", "Action", "Description")
+	fmt.Println("-------------------------------------------------------")
+
 	for _, c := range data {
-		fmt.Println(c.Action)
+		fmt.Printf("%-30s | %s\n", c.Action, c.Description)
 	}
 }
 

@@ -13,9 +13,9 @@ import (
 )
 
 var infoCmd = &cobra.Command{
-        Use:    "info",
-        Short:  "Display information about Harbourmaster",
-        Long:	"Display information about Harbourmaster",
+        Use:	"info",
+        Short:	"Display information about HBM",
+        Long:	"Display information about HBM",
 }
 
 func init() {

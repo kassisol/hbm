@@ -6,8 +6,8 @@ import (
 
 var RootCmd = &cobra.Command{
 	Use:	"hbm",
-	Short:	"HBM is a command line to restrict docker use",
-	Long:	"HBM is a command line to restrict docker use",
+	Short:	"HBM is an application to authorize and manage authorized docker command",
+	Long:	"HBM is an application to authorize and manage authorized docker command",
 }
 
 var appPath = "/var/lib/hbm"

@@ -13,9 +13,9 @@ func init() {
 
 var versionCmd = &cobra.Command{
         Use:    "version",
-        Short:  "Print the version number of Harbourmaster",
-        Long:   "All software has versions. This is Harbourmaster's",
+        Short:  "Show the HBM version information",
+        Long:   "All software has versions. This is HBM's",
         Run:    func(cmd *cobra.Command, args []string) {
-                fmt.Println("Harbourmaster", version.VERSION, "-- HEAD")
+                fmt.Println("HBM", version.VERSION, "-- HEAD")
         },
 }

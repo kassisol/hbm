@@ -56,8 +56,11 @@ func init() {
 func actionListOptions(cmd *cobra.Command, args []string) {
 	data, _ := api.NewApi(api.SupportedVersion, "")
 
+	fmt.Printf("%-25s | %-20s | %s\n", "Action", "Command Name", "Description")
+	fmt.Println("-----------------------------------------------------------------------------------------------------------------------")
+
 	for _, a := range *data.Uris {
-		fmt.Println(a.Action)
+		fmt.Printf("%-25s | %-20s | %s\n", a.Action, a.CmdName, a.Description)
 	}
 }
 
