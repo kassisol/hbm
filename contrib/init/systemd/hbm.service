@@ -7,8 +7,8 @@ Type=simple
 TimeoutStartSec=0
 Restart=always
 RestartSec=10s
-ExecStartPre=-/usr/sbin/hbm init
-ExecStart=/usr/sbin/hbm server
+ExecStartPre=-/usr/bin/hbm init
+ExecStart=/usr/bin/hbm server
 
 [Install]
 WantedBy=multi-user.target docker.service
