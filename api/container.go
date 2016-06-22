@@ -21,7 +21,8 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) (stri
 	}
 
 	type CreateContainer struct {
-		HostConfig container.HostConfig
+		Config		container.Config
+		HostConfig	container.HostConfig
 	}
 	cc := &CreateContainer{}
 
@@ -121,6 +122,11 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) (stri
 		}
 	}
 
+	if len(cc.Config.User) > 0 {
+		if cc.Config.User == "root" && ! d.KeyExists("config", "container_create_user_root") {
+			return "Running as user \"root\" is not allowed. Please use --user=\"someuser\" param.", ""
+		}
+        }
 	return "", ""
 }
 
