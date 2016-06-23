@@ -31,7 +31,6 @@ func infoView(cmd *cobra.Command, args []string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer d.Conn.Close()
 
 	fmt.Println("Whitelists:")
 	fmt.Println(" Actions:", strconv.Itoa(d.Count("action")))
@@ -43,6 +42,8 @@ func infoView(cmd *cobra.Command, args []string) {
 	fmt.Println(" Ports:", strconv.Itoa(d.Count("port")))
 	fmt.Println(" Registries:", strconv.Itoa(d.Count("registry")))
 	fmt.Println(" Volumes:", strconv.Itoa(d.Count("volume")))
+
+	d.Conn.Close()
 
 	fmt.Println("Server Version:", version.VERSION)
 	fmt.Println("Harbourmaster Root Dir:", appPath)

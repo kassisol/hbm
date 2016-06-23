@@ -106,6 +106,8 @@ func (a *Api) Allow(req authorization.Request) (bool, string, string) {
 			re := u.Re
 			if re.MatchString(urlPath) {
 				if ! d.KeyExists("action", u.Action) {
+					d.Conn.Close()
+
 					return false, "", fmt.Sprintf("%s is not allowed", u.CmdName)
 				}
 				d.Conn.Close()
