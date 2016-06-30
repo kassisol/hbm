@@ -23,8 +23,8 @@ HBM is an application to authorize and manage authorized docker command.
 
 %install
 # install binary
-install -d $RPM_BUILD_ROOT/%{_bindir}
-install -p -m 755 hbm $RPM_BUILD_ROOT/%{_bindir}/
+install -d $RPM_BUILD_ROOT/%{_sbindir}
+install -p -m 755 hbm $RPM_BUILD_ROOT/%{_sbindir}/
 
 # add init scripts
 install -d $RPM_BUILD_ROOT/%{_unitdir}
@@ -33,7 +33,7 @@ install -p -m 644 hbm.service $RPM_BUILD_ROOT/%{_unitdir}/hbm.service
 # list files owned by the package here
 %files
 #%doc README.md
-%{_bindir}/hbm
+%{_sbindir}/hbm
 /%{_unitdir}/hbm.service
 
 %post
@@ -43,7 +43,7 @@ install -p -m 644 hbm.service $RPM_BUILD_ROOT/%{_unitdir}/hbm.service
 %systemd_preun hbm
 
 %postun
-rm -f /usr/bin/hbm
+rm -f %{_sbindir}/hbm
 
 %systemd_postun_with_restart docker
 
