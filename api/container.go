@@ -15,9 +15,9 @@ import (
 	"github.com/harbourmaster/hbm/pkg/db"
 )
 
-func AllowContainerCreate(req authorization.Request, config *types.Config) (string, string) {
+func AllowContainerCreate(req authorization.Request, config *types.Config) *types.AllowResult {
 	if req.RequestBody == nil {
-		return "", "Malformed request"
+		return &types.AllowResult{Allow: false, Error: "Malformed request"}
 	}
 
 	type CreateContainer struct {
@@ -27,7 +27,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) (stri
 	cc := &CreateContainer{}
 
 	if err := json.NewDecoder(bytes.NewReader(req.RequestBody)).Decode(cc); err != nil {
-		return "", err.Error()
+		return &types.AllowResult{Allow: false, Error: err.Error()}
 	}
 
 	defer db.RecoverFunc()
@@ -40,44 +40,44 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) (stri
 
 	if cc.HostConfig.Privileged {
 		if ! d.KeyExists("config", "container_create_privileged") {
-			return "--privileged param is not allowed", ""
+			return &types.AllowResult{Allow: false, Msg: "--privileged param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.IpcMode == "host" {
 		if ! d.KeyExists("config", "container_create_ipc_host") {
-			return "--ipc=\"host\" param is not allowed", ""
+			return &types.AllowResult{Allow: false, Msg: "--ipc=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.NetworkMode == "host" {
 		if ! d.KeyExists("config", "container_create_net_host") {
-			return "--net=\"host\" param is not allowed", ""
+			return &types.AllowResult{Allow: false, Msg: "--net=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.PidMode == "host" {
 		if ! d.KeyExists("config", "container_create_pid_host") {
-			return "--pid=\"host\" param is not allowed", ""
+			return &types.AllowResult{Allow: false, Msg: "--pid=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.UsernsMode == "host" {
 		if ! d.KeyExists("config", "container_create_userns_host") {
-			return "--userns=\"host\" param is not allowed", ""
+			return &types.AllowResult{Allow: false, Msg: "--userns=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.UTSMode == "host" {
 		if ! d.KeyExists("config", "container_create_uts_host") {
-			return "--uts=\"host\" param is not allowed", ""
+			return &types.AllowResult{Allow: false, Msg: "--uts=\"host\" param is not allowed"}
 		}
 	}
 
 	if len(cc.HostConfig.CapAdd) > 0 {
 		for _, c := range cc.HostConfig.CapAdd {
 			if ! d.KeyExists("cap", c) {
-				return fmt.Sprintf("Capability %s is not allowed", c), ""
+				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Capability %s is not allowed", c)}
 			}
 		}
 	}
@@ -85,7 +85,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) (stri
 	if len(cc.HostConfig.Devices) > 0 {
 		for _, dev := range cc.HostConfig.Devices {
 			if ! d.KeyExists("device", dev.PathOnHost) {
-				return fmt.Sprintf("Device %s is not allowed to be exported", dev.PathOnHost), ""
+				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Device %s is not allowed to be exported", dev.PathOnHost)}
 			}
 		}
 	}
@@ -93,7 +93,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) (stri
 	if len(cc.HostConfig.DNS) > 0 {
 		for _, dns := range cc.HostConfig.DNS {
 			if ! d.KeyExists("dns", dns) {
-				return fmt.Sprintf("DNS server %s is not allowed", dns), ""
+				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("DNS server %s is not allowed", dns)}
 			}
 		}
 	}
@@ -104,7 +104,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) (stri
 				spb := GetPortBindingString(&pb)
 
 				if ! d.KeyExists("port", spb) {
-					return fmt.Sprintf("Port %s is not allowed to be pubished", spb), ""
+					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be pubished", spb)}
 				}
 			}
                 }
@@ -117,17 +117,18 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) (stri
 			vol := strings.Split(b, ":")
 
 			if ! AllowVolume(vol[0], config) {
-				return fmt.Sprintf("Volume %s is not allowed to be mounted", b), ""
+				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume %s is not allowed to be mounted", b)}
 			}
 		}
 	}
 
 	if len(cc.Config.User) > 0 {
 		if cc.Config.User == "root" && ! d.KeyExists("config", "container_create_user_root") {
-			return "Running as user \"root\" is not allowed. Please use --user=\"someuser\" param.", ""
+			return &types.AllowResult{Allow: false, Msg: "Running as user \"root\" is not allowed. Please use --user=\"someuser\" param."}
 		}
-        }
-	return "", ""
+	}
+
+	return &types.AllowResult{Allow: true}
 }
 
 func GetPortBindingString(pb *nat.PortBinding) string {

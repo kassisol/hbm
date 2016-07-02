@@ -23,12 +23,12 @@ func (p *plugin) AuthZReq(req authorization.Request) authorization.Response {
 		log.Fatal(err)
 	}
 
-	allow, e, msg := a.Allow(req)
-	if e != "" {
-		return authorization.Response{Err: e}
+	r := a.Allow(req)
+	if r.Error != "" {
+		return authorization.Response{Err: r.Error}
 	}
-	if ! allow {
-		return authorization.Response{Msg: msg}
+	if ! r.Allow {
+		return authorization.Response{Msg: r.Msg}
 	}
 
 	return authorization.Response{Allow: true}

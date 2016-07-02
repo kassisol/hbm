@@ -5,6 +5,6 @@ import (
 	"github.com/harbourmaster/hbm/api/types"
 )
 
-func AllowTrue(req authorization.Request, config *types.Config) (string, string) {
-	return "", ""
+func AllowTrue(req authorization.Request, config *types.Config) *types.AllowResult {
+	return &types.AllowResult{Allow: true}
 }

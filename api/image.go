@@ -11,7 +11,7 @@ import (
 	"github.com/harbourmaster/hbm/pkg/image"
 )
 
-func AllowImageCreate(req authorization.Request, config *types.Config) (string, string) {
+func AllowImageCreate(req authorization.Request, config *types.Config) *types.AllowResult {
 	url, err := url.ParseRequestURI(req.RequestURI)
 	if err != nil {
 		log.Fatal(err)
@@ -20,10 +20,10 @@ func AllowImageCreate(req authorization.Request, config *types.Config) (string, 
 	params := url.Query()
 
 	if ! AllowImage(params["fromImage"][0], config) {
-		return fmt.Sprintf("Image %s is not allowed to be pulled", params["fromImage"][0]), ""
+		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Image %s is not allowed to be pulled", params["fromImage"][0])}
 	}
 
-	return "", ""
+	return &types.AllowResult{Allow: true}
 }
 
 func AllowImage(img string, config *types.Config) bool {

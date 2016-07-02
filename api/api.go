@@ -93,7 +93,7 @@ func NewApi(version, appPath string) (*Api, error) {
 	return &Api{Uris: uris, AppPath: appPath}, nil
 }
 
-func (a *Api) Allow(req authorization.Request) (bool, string, string) {
+func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 	_, urlPath := utils.GetURIInfo(req)
 
 	defer db.RecoverFunc()
@@ -107,25 +107,27 @@ func (a *Api) Allow(req authorization.Request) (bool, string, string) {
 		if req.RequestMethod == u.Method {
 			re := u.Re
 			if re.MatchString(urlPath) {
-				if ! d.KeyExists("action", u.Action) {
-					d.Conn.Close()
+				r := &types.AllowResult{Allow: true}
 
-					return false, "", fmt.Sprintf("%s is not allowed", u.CmdName)
+				// Validate Docker command is allowed
+				if ! d.KeyExists("action", u.Action) {
+					r = &types.AllowResult{Allow: false, Error: fmt.Sprintf("%s is not allowed", u.CmdName)}
 				}
 				d.Conn.Close()
 
-				config := types.Config{AppPath: a.AppPath}
+				if r.Allow {
+					config := types.Config{AppPath: a.AppPath}
 
-				msg, err := u.Func(req, &config)
-				if err != "" {
-					return false, err, ""
+					r = u.Func(req, &config)
 				}
-				if msg != "" {
-					return false, "", msg
-				}
+
+				// If Docker command is not allowed, return
+                                if ! r.Allow {
+                                        return r
+                                }
 			}
 		}
 	}
 
-	return true, "", ""
+	return &types.AllowResult{Allow: true}
 }
