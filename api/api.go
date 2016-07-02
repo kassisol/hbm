@@ -69,6 +69,8 @@ func NewApi(version, appPath string) (*Api, error) {
 	uris.Register("GET", `^/images/get`, AllowTrue, "image_save_images", "save", "Save one or more images to a tar archive")
 	uris.Register("POST", `^/images/load`, AllowTrue, "image_load", "load", "Load an image from a tar archive or STDIN")
 
+	uris.Register("OPTIONS", `^/(.*)`, AllowTrue, "anyroute_options", "", "Anyroute OPTIONS")
+
 	uris.Register("POST", `^/auth`, AllowTrue, "auth", "login", "Log in to a Docker registry")
 	uris.Register("GET", `^/info`, AllowTrue, "info", "info", "Display system-wide information")
 	uris.Register("GET", `^/version`, AllowTrue, "version", "version", "Show the Docker version information")
