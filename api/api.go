@@ -11,16 +11,17 @@ import (
 	"github.com/harbourmaster/hbm/pkg/utils"
 )
 
-var SupportedVersion = "v1.23"
+var DefaultVersion = "v1.23"
+var SupportedVersions = []string{"v1.23", "v1.24"}
 
 type Api struct {
-	Uris	*uri.URIs
-	AppPath	string
+	Uris    *uri.URIs
+	AppPath string
 }
 
 func NewApi(version, appPath string) (*Api, error) {
-	if version != SupportedVersion {
-		return &Api{}, fmt.Errorf("This version of HBM does not support Docker API version %s. Supported version is %s", version, SupportedVersion)
+	if !utils.StringInSlice(SupportedVersions, version) {
+		return &Api{}, fmt.Errorf("This version of HBM does not support Docker API version %s. Supported versions are %s", version, SupportedVersions)
 	}
 
 	uris := uri.New()
@@ -110,7 +111,7 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 				r := &types.AllowResult{Allow: true}
 
 				// Validate Docker command is allowed
-				if ! d.KeyExists("action", u.Action) {
+				if !d.KeyExists("action", u.Action) {
 					r = &types.AllowResult{Allow: false, Error: fmt.Sprintf("%s is not allowed", u.CmdName)}
 				}
 				d.Conn.Close()
@@ -122,9 +123,9 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 				}
 
 				// If Docker command is not allowed, return
-                                if ! r.Allow {
-                                        return r
-                                }
+				if !r.Allow {
+					return r
+				}
 			}
 		}
 	}
