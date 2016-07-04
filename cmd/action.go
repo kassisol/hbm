@@ -6,55 +6,55 @@ import (
 
 	"github.com/harbourmaster/hbm/api"
 	"github.com/harbourmaster/hbm/pkg/db"
-        "github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
 var actionCmd = &cobra.Command{
-        Use:    "action",
-        Short:  "Manage whitelisted actions",
-        Long:	"Manage whitelisted actions",
+	Use:   "action",
+	Short: "Manage whitelisted actions",
+	Long:  "Manage whitelisted actions",
 }
 
 var actionListOptionsCmd = &cobra.Command{
-        Use:    "options",
-        Short:  "List options actions",
-        Long:	"List options actions",
+	Use:   "options",
+	Short: "List options actions",
+	Long:  "List options actions",
 }
 
 var actionListCmd = &cobra.Command{
-        Use:    "ls",
-        Short:  "List whitelisted actions",
-        Long:	"List whitelisted actions",
+	Use:   "ls",
+	Short: "List whitelisted actions",
+	Long:  "List whitelisted actions",
 }
 
 var actionAddCmd = &cobra.Command{
-        Use:    "add",
-        Short:  "Add action to the whitelist",
-        Long:	"Add action to the whitelist",
+	Use:   "add",
+	Short: "Add action to the whitelist",
+	Long:  "Add action to the whitelist",
 }
 
 var actionRemoveCmd = &cobra.Command{
-        Use:    "rm",
-        Short:  "Remove action from the whitelist",
-        Long:	"Remove action from the whitelist",
+	Use:   "rm",
+	Short: "Remove action from the whitelist",
+	Long:  "Remove action from the whitelist",
 }
 
 func init() {
-        RootCmd.AddCommand(actionCmd)
+	RootCmd.AddCommand(actionCmd)
 	actionCmd.AddCommand(actionListOptionsCmd)
 	actionCmd.AddCommand(actionListCmd)
 	actionCmd.AddCommand(actionAddCmd)
 	actionCmd.AddCommand(actionRemoveCmd)
 
-        actionCmd.Run = actionList
-        actionListOptionsCmd.Run = actionListOptions
-        actionListCmd.Run = actionList
-        actionAddCmd.Run = actionAdd
-        actionRemoveCmd.Run = actionRemove
+	actionCmd.Run = actionList
+	actionListOptionsCmd.Run = actionListOptions
+	actionListCmd.Run = actionList
+	actionAddCmd.Run = actionAdd
+	actionRemoveCmd.Run = actionRemove
 }
 
 func actionListOptions(cmd *cobra.Command, args []string) {
-	data, _ := api.NewApi(api.SupportedVersion, "")
+	data, _ := api.NewApi(api.DefaultVersion, "")
 
 	fmt.Printf("%-25s | %-20s | %s\n", "Action", "Command Name", "Description")
 	fmt.Println("-----------------------------------------------------------------------------------------------------------------------")
