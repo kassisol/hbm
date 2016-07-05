@@ -20,11 +20,11 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		return &types.AllowResult{Allow: false, Error: "Malformed request"}
 	}
 
-	type CreateContainer struct {
-		Config		container.Config
-		HostConfig	container.HostConfig
+	type ContainerCreateConfig struct {
+		container.Config
+		HostConfig		container.HostConfig
 	}
-	cc := &CreateContainer{}
+	cc := &ContainerCreateConfig{}
 
 	if err := json.NewDecoder(bytes.NewReader(req.RequestBody)).Decode(cc); err != nil {
 		return &types.AllowResult{Allow: false, Error: err.Error()}
@@ -122,7 +122,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		}
 	}
 
-	if len(cc.Config.User) > 0 {
+	if len(cc.User) > 0 {
 		if cc.Config.User == "root" && ! d.KeyExists("config", "container_create_user_root") {
 			return &types.AllowResult{Allow: false, Msg: "Running as user \"root\" is not allowed. Please use --user=\"someuser\" param."}
 		}
