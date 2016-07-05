@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"log"
+	"net/url"
 	"os"
 	"regexp"
 
@@ -13,6 +15,15 @@ func GetURIInfo(req authorization.Request) (string, string) {
 	result := reURI.FindStringSubmatch(req.RequestURI)
 
 	return result[1], result[2]
+}
+
+func GetURLParams(r string) url.Values {
+	u, err := url.ParseRequestURI(r)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return u.Query()
 }
 
 func FileExists(f string) bool {
