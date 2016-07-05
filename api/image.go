@@ -3,21 +3,16 @@ package api
 import (
 	"fmt"
 	"log"
-	"net/url"
 
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/harbourmaster/hbm/api/types"
 	"github.com/harbourmaster/hbm/pkg/db"
 	"github.com/harbourmaster/hbm/pkg/image"
+	"github.com/harbourmaster/hbm/pkg/utils"
 )
 
 func AllowImageCreate(req authorization.Request, config *types.Config) *types.AllowResult {
-	url, err := url.ParseRequestURI(req.RequestURI)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	params := url.Query()
+	params := utils.GetURLParams(req.RequestURI)
 
 	if ! AllowImage(params["fromImage"][0], config) {
 		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Image %s is not allowed to be pulled", params["fromImage"][0])}
