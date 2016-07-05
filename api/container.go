@@ -16,16 +16,15 @@ import (
 )
 
 func AllowContainerCreate(req authorization.Request, config *types.Config) *types.AllowResult {
-	if req.RequestBody == nil {
-		return &types.AllowResult{Allow: false, Error: "Malformed request"}
-	}
-
 	type ContainerCreateConfig struct {
 		container.Config
 		HostConfig		container.HostConfig
 	}
 	cc := &ContainerCreateConfig{}
 
+	if req.RequestBody == nil {
+		return &types.AllowResult{Allow: false, Error: "Malformed request"}
+	}
 	if err := json.NewDecoder(bytes.NewReader(req.RequestBody)).Decode(cc); err != nil {
 		return &types.AllowResult{Allow: false, Error: err.Error()}
 	}
