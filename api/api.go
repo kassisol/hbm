@@ -107,8 +107,7 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 
 	for _, u := range *a.Uris {
 		if req.RequestMethod == u.Method {
-			re := u.Re
-			if re.MatchString(urlPath) {
+			if u.Re.MatchString(urlPath) {
 				r := &types.AllowResult{Allow: true}
 
 				// Validate Docker command is allowed
@@ -124,7 +123,7 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 				}
 
 				// Build Docker command from data sent to Docker daemon
-				lmsg := u.DCBFunc(req, re)
+				lmsg := u.DCBFunc(req, u.Re)
 
 				// Log event to syslog
 				w, e := syslog.New(syslog.LOG_LOCAL3, "hbm")
@@ -136,9 +135,11 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 				w.Close()
 
 				// If Docker command is not allowed, return
-                                if ! r.Allow {
-                                        return r
-                                }
+				if ! r.Allow {
+					return r
+				}
+
+				break
 			}
 		}
 	}
