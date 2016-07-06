@@ -60,7 +60,7 @@ func NewApi(version, appPath string) (*Api, error) {
 
 	uris.Register("GET", `^/images/json`, AllowTrue, dcb.ImageList, "image_list", "images", "List images")
 	uris.Register("POST", `^/build`, AllowTrue, dcb.ImageBuild, "image_build", "build", "Build an image from a Dockerfile")
-	uris.Register("POST", `^/images/create`, dcb.ImageCreate, AllowImageCreate, "image_create", "pull", "Pull an image or a repository from a registry")
+	uris.Register("POST", `^/images/create`, AllowImageCreate, dcb.ImageCreate, "image_create", "pull", "Pull an image or a repository from a registry")
 	uris.Register("GET", `^/images/(.+)/json`, AllowTrue, dcb.ImageInspect, "image_inspect", "inspect", "Return low-level information on a container or image")
 	uris.Register("GET", `^/images/(.+)/history`, AllowTrue, dcb.ImageHistory, "image_history", "history", "Show the history of an image")
 	uris.Register("POST", `^/images/(.+)/push`, AllowTrue, dcb.ImagePush, "image_push", "push", "Push an image or a repository to a registry")
@@ -119,7 +119,7 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 				if r.Allow {
 					config := types.Config{AppPath: a.AppPath}
 
-					r = u.Func(req, &config)
+					r = u.AllowFunc(req, &config)
 				}
 
 				// Build Docker command from data sent to Docker daemon
