@@ -10,7 +10,8 @@ import (
 type URI struct {
 	Method		string
 	Re		*regexp.Regexp
-	Func		func(authorization.Request, *types.Config) *types.AllowResult
+	AllowFunc	func(authorization.Request, *types.Config) *types.AllowResult
+	DCBFunc		func(authorization.Request, *regexp.Regexp) string
 	Action		string
 	CmdName		string
 	Description	string
@@ -22,6 +23,6 @@ func New() *URIs {
 	return &URIs{}
 }
 
-func (uris *URIs) Register(method, uri string, f func(authorization.Request, *types.Config) *types.AllowResult, action, cmdName, desc string) {
-	*uris = append(*uris, URI{Method: method, Re: regexp.MustCompile(uri), Func: f, Action: action, CmdName: cmdName, Description: desc})
+func (uris *URIs) Register(method, uri string, af func(authorization.Request, *types.Config) *types.AllowResult, dcbf func(authorization.Request, *regexp.Regexp) string, action, cmdName, desc string) {
+	*uris = append(*uris, URI{Method: method, Re: regexp.MustCompile(uri), AllowFunc: af, DCBFunc: dcbf, Action: action, CmdName: cmdName, Description: desc})
 }
