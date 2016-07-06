@@ -25,7 +25,6 @@ RUN build="gcc git rpm-build" \
 	# Create version file
 	&& sh hack/hbm-version-go.sh \
 	# Build hbm binary
-	&& go get \
 	&& go install \
 	# Build RPM package
 	&& sh hack/make.sh \
