@@ -8,27 +8,27 @@ import (
 
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/harbourmaster/hbm/api"
-        "github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
 var serverConfig string
 
 var serverCmd = &cobra.Command{
-        Use:    "server",
-        Short:  "Starts a Docker AuthZ server",
-        Long:	"Starts a Docker AuthZ server",
+	Use:   "server",
+	Short: "Starts a Docker AuthZ server",
+	Long:  "Starts a Docker AuthZ server",
 }
 
 func init() {
-        RootCmd.AddCommand(serverCmd)
+	RootCmd.AddCommand(serverCmd)
 
-        serverCmd.Run = server
+	serverCmd.Run = server
 }
 
 func server(cmd *cobra.Command, args []string) {
 	ch := make(chan os.Signal, 1)
-        signal.Notify(ch, os.Interrupt)
-        signal.Notify(ch, syscall.SIGTERM)
+	signal.Notify(ch, os.Interrupt)
+	signal.Notify(ch, syscall.SIGTERM)
 
 	go func() {
 		p, err := api.NewPlugin(appPath)

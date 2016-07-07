@@ -5,47 +5,47 @@ import (
 	"log"
 
 	"github.com/harbourmaster/hbm/pkg/db"
-        "github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
-var volumeRecursive	bool
+var volumeRecursive bool
 
 var volumeCmd = &cobra.Command{
-        Use:    "volume",
-        Short:  "Manage whitelisted volumes",
-        Long:	"Manage whitelisted volumes",
+	Use:   "volume",
+	Short: "Manage whitelisted volumes",
+	Long:  "Manage whitelisted volumes",
 }
 
 var volumeListCmd = &cobra.Command{
-        Use:    "ls",
-        Short:  "List whitelisted volumes",
-        Long:	"List whitelisted volumes",
+	Use:   "ls",
+	Short: "List whitelisted volumes",
+	Long:  "List whitelisted volumes",
 }
 
 var volumeAddCmd = &cobra.Command{
-        Use:    "add",
-        Short:  "Add volume to the whitelist",
-        Long:	"Add volume to the whitelist",
+	Use:   "add",
+	Short: "Add volume to the whitelist",
+	Long:  "Add volume to the whitelist",
 }
 
 var volumeRemoveCmd = &cobra.Command{
-        Use:    "rm",
-        Short:  "Remove volume from the whitelist",
-        Long:	"Remove volume from the whitelist",
+	Use:   "rm",
+	Short: "Remove volume from the whitelist",
+	Long:  "Remove volume from the whitelist",
 }
 
 func init() {
-        RootCmd.AddCommand(volumeCmd)
+	RootCmd.AddCommand(volumeCmd)
 	volumeCmd.AddCommand(volumeListCmd)
 	volumeCmd.AddCommand(volumeAddCmd)
 	volumeCmd.AddCommand(volumeRemoveCmd)
 
 	volumeAddCmd.Flags().BoolVarP(&volumeRecursive, "recursive", "r", false, "Allow recursive volume")
 
-        volumeCmd.Run = volumeList
-        volumeListCmd.Run = volumeList
-        volumeAddCmd.Run = volumeAdd
-        volumeRemoveCmd.Run = volumeRemove
+	volumeCmd.Run = volumeList
+	volumeListCmd.Run = volumeList
+	volumeAddCmd.Run = volumeAdd
+	volumeRemoveCmd.Run = volumeRemove
 }
 
 func volumeList(cmd *cobra.Command, args []string) {

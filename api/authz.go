@@ -8,7 +8,7 @@ import (
 )
 
 type plugin struct {
-	appPath	string
+	appPath string
 }
 
 func NewPlugin(appPath string) (*plugin, error) {
@@ -27,7 +27,7 @@ func (p *plugin) AuthZReq(req authorization.Request) authorization.Response {
 	if r.Error != "" {
 		return authorization.Response{Err: r.Error}
 	}
-	if ! r.Allow {
+	if !r.Allow {
 		return authorization.Response{Msg: r.Msg}
 	}
 

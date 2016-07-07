@@ -1,8 +1,8 @@
 package config
 
 type Config struct {
-	Action		string
-	Description	string
+	Action      string
+	Description string
 }
 
 func New() []Config {

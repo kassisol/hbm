@@ -6,51 +6,51 @@ import (
 
 	"github.com/harbourmaster/hbm/config"
 	"github.com/harbourmaster/hbm/pkg/db"
-        "github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
 var configCmd = &cobra.Command{
-        Use:    "config",
-        Short:  "Manage whitelisted configs",
-        Long:	"Manage whitelisted configs",
+	Use:   "config",
+	Short: "Manage whitelisted configs",
+	Long:  "Manage whitelisted configs",
 }
 
 var configListOptionsCmd = &cobra.Command{
-        Use:    "options",
-        Short:  "List options configs",
-        Long:	"List options configs",
+	Use:   "options",
+	Short: "List options configs",
+	Long:  "List options configs",
 }
 
 var configListCmd = &cobra.Command{
-        Use:    "ls",
-        Short:  "List whitelisted configs",
-        Long:	"List whitelisted configs",
+	Use:   "ls",
+	Short: "List whitelisted configs",
+	Long:  "List whitelisted configs",
 }
 
 var configAddCmd = &cobra.Command{
-        Use:    "add",
-        Short:  "Add config to the whitelist",
-        Long:	"Add config to the whitelist",
+	Use:   "add",
+	Short: "Add config to the whitelist",
+	Long:  "Add config to the whitelist",
 }
 
 var configRemoveCmd = &cobra.Command{
-        Use:    "rm",
-        Short:  "Remove config from the whitelist",
-        Long:	"Remove config from the whitelist",
+	Use:   "rm",
+	Short: "Remove config from the whitelist",
+	Long:  "Remove config from the whitelist",
 }
 
 func init() {
-        RootCmd.AddCommand(configCmd)
+	RootCmd.AddCommand(configCmd)
 	configCmd.AddCommand(configListOptionsCmd)
 	configCmd.AddCommand(configListCmd)
 	configCmd.AddCommand(configAddCmd)
 	configCmd.AddCommand(configRemoveCmd)
 
-        configCmd.Run = configList
-        configListOptionsCmd.Run = configListOptions
-        configListCmd.Run = configList
-        configAddCmd.Run = configAdd
-        configRemoveCmd.Run = configRemove
+	configCmd.Run = configList
+	configListOptionsCmd.Run = configListOptions
+	configListCmd.Run = configList
+	configAddCmd.Run = configAdd
+	configRemoveCmd.Run = configRemove
 }
 
 func configListOptions(cmd *cobra.Command, args []string) {

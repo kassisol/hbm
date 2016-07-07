@@ -18,7 +18,7 @@ import (
 func AllowContainerCreate(req authorization.Request, config *types.Config) *types.AllowResult {
 	type ContainerCreateConfig struct {
 		container.Config
-		HostConfig		container.HostConfig
+		HostConfig container.HostConfig
 	}
 	cc := &ContainerCreateConfig{}
 
@@ -38,44 +38,44 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 	defer d.Conn.Close()
 
 	if cc.HostConfig.Privileged {
-		if ! d.KeyExists("config", "container_create_privileged") {
+		if !d.KeyExists("config", "container_create_privileged") {
 			return &types.AllowResult{Allow: false, Msg: "--privileged param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.IpcMode == "host" {
-		if ! d.KeyExists("config", "container_create_ipc_host") {
+		if !d.KeyExists("config", "container_create_ipc_host") {
 			return &types.AllowResult{Allow: false, Msg: "--ipc=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.NetworkMode == "host" {
-		if ! d.KeyExists("config", "container_create_net_host") {
+		if !d.KeyExists("config", "container_create_net_host") {
 			return &types.AllowResult{Allow: false, Msg: "--net=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.PidMode == "host" {
-		if ! d.KeyExists("config", "container_create_pid_host") {
+		if !d.KeyExists("config", "container_create_pid_host") {
 			return &types.AllowResult{Allow: false, Msg: "--pid=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.UsernsMode == "host" {
-		if ! d.KeyExists("config", "container_create_userns_host") {
+		if !d.KeyExists("config", "container_create_userns_host") {
 			return &types.AllowResult{Allow: false, Msg: "--userns=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.UTSMode == "host" {
-		if ! d.KeyExists("config", "container_create_uts_host") {
+		if !d.KeyExists("config", "container_create_uts_host") {
 			return &types.AllowResult{Allow: false, Msg: "--uts=\"host\" param is not allowed"}
 		}
 	}
 
 	if len(cc.HostConfig.CapAdd) > 0 {
 		for _, c := range cc.HostConfig.CapAdd {
-			if ! d.KeyExists("cap", c) {
+			if !d.KeyExists("cap", c) {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Capability %s is not allowed", c)}
 			}
 		}
@@ -83,7 +83,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 
 	if len(cc.HostConfig.Devices) > 0 {
 		for _, dev := range cc.HostConfig.Devices {
-			if ! d.KeyExists("device", dev.PathOnHost) {
+			if !d.KeyExists("device", dev.PathOnHost) {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Device %s is not allowed to be exported", dev.PathOnHost)}
 			}
 		}
@@ -91,23 +91,23 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 
 	if len(cc.HostConfig.DNS) > 0 {
 		for _, dns := range cc.HostConfig.DNS {
-			if ! d.KeyExists("dns", dns) {
+			if !d.KeyExists("dns", dns) {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("DNS server %s is not allowed", dns)}
 			}
 		}
 	}
 
 	if len(cc.HostConfig.PortBindings) > 0 {
-                for _, pbs := range cc.HostConfig.PortBindings {
+		for _, pbs := range cc.HostConfig.PortBindings {
 			for _, pb := range pbs {
 				spb := GetPortBindingString(&pb)
 
-				if ! d.KeyExists("port", spb) {
+				if !d.KeyExists("port", spb) {
 					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be pubished", spb)}
 				}
 			}
-                }
-        }
+		}
+	}
 
 	if len(cc.HostConfig.Binds) > 0 {
 		d.Conn.Close()
@@ -115,14 +115,14 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		for _, b := range cc.HostConfig.Binds {
 			vol := strings.Split(b, ":")
 
-			if ! AllowVolume(vol[0], config) {
+			if !AllowVolume(vol[0], config) {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume %s is not allowed to be mounted", b)}
 			}
 		}
 	}
 
 	if len(cc.User) > 0 {
-		if cc.Config.User == "root" && ! d.KeyExists("config", "container_create_user_root") {
+		if cc.Config.User == "root" && !d.KeyExists("config", "container_create_user_root") {
 			return &types.AllowResult{Allow: false, Msg: "Running as user \"root\" is not allowed. Please use --user=\"someuser\" param."}
 		}
 	}

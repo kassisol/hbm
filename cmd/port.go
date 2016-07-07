@@ -5,43 +5,43 @@ import (
 	"log"
 
 	"github.com/harbourmaster/hbm/pkg/db"
-        "github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
 var portCmd = &cobra.Command{
-        Use:    "port",
-        Short:  "Manage whitelisted ports",
-        Long:	"Manage whitelisted ports",
+	Use:   "port",
+	Short: "Manage whitelisted ports",
+	Long:  "Manage whitelisted ports",
 }
 
 var portListCmd = &cobra.Command{
-        Use:    "ls",
-        Short:  "List whitelisted ports",
-        Long:	"List whitelisted ports",
+	Use:   "ls",
+	Short: "List whitelisted ports",
+	Long:  "List whitelisted ports",
 }
 
 var portAddCmd = &cobra.Command{
-        Use:    "add",
-        Short:  "Add port to the whitelist",
-        Long:	"Add port to the whitelist",
+	Use:   "add",
+	Short: "Add port to the whitelist",
+	Long:  "Add port to the whitelist",
 }
 
 var portRemoveCmd = &cobra.Command{
-        Use:    "rm",
-        Short:  "Remove port from the whitelist",
-        Long:	"Remove port from the whitelist",
+	Use:   "rm",
+	Short: "Remove port from the whitelist",
+	Long:  "Remove port from the whitelist",
 }
 
 func init() {
-        RootCmd.AddCommand(portCmd)
+	RootCmd.AddCommand(portCmd)
 	portCmd.AddCommand(portListCmd)
 	portCmd.AddCommand(portAddCmd)
 	portCmd.AddCommand(portRemoveCmd)
 
-        portCmd.Run = portList
-        portListCmd.Run = portList
-        portAddCmd.Run = portAdd
-        portRemoveCmd.Run = portRemove
+	portCmd.Run = portList
+	portListCmd.Run = portList
+	portAddCmd.Run = portAdd
+	portRemoveCmd.Run = portRemove
 }
 
 func portList(cmd *cobra.Command, args []string) {

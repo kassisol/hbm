@@ -5,43 +5,43 @@ import (
 	"log"
 
 	"github.com/harbourmaster/hbm/pkg/db"
-        "github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
 var imageCmd = &cobra.Command{
-        Use:    "image",
-        Short:  "Manage whitelisted images",
-        Long:	"Manage whitelisted images",
+	Use:   "image",
+	Short: "Manage whitelisted images",
+	Long:  "Manage whitelisted images",
 }
 
 var imageListCmd = &cobra.Command{
-        Use:    "ls",
-        Short:  "List whitelisted images",
-        Long:	"List whitelisted images",
+	Use:   "ls",
+	Short: "List whitelisted images",
+	Long:  "List whitelisted images",
 }
 
 var imageAddCmd = &cobra.Command{
-        Use:    "add",
-        Short:  "Add image to the whitelist",
-        Long:	"Add image to the whitelist",
+	Use:   "add",
+	Short: "Add image to the whitelist",
+	Long:  "Add image to the whitelist",
 }
 
 var imageRemoveCmd = &cobra.Command{
-        Use:    "rm",
-        Short:  "Remove image from the whitelist",
-        Long:	"Remove image from the whitelist",
+	Use:   "rm",
+	Short: "Remove image from the whitelist",
+	Long:  "Remove image from the whitelist",
 }
 
 func init() {
-        RootCmd.AddCommand(imageCmd)
+	RootCmd.AddCommand(imageCmd)
 	imageCmd.AddCommand(imageListCmd)
 	imageCmd.AddCommand(imageAddCmd)
 	imageCmd.AddCommand(imageRemoveCmd)
 
-        imageCmd.Run = volumeList
-        imageListCmd.Run = imageList
-        imageAddCmd.Run = imageAdd
-        imageRemoveCmd.Run = imageRemove
+	imageCmd.Run = volumeList
+	imageListCmd.Run = imageList
+	imageAddCmd.Run = imageAdd
+	imageRemoveCmd.Run = imageRemove
 }
 
 func imageList(cmd *cobra.Command, args []string) {

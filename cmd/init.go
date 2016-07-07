@@ -6,22 +6,22 @@ import (
 	"os"
 	"path"
 
-        "github.com/boltdb/bolt"
+	"github.com/boltdb/bolt"
 	"github.com/harbourmaster/hbm/pkg/db"
 	"github.com/harbourmaster/hbm/pkg/utils"
-        "github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
 var initCmd = &cobra.Command{
-        Use:    "init",
-        Short:  "Initialize config",
-        Long:	"Initialize config",
+	Use:   "init",
+	Short: "Initialize config",
+	Long:  "Initialize config",
 }
 
 func init() {
-        RootCmd.AddCommand(initCmd)
+	RootCmd.AddCommand(initCmd)
 
-        initCmd.Run = initialconfig
+	initCmd.Run = initialconfig
 }
 
 func initialconfig(cmd *cobra.Command, args []string) {
@@ -98,7 +98,7 @@ func initialconfig(cmd *cobra.Command, args []string) {
 		}
 	}
 
-	if ! utils.FileExists(dockerPluginFile) {
+	if !utils.FileExists(dockerPluginFile) {
 		err := ioutil.WriteFile(dockerPluginFile, pluginSpecContent, 0644)
 		if err != nil {
 			log.Fatal(err)

@@ -14,7 +14,7 @@ import (
 func AllowImageCreate(req authorization.Request, config *types.Config) *types.AllowResult {
 	params := utils.GetURLParams(req.RequestURI)
 
-	if ! AllowImage(params["fromImage"][0], config) {
+	if !AllowImage(params["fromImage"][0], config) {
 		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Image %s is not allowed to be pulled", params["fromImage"][0])}
 	}
 

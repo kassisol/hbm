@@ -8,13 +8,13 @@ import (
 )
 
 type URI struct {
-	Method		string
-	Re		*regexp.Regexp
-	AllowFunc	func(authorization.Request, *types.Config) *types.AllowResult
-	DCBFunc		func(authorization.Request, *regexp.Regexp) string
-	Action		string
-	CmdName		string
-	Description	string
+	Method      string
+	Re          *regexp.Regexp
+	AllowFunc   func(authorization.Request, *types.Config) *types.AllowResult
+	DCBFunc     func(authorization.Request, *regexp.Regexp) string
+	Action      string
+	CmdName     string
+	Description string
 }
 
 type URIs []URI

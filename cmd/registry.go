@@ -5,43 +5,43 @@ import (
 	"log"
 
 	"github.com/harbourmaster/hbm/pkg/db"
-        "github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
 var registryCmd = &cobra.Command{
-        Use:    "registry",
-        Short:  "Manage whitelisted registries",
-        Long:	"Manage whitelisted registries",
+	Use:   "registry",
+	Short: "Manage whitelisted registries",
+	Long:  "Manage whitelisted registries",
 }
 
 var registryListCmd = &cobra.Command{
-        Use:    "ls",
-        Short:  "List whitelisted registries",
-        Long:	"List whitelisted registries",
+	Use:   "ls",
+	Short: "List whitelisted registries",
+	Long:  "List whitelisted registries",
 }
 
 var registryAddCmd = &cobra.Command{
-        Use:    "add",
-        Short:  "Add registry to the whitelist",
-        Long:	"Add registry to the whitelist",
+	Use:   "add",
+	Short: "Add registry to the whitelist",
+	Long:  "Add registry to the whitelist",
 }
 
 var registryRemoveCmd = &cobra.Command{
-        Use:    "rm",
-        Short:  "Remove registry from the whitelist",
-        Long:	"Remove registry from the whitelist",
+	Use:   "rm",
+	Short: "Remove registry from the whitelist",
+	Long:  "Remove registry from the whitelist",
 }
 
 func init() {
-        RootCmd.AddCommand(registryCmd)
+	RootCmd.AddCommand(registryCmd)
 	registryCmd.AddCommand(registryListCmd)
 	registryCmd.AddCommand(registryAddCmd)
 	registryCmd.AddCommand(registryRemoveCmd)
 
-        registryCmd.Run = registryList
-        registryListCmd.Run = registryList
-        registryAddCmd.Run = registryAdd
-        registryRemoveCmd.Run = registryRemove
+	registryCmd.Run = registryList
+	registryListCmd.Run = registryList
+	registryAddCmd.Run = registryAdd
+	registryRemoveCmd.Run = registryRemove
 }
 
 func registryList(cmd *cobra.Command, args []string) {

@@ -16,8 +16,8 @@ import (
 var SupportedVersion = "v1.23"
 
 type Api struct {
-	Uris	*uri.URIs
-	AppPath	string
+	Uris    *uri.URIs
+	AppPath string
 }
 
 func NewApi(version, appPath string) (*Api, error) {
@@ -111,7 +111,7 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 				r := &types.AllowResult{Allow: true}
 
 				// Validate Docker command is allowed
-				if ! d.KeyExists("action", u.Action) {
+				if !d.KeyExists("action", u.Action) {
 					r = &types.AllowResult{Allow: false, Error: fmt.Sprintf("%s is not allowed", u.CmdName)}
 				}
 				d.Conn.Close()
@@ -135,7 +135,7 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 				w.Close()
 
 				// If Docker command is not allowed, return
-				if ! r.Allow {
+				if !r.Allow {
 					return r
 				}
 

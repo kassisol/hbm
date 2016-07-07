@@ -1,27 +1,27 @@
 package cmd
 
 import (
-        "fmt"
+	"fmt"
 	"log"
 	"strconv"
 
 	"github.com/docker/engine-api/client"
-	"github.com/harbourmaster/hbm/version"
 	"github.com/harbourmaster/hbm/pkg/db"
-        "github.com/spf13/cobra"
+	"github.com/harbourmaster/hbm/version"
+	"github.com/spf13/cobra"
 	"golang.org/x/net/context"
 )
 
 var infoCmd = &cobra.Command{
-        Use:	"info",
-        Short:	"Display information about HBM",
-        Long:	"Display information about HBM",
+	Use:   "info",
+	Short: "Display information about HBM",
+	Long:  "Display information about HBM",
 }
 
 func init() {
-        RootCmd.AddCommand(infoCmd)
+	RootCmd.AddCommand(infoCmd)
 
-        infoCmd.Run = infoView
+	infoCmd.Run = infoView
 }
 
 func infoView(cmd *cobra.Command, args []string) {

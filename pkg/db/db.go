@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"log"
 	"path"
-//	"time"
+	//	"time"
 
-        "github.com/boltdb/bolt"
+	"github.com/boltdb/bolt"
 )
 
 type DB struct {
-	File	string
-	Conn	*bolt.DB
+	File string
+	Conn *bolt.DB
 }
 
 type KeyValue struct {
-	Key	string
-	Value	string
+	Key   string
+	Value string
 }
 
 type KV []KeyValue

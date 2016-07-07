@@ -9,8 +9,8 @@ import (
 )
 
 type Config struct {
-	Params  url.Values
-	Cmd     []string
+	Params url.Values
+	Cmd    []string
 }
 
 func New(cmd string) *Config {
