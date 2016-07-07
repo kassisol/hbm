@@ -12,7 +12,12 @@ import (
 func GetURIInfo(req authorization.Request) (string, string) {
 	reURI := regexp.MustCompile(`^/(v[0-9]+\.[0-9]+)(/.*)`)
 
-	result := reURI.FindStringSubmatch(req.RequestURI)
+	u, err := url.ParseRequestURI(req.RequestURI)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	result := reURI.FindStringSubmatch(u.Path)
 
 	return result[1], result[2]
 }

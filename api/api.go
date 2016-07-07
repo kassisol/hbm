@@ -80,12 +80,12 @@ func NewApi(version, appPath string) (*Api, error) {
 	uris.Register("POST", `^/commit`, AllowTrue, dcb.Commit, "commit", "commit", "Create a new image from a container's changes")
 	uris.Register("GET", `^/events`, AllowTrue, dcb.Events, "events", "events", "Monitor Docker’s events")
 
-	uris.Register("GET", `^/volumes`, AllowTrue, dcb.VolumeList, "volume_list", "volume ls", "List volumes")
+	uris.Register("GET", `^/volumes$`, AllowTrue, dcb.VolumeList, "volume_list", "volume ls", "List volumes")
 	uris.Register("POST", `^/volumes/create`, AllowTrue, dcb.VolumeCreate, "volume_create", "volume create", "Create a volume")
 	uris.Register("GET", `^/volumes/(.+)`, AllowTrue, dcb.VolumeInspect, "volume_inspect", "volume inspect", "Return low-level information on a volume")
 	uris.Register("DELETE", `^/volumes/(.+)`, AllowTrue, dcb.VolumeRemove, "volume_remove", "volume rm", "Remove a volume")
 
-	uris.Register("GET", `^/networks`, AllowTrue, dcb.NetworkList, "network_list", "network ls", "List all networks")
+	uris.Register("GET", `^/networks$`, AllowTrue, dcb.NetworkList, "network_list", "network ls", "List all networks")
 	uris.Register("GET", `^/networks/(.+)`, AllowTrue, dcb.NetworkInspect, "network_inspect", "network inspect", "Display detailed network information")
 	uris.Register("POST", `^/networks/create`, AllowTrue, dcb.NetworkCreate, "network_create", "network create", "Create a network")
 	uris.Register("POST", `^/networks/(.+)/connect`, AllowTrue, dcb.NetworkConnect, "network_connect", "network connect", "Connect container to a network")
