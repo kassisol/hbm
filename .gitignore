@@ -1,1 +1,4 @@
 version/version.go
+tags
+*.swp
+

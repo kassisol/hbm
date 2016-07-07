@@ -1,13 +1,22 @@
 package utils
 
 import (
-	"log"
+	log "github.com/Sirupsen/logrus"
 	"net/url"
 	"os"
 	"regexp"
 
 	"github.com/docker/go-plugins-helpers/authorization"
 )
+
+func StringInSlice(haystack []string, needle string) bool {
+	for _, val := range haystack {
+		if val == needle {
+			return true
+		}
+	}
+	return false
+}
 
 func GetURIInfo(req authorization.Request) (string, string) {
 	reURI := regexp.MustCompile(`^/(v[0-9]+\.[0-9]+)(/.*)`)
