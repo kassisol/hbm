@@ -3,21 +3,21 @@ package db
 import (
 	"bytes"
 	"fmt"
-	"log"
+	log "github.com/Sirupsen/logrus"
 	"path"
-//	"time"
+	//	"time"
 
-        "github.com/boltdb/bolt"
+	"github.com/boltdb/bolt"
 )
 
 type DB struct {
-	File	string
-	Conn	*bolt.DB
+	File string
+	Conn *bolt.DB
 }
 
 type KeyValue struct {
-	Key	string
-	Value	string
+	Key   string
+	Value string
 }
 
 type KV []KeyValue
@@ -103,6 +103,22 @@ func (db *DB) Add(b, key string, value []byte) {
 	}
 }
 
+func (db *DB) InitBucket(b string) {
+	defer db.Conn.Close()
+
+	err := db.Conn.Update(func(tx *bolt.Tx) error {
+		_, err := tx.CreateBucketIfNotExists([]byte(b))
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+	if err != nil {
+		panic(err)
+	}
+}
+
 func (db *DB) Remove(b, key string) {
 	defer db.Conn.Close()
 
@@ -144,6 +160,15 @@ func (db *DB) KeyExists(b, key string) bool {
 	return ok
 }
 
+func (db *DB) KeyExistsInBuckets(buckets []string, key string) bool {
+	for _, val := range buckets {
+		if db.KeyExists(val, key) {
+			return true
+		}
+	}
+	return false
+}
+
 func (db *DB) KeyExistsRecursive(b, key string) bool {
 	fmt.Println(key)
 
@@ -167,6 +192,15 @@ func (db *DB) KeyExistsRecursive(b, key string) bool {
 	}
 
 	return ok
+}
+
+func (db *DB) KeyExistsInBucketsRecursive(buckets []string, key string) bool {
+	for _, val := range buckets {
+		if db.KeyExistsRecursive(val, key) {
+			return true
+		}
+	}
+	return false
 }
 
 func (db *DB) Count(b string) int {

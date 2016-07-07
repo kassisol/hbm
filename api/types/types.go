@@ -1,11 +1,11 @@
 package types
 
 type Config struct {
-	AppPath	string
+	AppPath string
 }
 
 type AllowResult struct {
-	Allow	bool
-	Msg	string
-	Error	string
+	Allow bool
+	Msg   string
+	Error string
 }
