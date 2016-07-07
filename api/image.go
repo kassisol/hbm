@@ -2,7 +2,7 @@ package api
 
 import (
 	"fmt"
-	"log"
+	log "github.com/Sirupsen/logrus"
 
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/harbourmaster/hbm/api/types"
@@ -14,14 +14,33 @@ import (
 func AllowImageCreate(req authorization.Request, config *types.Config) *types.AllowResult {
 	params := utils.GetURLParams(req.RequestURI)
 
-	if ! AllowImage(params["fromImage"][0], config) {
-		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Image %s is not allowed to be pulled", params["fromImage"][0])}
+	if req.User != "" {
+		for _, val := range []string{"config", "image", "registry"} {
+			initUserBucket(val, req.User, config.AppPath)
+		}
+	}
+
+	if !AllowImage(req.User, params["fromImage"][0], config) {
+		userstr := " for anonymous user"
+		if req.User != "" {
+			userstr = " for user " + req.User
+		}
+		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Image %s is not allowed to be pulled"+userstr, params["fromImage"][0])}
 	}
 
 	return &types.AllowResult{Allow: true}
 }
 
-func AllowImage(img string, config *types.Config) bool {
+func AllowImage(user string, img string, config *types.Config) bool {
+	configBuckets := []string{"config"}
+	imageBuckets := []string{"image"}
+	registryBuckets := []string{"registry"}
+
+	if user != "" {
+		configBuckets = append(configBuckets, configBuckets[0]+"_"+user)
+		imageBuckets = append(imageBuckets, imageBuckets[0]+"_"+user)
+		registryBuckets = append(registryBuckets, registryBuckets[0]+"_"+user)
+	}
 	defer db.RecoverFunc()
 
 	d, err := db.NewDB(config.AppPath)
@@ -33,16 +52,19 @@ func AllowImage(img string, config *types.Config) bool {
 	i := image.NewImage(img)
 
 	if i.Official {
-		if d.KeyExists("config", "image_create_official") {
+		if d.KeyExistsInBuckets(configBuckets, "image_create_official") {
+			log.Debug("Passing on image_create_official")
 			return true
 		}
 	}
 
-	if d.KeyExists("registry", i.Registry) {
+	if d.KeyExistsInBuckets(registryBuckets, i.Registry) {
+		log.Debug("Passing on allowed registry")
 		return true
 	}
 
-	if d.KeyExists("image", i.String()) {
+	if d.KeyExistsInBuckets(imageBuckets, i.String()) {
+		log.Debug("Passing on allowed image")
 		return true
 	}
 
