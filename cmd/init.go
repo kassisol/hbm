@@ -38,50 +38,24 @@ func initialconfig(cmd *cobra.Command, args []string) {
 	}
 	defer d.Conn.Close()
 
+	buckets := []string{
+                "action",
+                "cap",
+                "config",
+                "device",
+                "dns",
+                "image",
+                "port",
+                "registry",
+                "volume",
+        }
+
 	err = d.Conn.Update(func(tx *bolt.Tx) error {
-		_, err := tx.CreateBucketIfNotExists([]byte("action"))
-		if err != nil {
-			return err
-		}
-
-		_, err = tx.CreateBucketIfNotExists([]byte("cap"))
-		if err != nil {
-			return err
-		}
-
-		_, err = tx.CreateBucketIfNotExists([]byte("config"))
-		if err != nil {
-			return err
-		}
-
-		_, err = tx.CreateBucketIfNotExists([]byte("device"))
-		if err != nil {
-			return err
-		}
-
-		_, err = tx.CreateBucketIfNotExists([]byte("dns"))
-		if err != nil {
-			return err
-		}
-
-		_, err = tx.CreateBucketIfNotExists([]byte("image"))
-		if err != nil {
-			return err
-		}
-
-		_, err = tx.CreateBucketIfNotExists([]byte("port"))
-		if err != nil {
-			return err
-		}
-
-		_, err = tx.CreateBucketIfNotExists([]byte("registry"))
-		if err != nil {
-			return err
-		}
-
-		_, err = tx.CreateBucketIfNotExists([]byte("volume"))
-		if err != nil {
-			return err
+		for _, bucket := range buckets {
+			_, err := tx.CreateBucketIfNotExists([]byte(bucket))
+			if err != nil {
+				return err
+			}
 		}
 
 		return nil
