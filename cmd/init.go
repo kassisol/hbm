@@ -60,6 +60,9 @@ func initialconfig(cmd *cobra.Command, args []string) {
 
 		return nil
 	})
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	var dockerPluginPath = "/etc/docker/plugins"
 	var dockerPluginFile = path.Join(dockerPluginPath, "hbm.spec")
