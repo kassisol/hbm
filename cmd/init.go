@@ -1,9 +1,11 @@
 package cmd
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"path"
 
 	"github.com/boltdb/bolt"
@@ -25,6 +27,17 @@ func init() {
 }
 
 func initialconfig(cmd *cobra.Command, args []string) {
+	var dockerPluginPath = "/etc/docker/plugins"
+	var dockerPluginFile = path.Join(dockerPluginPath, "hbm.spec")
+	var pluginSpecContent = []byte("unix://run/docker/plugins/hbm.sock")
+
+	_, err := exec.LookPath("docker")
+	if err != nil {
+		fmt.Println("Docker does not seem to be installed. Please check your installation.")
+
+		os.Exit(-1)
+	}
+
 	if _, err := os.Stat(appPath); os.IsNotExist(err) {
 		err := os.Mkdir(appPath, 0700)
 		if err != nil {
@@ -63,10 +76,6 @@ func initialconfig(cmd *cobra.Command, args []string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	var dockerPluginPath = "/etc/docker/plugins"
-	var dockerPluginFile = path.Join(dockerPluginPath, "hbm.spec")
-	var pluginSpecContent = []byte("unix://run/docker/plugins/hbm.sock")
 
 	if _, err := os.Stat(dockerPluginPath); os.IsNotExist(err) {
 		err := os.Mkdir(dockerPluginPath, 0755)
