@@ -5,7 +5,7 @@ import (
 	"fmt"
 	log "github.com/Sirupsen/logrus"
 	"path"
-	//	"time"
+	"time"
 
 	"github.com/boltdb/bolt"
 )
@@ -25,8 +25,8 @@ type KV []KeyValue
 func NewDB(appPath string) (*DB, error) {
 	file := path.Join(appPath, "data.db")
 
-	//db, err := bolt.Open(file, 0600, &bolt.Options{Timeout: 1 * time.Second})
-	db, err := bolt.Open(file, 0600, nil)
+	db, err := bolt.Open(file, 0600, &bolt.Options{Timeout: 1 * time.Second})
+	//db, err := bolt.Open(file, 0600, nil)
 	if err != nil {
 		return &DB{}, err
 	}

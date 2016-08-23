@@ -7,6 +7,12 @@ import (
 	"github.com/harbourmaster/hbm/pkg/cmdbuilder"
 )
 
+func SwarmInfo(req authorization.Request, re *regexp.Regexp) string {
+	cmd := cmdbuilder.New("swarm")
+
+	return cmd.String()
+}
+
 func SwarmInit(req authorization.Request, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("init")
 

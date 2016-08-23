@@ -8,7 +8,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/davecgh/go-spew/spew"
+	//	"github.com/davecgh/go-spew/spew"
 	"github.com/docker/engine-api/types/container"
 	"github.com/docker/go-connections/nat"
 	"github.com/docker/go-plugins-helpers/authorization"
@@ -40,7 +40,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 	if err := json.NewDecoder(bytes.NewReader(req.RequestBody)).Decode(cc); err != nil {
 		return &types.AllowResult{Allow: false, Error: err.Error()}
 	}
-	log.Debug(spew.Sdump(cc))
+	//	log.Debug(spew.Sdump(cc))
 
 	result := validateContainerConfig(req.User, cc, config)
 	if result.Allow {
@@ -73,6 +73,7 @@ func validateContainerConfig(user string, cc *CreateContainerConfig, config *typ
 
 	d, err := db.NewDB(config.AppPath)
 	if err != nil {
+		log.Debug("In validateContainerConfig")
 		log.Fatal(err)
 	}
 	defer d.Conn.Close()

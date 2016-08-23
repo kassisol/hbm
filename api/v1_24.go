@@ -15,6 +15,7 @@ func register1_24(uris *uri.URIs) {
 	uris.Register("DELETE", `^/nodes/(.+)`, AllowTrue, dcb.NodesDelete, "nodes_delete", "node rm", "Delete node")
 	uris.Register("POST", `^/nodes/(.+)/update`, AllowTrue, dcb.NodesUpdate, "nodes_update", "node accept", "Update node")
 
+	uris.Register("POST", `^/swarm`, AllowTrue, dcb.SwarmInfo, "swarm_info", "swarm info", "Get swarm info")
 	uris.Register("POST", `^/swarm/init`, AllowTrue, dcb.SwarmInit, "swarm_init", "swarm init", "Initialize new swarm")
 	uris.Register("POST", `^/swarm/join`, AllowTrue, dcb.SwarmJoin, "swarm_join", "swarm join", "Join swarm")
 	uris.Register("POST", `^/swarm/leave`, AllowTrue, dcb.SwarmLeave, "swarm_leave", "swarm leave", "Leave swarm")

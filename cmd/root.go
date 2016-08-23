@@ -13,7 +13,7 @@ var RootCmd = &cobra.Command{
 }
 
 func init() {
-	RootCmd.PersistentFlags().StringVar(&dockerApiVersion, "api", "v1.23", "Use Docker API version (does not affect server subcommand)")
+	RootCmd.PersistentFlags().StringVar(&dockerApiVersion, "api", "v1.24", "Use Docker API version (does not affect server subcommand)")
 	RootCmd.PersistentFlags().StringVar(&appPath, "apppath", "/var/lib/hbm", "Database path")
 	RootCmd.PersistentFlags().BoolVarP(&debug, "debug", "D", false, "Enable debug messages")
 	RootCmd.PersistentFlags().StringVarP(&user, "user", "u", "", "Query db for user. Default is default user (i.e. the empty user).")

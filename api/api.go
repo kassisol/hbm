@@ -59,31 +59,41 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 	log.Debug(spew.Sdump(req))
 
 	if req.User != "" {
+
 		initUserBucket("action", req.User, a.AppPath)
 	}
 
 	defer db.RecoverFunc()
-	d, err := db.NewDB(a.AppPath)
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	for _, u := range *a.Uris {
+
 		if req.RequestMethod == u.Method {
+
 			re := u.Re
 			if re.MatchString(urlPath) {
+
 				r := &types.AllowResult{Allow: false, Error: fmt.Sprintf("%s is not allowed for anonymous user", u.CmdName)}
 
 				// Validate Docker command is allowed
+				d, err := db.NewDB(a.AppPath)
+				if err != nil {
+					log.Fatal(err)
+				}
+
 				if req.User != "" {
+
 					if d.KeyExists("action_"+req.User, u.Action) || d.KeyExists("action", u.Action) {
+
 						log.Debug("Passing on allowed action")
 						r = &types.AllowResult{Allow: true}
 					} else {
+
 						r = &types.AllowResult{Allow: false, Error: fmt.Sprintf("%s is not allowed for user %s", u.CmdName, req.User)}
 					}
 				} else {
+
 					if d.KeyExists("action", u.Action) {
+
 						log.Debug("Passing on allowed action")
 						r = &types.AllowResult{Allow: true}
 					}
@@ -118,6 +128,5 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 			}
 		}
 	}
-
 	return &types.AllowResult{Allow: true}
 }
