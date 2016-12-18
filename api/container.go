@@ -11,8 +11,8 @@ import (
 	"github.com/docker/engine-api/types/container"
 	"github.com/docker/go-connections/nat"
 	"github.com/docker/go-plugins-helpers/authorization"
-	"github.com/harbourmaster/hbm/api/types"
-	"github.com/harbourmaster/hbm/pkg/db"
+	"github.com/kassisol/hbm/api/types"
+	"github.com/kassisol/hbm/pkg/db"
 )
 
 func AllowContainerCreate(req authorization.Request, config *types.Config) *types.AllowResult {

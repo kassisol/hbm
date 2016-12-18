@@ -8,8 +8,8 @@ import (
 
 	"github.com/docker/engine-api/types"
 	"github.com/docker/go-plugins-helpers/authorization"
-	"github.com/harbourmaster/hbm/pkg/cmdbuilder"
-	"github.com/harbourmaster/hbm/pkg/utils"
+	"github.com/kassisol/hbm/pkg/cmdbuilder"
+	"github.com/kassisol/hbm/pkg/utils"
 )
 
 func VolumeList(req authorization.Request, re *regexp.Regexp) string {

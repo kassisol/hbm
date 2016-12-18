@@ -19,7 +19,7 @@ import (
 	"os"
 	"os/user"
 
-	"github.com/harbourmaster/hbm/cmd"
+	"github.com/kassisol/hbm/cmd"
 )
 
 func main() {

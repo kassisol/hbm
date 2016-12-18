@@ -1,6 +1,6 @@
 #!/bin/sh
 
-HBM_SRC_PATH="/go/src/github.com/harbourmaster/hbm"
+HBM_SRC_PATH="/go/src/github.com/kasssol/hbm"
 
 mkdir -p /srv/rpmbuild/
 

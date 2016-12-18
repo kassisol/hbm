@@ -1,5 +1,5 @@
 [Unit]
-Description=Docker Harbourmaster
+Description=Docker Harbormaster
 After=network.target
 
 [Service]

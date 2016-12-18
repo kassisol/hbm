@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	"github.com/docker/engine-api/client"
-	"github.com/harbourmaster/hbm/pkg/db"
-	"github.com/harbourmaster/hbm/version"
+	"github.com/kassisol/hbm/pkg/db"
+	"github.com/kassisol/hbm/version"
 	"github.com/spf13/cobra"
 	"golang.org/x/net/context"
 )
@@ -46,7 +46,7 @@ func infoView(cmd *cobra.Command, args []string) {
 	d.Conn.Close()
 
 	fmt.Println("Server Version:", version.VERSION)
-	fmt.Println("Harbourmaster Root Dir:", appPath)
+	fmt.Println("Harbormaster Root Dir:", appPath)
 	fmt.Println("Server Status: running")
 	fmt.Println("Docker AuthZ Plugin Enabled:", PluginEnabled())
 }

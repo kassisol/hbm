@@ -6,7 +6,7 @@ Group: Tools/Docker
 
 License: GPL
 
-URL: https://github.com/harbourmaster/hbm
+URL: https://github.com/kassisol/hbm
 Vendor: Kassisol
 Packager: Kassisol <support@kassisol.com>
 
@@ -16,7 +16,7 @@ BuildRoot: %{_tmppath}/%{name}-buildroot
 Source: hbm.tar.gz
 
 %description
-HBM is an application to authorize and manage authorized docker command.
+HBM is an application to authorize and manage authorized docker commands.
 
 %prep
 %setup -n %{name}

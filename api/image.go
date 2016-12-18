@@ -5,10 +5,10 @@ import (
 	"log"
 
 	"github.com/docker/go-plugins-helpers/authorization"
-	"github.com/harbourmaster/hbm/api/types"
-	"github.com/harbourmaster/hbm/pkg/db"
-	"github.com/harbourmaster/hbm/pkg/image"
-	"github.com/harbourmaster/hbm/pkg/utils"
+	"github.com/kassisol/hbm/api/types"
+	"github.com/kassisol/hbm/pkg/db"
+	"github.com/kassisol/hbm/pkg/image"
+	"github.com/kassisol/hbm/pkg/utils"
 )
 
 func AllowImageCreate(req authorization.Request, config *types.Config) *types.AllowResult {

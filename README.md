@@ -1,7 +1,7 @@
-# HBM (Harbourmaster)
-Harbourmaster is a basic extendable Docker Engine [access authorization plugin] (https://docs.docker.com/engine/extend/plugins_authorization/) that runs on directly on the host.
+# HBM (Harbormaster)
+Harbormaster is a basic extendable Docker Engine [access authorization plugin] (https://docs.docker.com/engine/extend/plugins_authorization/) that runs on directly on the host.
 
-By default Harbourmaster plugin prevents from executing commands with certains parameters.
+By default Harbormaster plugin prevents from executing commands with certains parameters.
  1. Pull images
  2. Start containers
   * `--privileged`
@@ -17,25 +17,25 @@ By default Harbourmaster plugin prevents from executing commands with certains p
   * any volumes mounted with parameter `-v`
 
 # Getting Started
-## Install Harbourmaster
+## Install Harbormaster
 The authorization plugin run as a host service.
 
 ### Manual
-*  Download HBM (Harbourmaster) binary (link)
-*  Install HBM (Harbourmaster) as a service
+*  Download HBM (Harbormaster) binary (link)
+*  Install HBM (Harbormaster) as a service
 ```bash
 # wget xxx -O /usr/local/bin/hbm
 ```
 
 ### RPM Package
-*  Download HBM (Harbourmaster) rpm (link)
-*  Install HBM (Harbourmaster) package
+*  Download HBM (Harbormaster) rpm (link)
+*  Install HBM (Harbormaster) package
 ```bash
 # yum localinstall hbm-0.1.0-x86_64-el7.rpm
 ```
 
 ### Verifying the installation
-After installing `Harbourmaster`, verify the installation worked by opening a new terminal session as `root` and checking that `hbm` is available. By executing `hbm`, you should see help output similar to the following:
+After installing `Harbormaster`, verify the installation worked by opening a new terminal session as `root` and checking that `hbm` is available. By executing `hbm`, you should see help output similar to the following:
 
 ```bash
 # hbm
@@ -51,12 +51,12 @@ Available Commands:
   device      Manage whitelisted devices
   dns         Manage whitelisted DNS server
   image       Manage whitelisted images
-  info        Display information about Harbourmaster
+  info        Display information about Harbormaster
   init        Initialize config
   port        Manage whitelisted ports
   registry    Manage whitelisted registries
   server      Starts a Docker AuthZ server
-  version     Print the version number of Harbourmaster
+  version     Print the version number of Harbormaster
   volume      Manage whitelisted volumes
 
 Flags:
@@ -65,9 +65,9 @@ Flags:
 Use "hbm [command] --help" for more information about a command.
 ```
 
-If you get an error that `hbm` could not be found, then your PATH environment variable was not setup properly. Please go back and ensure that your PATH variable contains the directory where Harbourmaster was installed.
+If you get an error that `hbm` could not be found, then your PATH environment variable was not setup properly. Please go back and ensure that your PATH variable contains the directory where Harbormaster was installed.
 
-Otherwise, Harbourmaster is installed and ready to go!
+Otherwise, Harbormaster is installed and ready to go!
 
 ### Configuring Docker Engine
  * Update Docker daemon to run with authorization enabled.
@@ -88,8 +88,8 @@ ExecStart=/usr/bin/docker daemon -H fd:// --authorization-plugin=hbm
 ```
 
 ## Starting the Server
-### Starting the Harbourmaster Server
-With Harbourmaster installed, the next step is to start a Harbourmaster server.
+### Starting the Harbormaster Server
+With Harbormaster installed, the next step is to start a Harbormaster server.
 
 ```bash
 # hbm init

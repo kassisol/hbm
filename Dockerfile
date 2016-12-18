@@ -1,5 +1,5 @@
-# docker build --rm --no-cache -t harbourmaster/hbm:x.x.x .
-# docker run -t --rm -v /tmp/hbm:/tmp/hbm harbourmaster/hbm:x.x.x <all|binary|rpm>
+# docker build --rm --no-cache -t kassisol/hbm:x.x.x .
+# docker run -t --rm -v /tmp/hbm:/tmp/hbm kassisol/hbm:x.x.x <all|binary|rpm>
 #
 FROM centos:7
 
@@ -7,14 +7,14 @@ MAINTAINER Julien K. <hbm@kassisol.com>
 
 ENV GO_VERSION 1.6.2
 
-COPY . /go/src/github.com/harbourmaster/hbm/
-WORKDIR /go/src/github.com/harbourmaster/hbm
+COPY . /go/src/github.com/kassisol/hbm/
+WORKDIR /go/src/github.com/kasisol/hbm
 
 RUN build="gcc git rpm-build" \
 	&& set -x \
 	&& yum -y install $build \
 	# Move entrypoint.sh script to /
-	&& mv /go/src/github.com/harbourmaster/hbm/entrypoint.sh /entrypoint.sh \
+	&& mv /go/src/github.com/kassisol/hbm/entrypoint.sh /entrypoint.sh \
 	# Go
 	&& curl -SL https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz | tar -xzC /usr/local \
 	&& mkdir -p /go/bin \

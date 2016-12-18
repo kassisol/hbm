@@ -6,8 +6,8 @@ import (
 	"regexp"
 
 	"github.com/docker/go-plugins-helpers/authorization"
-	"github.com/harbourmaster/hbm/pkg/cmdbuilder"
-	"github.com/harbourmaster/hbm/pkg/utils"
+	"github.com/kassisol/hbm/pkg/cmdbuilder"
+	"github.com/kassisol/hbm/pkg/utils"
 )
 
 func ImageList(req authorization.Request, re *regexp.Regexp) string {

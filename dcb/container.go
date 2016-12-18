@@ -11,8 +11,8 @@ import (
 	"github.com/docker/engine-api/types/container"
 	"github.com/docker/engine-api/types/network"
 	"github.com/docker/go-plugins-helpers/authorization"
-	"github.com/harbourmaster/hbm/pkg/cmdbuilder"
-	"github.com/harbourmaster/hbm/pkg/utils"
+	"github.com/kassisol/hbm/pkg/cmdbuilder"
+	"github.com/kassisol/hbm/pkg/utils"
 )
 
 type ContainerCreateConfig struct {

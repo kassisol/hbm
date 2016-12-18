@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/docker/go-plugins-helpers/authorization"
-	"github.com/harbourmaster/hbm/pkg/utils"
+	"github.com/kassisol/hbm/pkg/utils"
 )
 
 type plugin struct {

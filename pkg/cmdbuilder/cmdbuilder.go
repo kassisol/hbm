@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/harbourmaster/hbm/pkg/utils"
+	"github.com/kassisol/hbm/pkg/utils"
 )
 
 type Config struct {

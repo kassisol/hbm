@@ -9,8 +9,8 @@ import (
 	"path"
 
 	"github.com/boltdb/bolt"
-	"github.com/harbourmaster/hbm/pkg/db"
-	"github.com/harbourmaster/hbm/pkg/utils"
+	"github.com/kassisol/hbm/pkg/db"
+	"github.com/kassisol/hbm/pkg/utils"
 	"github.com/spf13/cobra"
 )
 

@@ -7,7 +7,7 @@ import (
 	"syscall"
 
 	"github.com/docker/go-plugins-helpers/authorization"
-	"github.com/harbourmaster/hbm/api"
+	"github.com/kassisol/hbm/api"
 	"github.com/spf13/cobra"
 )
 

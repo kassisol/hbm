@@ -1,5 +1,5 @@
 SHELL = /bin/sh
-IMAGE_REPO = harbourmaster
+IMAGE_REPO = kassisol
 IMAGE_NAME = hbm-build
 
 TAG_VERSION := $(shell hack/git-version.sh)

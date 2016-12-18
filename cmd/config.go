@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/harbourmaster/hbm/config"
-	"github.com/harbourmaster/hbm/pkg/db"
+	"github.com/kassisol/hbm/config"
+	"github.com/kassisol/hbm/pkg/db"
 	"github.com/spf13/cobra"
 )
 

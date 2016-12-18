@@ -6,11 +6,11 @@ import (
 	"log/syslog"
 
 	"github.com/docker/go-plugins-helpers/authorization"
-	"github.com/harbourmaster/hbm/api/types"
-	"github.com/harbourmaster/hbm/dcb"
-	"github.com/harbourmaster/hbm/pkg/db"
-	"github.com/harbourmaster/hbm/pkg/uri"
-	"github.com/harbourmaster/hbm/pkg/utils"
+	"github.com/kassisol/hbm/api/types"
+	"github.com/kassisol/hbm/dcb"
+	"github.com/kassisol/hbm/pkg/db"
+	"github.com/kassisol/hbm/pkg/uri"
+	"github.com/kassisol/hbm/pkg/utils"
 )
 
 var SupportedVersion = "v1.23"
