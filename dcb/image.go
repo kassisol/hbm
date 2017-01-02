@@ -18,24 +18,26 @@ func ImageList(req authorization.Request, re *regexp.Regexp) string {
 	if len(cmd.Params) > 0 {
 		cmd.GetParamAndAdd("all", "-a", true)
 
-		var v map[string]map[string]bool
+		if _, ok := cmd.Params["filters"]; ok {
+			var v map[string]map[string]bool
 
-		err := json.Unmarshal([]byte(cmd.Params["filters"][0]), &v)
-		if err != nil {
-			panic(err)
-		}
-
-		var r []string
-
-		for k, val := range v {
-			r = append(r, k)
-
-			for ka, _ := range val {
-				r = append(r, ka)
+			err := json.Unmarshal([]byte(cmd.Params["filters"][0]), &v)
+			if err != nil {
+				panic(err)
 			}
-		}
 
-		cmd.Add(fmt.Sprintf("--filter \"%s=%s\"", r[0], r[1]))
+			var r []string
+
+			for k, val := range v {
+				r = append(r, k)
+
+				for ka, _ := range val {
+					r = append(r, ka)
+				}
+			}
+
+			cmd.Add(fmt.Sprintf("--filter \"%s=%s\"", r[0], r[1]))
+		}
 
 		if v, ok := cmd.Params["filter"]; ok {
 			cmd.Add(v[0])
