@@ -9,7 +9,6 @@ import (
 	"github.com/kassisol/hbm/allow"
 	"github.com/kassisol/hbm/allow/types"
 	"github.com/kassisol/hbm/docker/dcb"
-	"github.com/kassisol/hbm/pkg/db"
 	"github.com/kassisol/hbm/pkg/uri"
 	"github.com/kassisol/hbm/pkg/utils"
 )
@@ -99,50 +98,36 @@ func NewApi(version, appPath string) (*Api, error) {
 func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 	_, urlPath := utils.GetURIInfo(req)
 
-	defer db.RecoverFunc()
+	config := types.Config{AppPath: a.AppPath}
 
-	d, err := db.NewDB(a.AppPath)
+	u, err := a.Uris.GetURI(req.RequestMethod, urlPath)
 	if err != nil {
-		log.Fatal(err)
+		msg := fmt.Sprintf("%s is not implemented", urlPath)
+
+		return &types.AllowResult{Allow: false, Error: msg}
 	}
 
-	for _, u := range *a.Uris {
-		if req.RequestMethod == u.Method {
-			if u.Re.MatchString(urlPath) {
-				r := &types.AllowResult{Allow: true}
+	// Validate Docker command is allowed
+	r := allow.AllowAction(&config, u.Action, u.CmdName)
+	if r.Allow {
+		r = u.AllowFunc(req, &config)
+	}
 
-				// Validate Docker command is allowed
-				if !d.KeyExists("action", u.Action) {
-					r = &types.AllowResult{Allow: false, Error: fmt.Sprintf("%s is not allowed", u.CmdName)}
-				}
-				d.Conn.Close()
+	// Build Docker command from data sent to Docker daemon
+	lmsg := u.DCBFunc(req, u.Re)
 
-				if r.Allow {
-					config := types.Config{AppPath: a.AppPath}
+	// Log event to syslog
+	w, e := syslog.New(syslog.LOG_LOCAL3, "hbm")
+	if e != nil {
+		log.Fatal(e)
+	}
+	msg := fmt.Sprintf("%s ; %t", lmsg, r.Allow)
+	w.Info(msg)
+	w.Close()
 
-					r = u.AllowFunc(req, &config)
-				}
-
-				// Build Docker command from data sent to Docker daemon
-				lmsg := u.DCBFunc(req, u.Re)
-
-				// Log event to syslog
-				w, e := syslog.New(syslog.LOG_LOCAL3, "hbm")
-				if e != nil {
-					log.Fatal(e)
-				}
-				msg := fmt.Sprintf("%s ; %t", lmsg, r.Allow)
-				w.Info(msg)
-				w.Close()
-
-				// If Docker command is not allowed, return
-				if !r.Allow {
-					return r
-				}
-
-				break
-			}
-		}
+	// If Docker command is not allowed, return
+	if !r.Allow {
+		return r
 	}
 
 	return &types.AllowResult{Allow: true}
