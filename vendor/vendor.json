@@ -195,6 +195,12 @@
 			"revisionTime": "2016-06-13T21:20:13Z"
 		},
 		{
+			"checksumSHA1": "ltddWnwM8N4LYmpywWH8zM8y1qI=",
+			"path": "github.com/juliengk/go-docker/image",
+			"revision": "6fd225f521b5352ca79d27605992b819054bab12",
+			"revisionTime": "2016-10-09T12:45:36Z"
+		},
+		{
 			"checksumSHA1": "3AoPMXlmVq2+iWMpsdJZkcUKHB8=",
 			"path": "github.com/opencontainers/runc/libcontainer/user",
 			"revision": "7221e387826c9918fa9fd6e7975baf4d30c8fa54",
@@ -225,5 +231,5 @@
 			"revisionTime": "2016-06-19T19:44:24Z"
 		}
 	],
-	"rootPath": "github.com/harbormaster/hbm"
+	"rootPath": "github.com/kassisol/hbm"
 }

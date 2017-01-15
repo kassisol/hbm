@@ -5,9 +5,9 @@ import (
 	"log"
 
 	"github.com/docker/go-plugins-helpers/authorization"
+	"github.com/juliengk/go-docker/image"
 	"github.com/kassisol/hbm/allow/types"
 	"github.com/kassisol/hbm/pkg/db"
-	"github.com/kassisol/hbm/pkg/image"
 	"github.com/kassisol/hbm/pkg/utils"
 )
 
