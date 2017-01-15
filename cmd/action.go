@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/kassisol/hbm/api"
+	"github.com/kassisol/hbm/plugin"
 	"github.com/kassisol/hbm/pkg/db"
 	"github.com/spf13/cobra"
 )
@@ -54,7 +54,7 @@ func init() {
 }
 
 func actionListOptions(cmd *cobra.Command, args []string) {
-	data, _ := api.NewApi(api.SupportedVersion, "")
+	data, _ := plugin.NewApi(plugin.SupportedVersion, "")
 
 	fmt.Printf("%-25s | %-20s | %s\n", "Action", "Command Name", "Description")
 	fmt.Println("-----------------------------------------------------------------------------------------------------------------------")

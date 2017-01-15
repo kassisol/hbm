@@ -7,7 +7,7 @@ import (
 	"syscall"
 
 	"github.com/docker/go-plugins-helpers/authorization"
-	"github.com/kassisol/hbm/api"
+	"github.com/kassisol/hbm/plugin"
 	"github.com/spf13/cobra"
 )
 
@@ -31,7 +31,7 @@ func server(cmd *cobra.Command, args []string) {
 	signal.Notify(ch, syscall.SIGTERM)
 
 	go func() {
-		p, err := api.NewPlugin(appPath)
+		p, err := plugin.NewPlugin(appPath)
 		if err != nil {
 			log.Fatal(err)
 		}

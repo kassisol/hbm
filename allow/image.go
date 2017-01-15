@@ -1,11 +1,11 @@
-package api
+package allow
 
 import (
 	"fmt"
 	"log"
 
 	"github.com/docker/go-plugins-helpers/authorization"
-	"github.com/kassisol/hbm/api/types"
+	"github.com/kassisol/hbm/allow/types"
 	"github.com/kassisol/hbm/pkg/db"
 	"github.com/kassisol/hbm/pkg/image"
 	"github.com/kassisol/hbm/pkg/utils"

@@ -1,4 +1,4 @@
-package api
+package allow
 
 import (
 	"bytes"
@@ -11,7 +11,7 @@ import (
 	"github.com/docker/engine-api/types/container"
 	"github.com/docker/go-connections/nat"
 	"github.com/docker/go-plugins-helpers/authorization"
-	"github.com/kassisol/hbm/api/types"
+	"github.com/kassisol/hbm/allow/types"
 	"github.com/kassisol/hbm/pkg/db"
 )
 

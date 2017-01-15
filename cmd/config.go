@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/kassisol/hbm/config"
+	"github.com/kassisol/hbm/docker/config"
 	"github.com/kassisol/hbm/pkg/db"
 	"github.com/spf13/cobra"
 )
