@@ -217,6 +217,12 @@
 			"revisionTime": "2016-10-09T12:45:36Z"
 		},
 		{
+			"checksumSHA1": "HAIy2brneIuFgolzIJYSie5wQjI=",
+			"path": "github.com/juliengk/go-mount",
+			"revision": "3c13ac9c027fbadba4d4ab8f283104c261b24adb",
+			"revisionTime": "2016-10-11T21:31:10Z"
+		},
+		{
 			"checksumSHA1": "JRyO9qwZoB+aSWY8pNjJSbVsub4=",
 			"path": "github.com/juliengk/go-utils",
 			"revision": "3eb3e3041b06508b9a2f0565d3ab727ff3dee067",

@@ -9,6 +9,7 @@ import (
 	"github.com/docker/engine-api/types/container"
 	"github.com/docker/go-connections/nat"
 	"github.com/docker/go-plugins-helpers/authorization"
+	"github.com/juliengk/go-mount"
 	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/json"
 	"github.com/kassisol/hbm/allow/types"
@@ -150,6 +151,9 @@ func AllowVolume(vol string, config *types.Config) bool {
 	vo := driver.VolumeOptions{
 		Recursive: false,
 	}
+	if AllowMount(vol) {
+		vo.NoSuid = true
+	}
 	jsonVO := json.Encode(vo)
 	opts := jsonVO.String()
 
@@ -168,6 +172,11 @@ func AllowVolume(vol string, config *types.Config) bool {
 		vo = driver.VolumeOptions{
 			Recursive: true,
 		}
+		if AllowMount(vol) {
+			vo.NoSuid = true
+		} else {
+			vo.NoSuid = false
+		}
 		jsonVO = json.Encode(vo)
 		opts = jsonVO.String()
 
@@ -177,4 +186,20 @@ func AllowVolume(vol string, config *types.Config) bool {
 	}
 
 	return false
+}
+
+func AllowMount(vol string) bool {
+	result := false
+
+	entries, err := mount.New()
+	if err != nil {
+		return false
+	}
+
+	entry, err := entries.Find(vol)
+	if err == nil {
+		result = entry.FindOption("nosuid")
+	}
+
+	return result
 }

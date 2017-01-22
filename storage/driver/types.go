@@ -16,4 +16,5 @@ type PolicyResult struct {
 
 type VolumeOptions struct {
 	Recursive bool `json:"recursive"`
+	NoSuid    bool `json:"nosuid"`
 }

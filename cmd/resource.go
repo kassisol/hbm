@@ -18,6 +18,7 @@ var (
 	resourceAddType            string
 	resourceAddValue           string
 	resourceAddVolumeRecursive bool
+	resourceAddVolumeNoSuid    bool
 
 	resourceMemberAdd    bool
 	resourceMemberRemove bool
@@ -70,6 +71,7 @@ func init() {
 	resourceAddCmd.Flags().StringVarP(&resourceAddType, "type", "t", "action", "Add resource to group")
 	resourceAddCmd.Flags().StringVarP(&resourceAddValue, "value", "v", "", "Add resource to group")
 	resourceAddCmd.Flags().BoolVarP(&resourceAddVolumeRecursive, "recursive", "", false, "Add resource to group")
+	resourceAddCmd.Flags().BoolVarP(&resourceAddVolumeNoSuid, "no-suid", "", false, "Allow volume mounted with nosuid option")
 
 	resourceMemberCmd.Flags().BoolVarP(&resourceMemberAdd, "add", "a", false, "Add resource to group")
 	resourceMemberCmd.Flags().BoolVarP(&resourceMemberRemove, "remove", "r", false, "Remove resource to group")
@@ -117,6 +119,10 @@ func resourceAdd(cmd *cobra.Command, args []string) {
 		fmt.Printf("Conflicting options --type %s and --recursive\n", resourceAddType)
 	}
 
+	if resourceAddType != "volume" && resourceAddVolumeNoSuid {
+		fmt.Printf("Conflicting options --type %s and --no-suid\n", resourceAddType)
+	}
+
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
 		log.Fatal(err)
@@ -133,8 +139,8 @@ func resourceAdd(cmd *cobra.Command, args []string) {
 	}
 
 	options := ""
-	if resourceAddType == "volume" && resourceAddVolumeRecursive {
-		vo := driver.VolumeOptions{Recursive: true}
+	if resourceAddType == "volume" && resourceAddVolumeRecursive || resourceAddVolumeNoSuid {
+		vo := driver.VolumeOptions{Recursive: resourceAddVolumeRecursive, NoSuid: resourceAddVolumeNoSuid}
 		jsonR := json.Encode(vo)
 		options = jsonR.String()
 	}
