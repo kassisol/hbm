@@ -120,6 +120,22 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		}
 	}
 
+	if len(cc.HostConfig.LogConfig.Type) > 0 {
+		if !s.ValidatePolicy(config.Username, config.Hostname, "logdriver", cc.HostConfig.LogConfig.Type, "") {
+			return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log driver %s is not allowed", cc.HostConfig.LogConfig.Type)}
+		}
+	}
+
+	if len(cc.HostConfig.LogConfig.Config) > 0 {
+		for k, v := range cc.HostConfig.LogConfig.Config {
+			los := fmt.Sprintf("%s=%s", k, v)
+
+			if !s.ValidatePolicy(config.Username, config.Hostname, "logopt", los, "") {
+				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log driver %s is not allowed", los)}
+			}
+		}
+	}
+
 	if len(cc.User) > 0 {
 		if cc.Config.User == "root" && !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_user_root", "") {
 			return &types.AllowResult{Allow: false, Msg: "Running as user \"root\" is not allowed. Please use --user=\"someuser\" param."}

@@ -10,15 +10,17 @@ type ResourceTypes map[string]string
 
 func NewResourceTypes() ResourceTypes {
 	return map[string]string{
-		"action":   "Action",
-		"cap":      "Capability",
-		"config":   "Config",
-		"device":   "Device",
-		"dns":      "DNS server",
-		"image":    "Image",
-		"port":     "Port",
-		"registry": "Registry",
-		"volume":   "Volume",
+		"action":    "Action",
+		"cap":       "Capability",
+		"config":    "Config",
+		"device":    "Device",
+		"dns":       "DNS server",
+		"image":     "Image",
+		"logdriver": "Log driver",
+		"logopt":    "Log option",
+		"port":      "Port",
+		"registry":  "Registry",
+		"volume":    "Volume",
 	}
 }
 
