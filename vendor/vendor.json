@@ -217,6 +217,18 @@
 			"revisionTime": "2016-10-09T12:45:36Z"
 		},
 		{
+			"checksumSHA1": "2KQybgiQh4oh4apNBKYFz0snXo4=",
+			"path": "github.com/juliengk/go-log",
+			"revision": "d7cf0b9bbe7e201b9e5ce642890f52dd3d68e42b",
+			"revisionTime": "2016-10-09T13:06:13Z"
+		},
+		{
+			"checksumSHA1": "YjWXUwkn5qVF5asN8SyC76ItO5Y=",
+			"path": "github.com/juliengk/go-log/driver",
+			"revision": "d7cf0b9bbe7e201b9e5ce642890f52dd3d68e42b",
+			"revisionTime": "2016-10-09T13:06:13Z"
+		},
+		{
 			"checksumSHA1": "HAIy2brneIuFgolzIJYSie5wQjI=",
 			"path": "github.com/juliengk/go-mount",
 			"revision": "3c13ac9c027fbadba4d4ab8f283104c261b24adb",

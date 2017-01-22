@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -11,8 +10,11 @@ import (
 	"syscall"
 
 	"github.com/docker/go-plugins-helpers/authorization"
+	"github.com/juliengk/go-log"
+	"github.com/juliengk/go-log/driver"
 	"github.com/juliengk/go-utils/filedir"
 	"github.com/kassisol/hbm/plugin"
+	"github.com/kassisol/hbm/version"
 	"github.com/spf13/cobra"
 )
 
@@ -35,6 +37,8 @@ func serverInitConfig() {
 	var dockerPluginFile = path.Join(dockerPluginPath, "hbm.spec")
 	var pluginSpecContent = []byte("unix://run/docker/plugins/hbm.sock")
 
+	l, _ := log.NewDriver("standard", nil)
+
 	_, err := exec.LookPath("docker")
 	if err != nil {
 		fmt.Println("Docker does not seem to be installed. Please check your installation.")
@@ -45,21 +49,23 @@ func serverInitConfig() {
 	if _, err := os.Stat(dockerPluginPath); os.IsNotExist(err) {
 		err := os.Mkdir(dockerPluginPath, 0755)
 		if err != nil {
-			log.Fatal(err)
+			l.Fatal(err)
 		}
 	}
 
 	if !filedir.FileExists(dockerPluginFile) {
 		err := ioutil.WriteFile(dockerPluginFile, pluginSpecContent, 0644)
 		if err != nil {
-			log.Fatal(err)
+			l.Fatal(err)
 		}
 	}
 
-	log.Print("Server has completed initialization")
+	l.Print("Server has completed initialization")
 }
 
 func server(cmd *cobra.Command, args []string) {
+	l, _ := log.NewDriver("standard", nil)
+
 	serverInitConfig()
 
 	ch := make(chan os.Signal, 1)
@@ -69,15 +75,21 @@ func server(cmd *cobra.Command, args []string) {
 	go func() {
 		p, err := plugin.NewPlugin(appPath)
 		if err != nil {
-			log.Fatal(err)
+			l.Fatal(err)
 		}
 
 		h := authorization.NewHandler(p)
 
-		log.Print("Listening on socket file")
-		log.Fatal(h.ServeUnix("root", "hbm"))
+		l.WithFields(driver.Fields{
+			"storagedriver": "sqlite",
+			"logdriver":     "standard",
+			"version":       version.VERSION,
+		}).Info("HBM server")
+
+		l.Info("Listening on socket file")
+		l.Fatal(h.ServeUnix("root", "hbm"))
 	}()
 
 	s := <-ch
-	log.Printf("Processing signal '%s'", s)
+	l.Printf("Processing signal '%s'", s)
 }

@@ -2,11 +2,11 @@ package plugin
 
 import (
 	"fmt"
-	"log"
-	"log/syslog"
 	"os"
 
 	"github.com/docker/go-plugins-helpers/authorization"
+	"github.com/juliengk/go-log"
+	"github.com/juliengk/go-log/driver"
 	"github.com/kassisol/hbm/allow"
 	"github.com/kassisol/hbm/allow/types"
 	"github.com/kassisol/hbm/docker/dcb"
@@ -97,6 +97,8 @@ func NewApi(version, appPath string) (*Api, error) {
 }
 
 func (a *Api) Allow(req authorization.Request) *types.AllowResult {
+	l, _ := log.NewDriver("standard", nil)
+
 	_, urlPath := utils.GetURIInfo(req)
 
 	user := req.User
@@ -115,6 +117,9 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 	if err != nil {
 		msg := fmt.Sprintf("%s is not implemented", urlPath)
 
+		// Log event
+		l.Warning(msg)
+
 		return &types.AllowResult{Allow: false, Error: msg}
 	}
 
@@ -128,13 +133,11 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 	lmsg := u.DCBFunc(req, u.Re)
 
 	// Log event to syslog
-	w, e := syslog.New(syslog.LOG_LOCAL3, "hbm")
-	if e != nil {
-		log.Fatal(e)
-	}
-	msg := fmt.Sprintf("%s ; %t", lmsg, r.Allow)
-	w.Info(msg)
-	w.Close()
+	l.WithFields(driver.Fields{
+		"user":    user,
+		"host":    host,
+		"allowed": r.Allow,
+	}).Info(lmsg)
 
 	// If Docker command is not allowed, return
 	if !r.Allow {

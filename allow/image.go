@@ -2,14 +2,16 @@ package allow
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/juliengk/go-docker/image"
+	"github.com/juliengk/go-log"
+	"github.com/juliengk/go-log/driver"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/allow/types"
 	u "github.com/kassisol/hbm/pkg/utils"
 	"github.com/kassisol/hbm/storage"
+	"github.com/kassisol/hbm/version"
 )
 
 func AllowImageCreate(req authorization.Request, config *types.Config) *types.AllowResult {
@@ -25,9 +27,15 @@ func AllowImageCreate(req authorization.Request, config *types.Config) *types.Al
 func AllowImage(img string, config *types.Config) bool {
 	defer utils.RecoverFunc()
 
+	l, _ := log.NewDriver("standard", nil)
+
 	s, err := storage.NewDriver("sqlite", config.AppPath)
 	if err != nil {
-		log.Fatal(err)
+		l.WithFields(driver.Fields{
+			"storagedriver": "sqlite",
+			"logdriver":     "standard",
+			"version":       version.VERSION,
+		}).Fatal(err)
 	}
 	defer s.End()
 

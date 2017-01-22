@@ -2,19 +2,27 @@ package allow
 
 import (
 	"fmt"
-	"log"
 
+	"github.com/juliengk/go-log"
+	"github.com/juliengk/go-log/driver"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/allow/types"
 	"github.com/kassisol/hbm/storage"
+	"github.com/kassisol/hbm/version"
 )
 
 func AllowAction(config *types.Config, action, cmd string) *types.AllowResult {
 	defer utils.RecoverFunc()
 
+	l, _ := log.NewDriver("standard", nil)
+
 	s, err := storage.NewDriver("sqlite", config.AppPath)
 	if err != nil {
-		log.Fatal(err)
+		l.WithFields(driver.Fields{
+			"storagedriver": "sqlite",
+			"logdriver":     "standard",
+			"version":       version.VERSION,
+		}).Fatal(err)
 	}
 	defer s.End()
 

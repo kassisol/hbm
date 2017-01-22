@@ -2,19 +2,21 @@ package allow
 
 import (
 	"fmt"
-	"log"
 	"path"
 	"strings"
 
 	"github.com/docker/engine-api/types/container"
 	"github.com/docker/go-connections/nat"
 	"github.com/docker/go-plugins-helpers/authorization"
+	"github.com/juliengk/go-log"
+	logdriver "github.com/juliengk/go-log/driver"
 	"github.com/juliengk/go-mount"
 	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/json"
 	"github.com/kassisol/hbm/allow/types"
 	"github.com/kassisol/hbm/storage"
 	"github.com/kassisol/hbm/storage/driver"
+	"github.com/kassisol/hbm/version"
 )
 
 func AllowContainerCreate(req authorization.Request, config *types.Config) *types.AllowResult {
@@ -22,6 +24,9 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		container.Config
 		HostConfig container.HostConfig
 	}
+
+	l, _ := log.NewDriver("standard", nil)
+
 	cc := &ContainerCreateConfig{}
 
 	if err := json.Decode(req.RequestBody, cc); err != nil {
@@ -32,7 +37,11 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 
 	s, err := storage.NewDriver("sqlite", config.AppPath)
 	if err != nil {
-		log.Fatal(err)
+		l.WithFields(logdriver.Fields{
+			"storagedriver": "sqlite",
+			"logdriver":     "standard",
+			"version":       version.VERSION,
+		}).Fatal(err)
 	}
 	defer s.End()
 
@@ -158,9 +167,15 @@ func GetPortBindingString(pb *nat.PortBinding) string {
 func AllowVolume(vol string, config *types.Config) bool {
 	defer utils.RecoverFunc()
 
+	l, _ := log.NewDriver("standard", nil)
+
 	s, err := storage.NewDriver("sqlite", config.AppPath)
 	if err != nil {
-		log.Fatal(err)
+		l.WithFields(logdriver.Fields{
+			"storagedriver": "sqlite",
+			"logdriver":     "standard",
+			"version":       version.VERSION,
+		}).Fatal(err)
 	}
 	defer s.End()
 
