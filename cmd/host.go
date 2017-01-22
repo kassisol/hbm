@@ -11,6 +11,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var hostListFilter []string
 var hostMemberAdd bool
 var hostMemberRemove bool
 
@@ -58,6 +59,7 @@ func init() {
 	hostCmd.AddCommand(hostExistsCmd)
 	hostCmd.AddCommand(hostMemberCmd)
 
+	hostListCmd.Flags().StringSliceVarP(&hostListFilter, "filter", "f", []string{}, "Filter output based on conditions provided")
 	hostMemberCmd.Flags().BoolVarP(&hostMemberAdd, "add", "a", false, "Add host to group")
 	hostMemberCmd.Flags().BoolVarP(&hostMemberRemove, "remove", "r", false, "Remove host to group")
 
@@ -83,7 +85,9 @@ func hostList(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
-	hosts := s.ListHosts()
+	filters := utils.ConvertSliceToMap("=", hostListFilter)
+
+	hosts := s.ListHosts(filters)
 
 	if len(hosts) > 0 {
 		w := tabwriter.NewWriter(os.Stdout, 20, 1, 2, ' ', 0)

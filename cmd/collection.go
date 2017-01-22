@@ -12,6 +12,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var collectionListFilter []string
+
 var collectionCmd = &cobra.Command{
 	Use:   "collection",
 	Short: "Manage whitelisted collections",
@@ -49,6 +51,8 @@ func init() {
 	collectionCmd.AddCommand(collectionRemoveCmd)
 	collectionCmd.AddCommand(collectionExistsCmd)
 
+	collectionListCmd.Flags().StringSliceVarP(&collectionListFilter, "filter", "f", []string{}, "Filter output based on conditions provided")
+
 	collectionCmd.Run = collectionUsage
 	collectionListCmd.Run = collectionList
 	collectionAddCmd.Run = collectionAdd
@@ -69,7 +73,9 @@ func collectionList(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
-	collections := s.ListCollections()
+	filters := utils.ConvertSliceToMap("=", collectionListFilter)
+
+	collections := s.ListCollections(filters)
 
 	if len(collections) > 0 {
 		w := tabwriter.NewWriter(os.Stdout, 20, 1, 2, ' ', 0)

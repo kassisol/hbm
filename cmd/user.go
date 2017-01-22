@@ -12,6 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var userListFilter []string
 var userMemberAdd bool
 var userMemberRemove bool
 
@@ -59,6 +60,7 @@ func init() {
 	userCmd.AddCommand(userExistsCmd)
 	userCmd.AddCommand(userMemberCmd)
 
+	userListCmd.Flags().StringSliceVarP(&userListFilter, "filter", "f", []string{}, "Filter output based on conditions provided")
 	userMemberCmd.Flags().BoolVarP(&userMemberAdd, "add", "a", false, "Add user to group")
 	userMemberCmd.Flags().BoolVarP(&userMemberRemove, "remove", "r", false, "Remove user to group")
 
@@ -84,7 +86,9 @@ func userList(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
-	users := s.ListUsers()
+	filters := utils.ConvertSliceToMap("=", userListFilter)
+
+	users := s.ListUsers(filters)
 
 	if len(users) > 0 {
 		w := tabwriter.NewWriter(os.Stdout, 20, 1, 2, ' ', 0)

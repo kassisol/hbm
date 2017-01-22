@@ -25,29 +25,42 @@ func (c *Config) RemoveResource(name string) error {
 	return nil
 }
 
-func (c *Config) ListResources() map[driver.ResourceResult][]string {
-	var resources []Resource
-
+func (c *Config) ListResources(filter map[string]string) map[driver.ResourceResult][]string {
 	result := make(map[driver.ResourceResult][]string)
 
-	c.DB.Find(&resources)
+	sql := c.DB.Table("resources").Select("resources.name, resources.type, resources.value, resources.option, collections.name").Joins("LEFT JOIN collection_resources ON collection_resources.resource_id = resources.id").Joins("LEFT JOIN collections ON collections.id = collection_resources.collection_id")
 
-	for _, res := range resources {
-		rr := driver.ResourceResult{Name: res.Name, Type: res.Type, Value: res.Value, Option: res.Option}
-		result[rr] = []string{}
+	if v, ok := filter["name"]; ok {
+		sql = sql.Where("resources.name = ?", v)
+	}
 
-		sql := c.DB.Table("collection_resources").Select("collections.name").Joins("JOIN collections ON collections.id = collection_resources.collection_id").Where("collection_resources.resource_id = ?", res.ID)
+	if v, ok := filter["type"]; ok {
+		sql = sql.Where("resources.type = ?", v)
+	}
 
-		rows, _ := sql.Rows()
-		defer rows.Close()
+	if v, ok := filter["value"]; ok {
+		sql = sql.Where("resources.value = ?", v)
+	}
 
-		for rows.Next() {
-			var collection string
+	if v, ok := filter["elem"]; ok {
+		sql = sql.Where("collections.name = ?", v)
+	}
 
-			rows.Scan(&collection)
+	rows, _ := sql.Rows()
+	defer rows.Close()
 
-			result[rr] = append(result[rr], collection)
-		}
+	for rows.Next() {
+		var res_name string
+		var res_type string
+		var res_value string
+		var res_option string
+		var collection string
+
+		rows.Scan(&res_name, &res_type, &res_value, &res_option, &collection)
+
+		rr := driver.ResourceResult{Name: res_name, Type: res_type, Value: res_value, Option: res_option}
+
+		result[rr] = append(result[rr], collection)
 	}
 
 	return result

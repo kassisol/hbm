@@ -12,6 +12,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var groupListFilter []string
+
 var groupCmd = &cobra.Command{
 	Use:   "group",
 	Short: "Manage whitelisted groups",
@@ -49,6 +51,8 @@ func init() {
 	groupCmd.AddCommand(groupRemoveCmd)
 	groupCmd.AddCommand(groupExistsCmd)
 
+	groupListCmd.Flags().StringSliceVarP(&groupListFilter, "filter", "f", []string{}, "Filter output based on conditions provided")
+
 	groupCmd.Run = groupUsage
 	groupListCmd.Run = groupList
 	groupAddCmd.Run = groupAdd
@@ -70,7 +74,9 @@ func groupList(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
-	groups := s.ListGroups()
+	filters := utils.ConvertSliceToMap("=", groupListFilter)
+
+	groups := s.ListGroups(filters)
 
 	if len(groups) > 0 {
 		w := tabwriter.NewWriter(os.Stdout, 20, 1, 2, ' ', 0)

@@ -18,24 +18,29 @@ func (c *Config) RemoveGroup(name string) error {
 	return nil
 }
 
-func (c *Config) ListGroups() map[string][]string {
-	var groups []Group
-	var users []User
-
+func (c *Config) ListGroups(filter map[string]string) map[string][]string {
 	result := make(map[string][]string)
 
-	c.DB.Find(&groups)
+	sql := c.DB.Table("groups").Select("groups.name, users.name").Joins("LEFT JOIN group_users ON group_users.group_id = groups.id").Joins("LEFT JOIN users ON users.id = group_users.user_id")
 
-	for _, group := range groups {
-		c.DB.Model(group).Related(&users, "Users")
+	if v, ok := filter["name"]; ok {
+		sql = sql.Where("groups.name = ?", v)
+	}
 
-		result[group.Name] = []string{}
+	if v, ok := filter["elem"]; ok {
+		sql = sql.Where("users.name = ?", v)
+	}
 
-		if len(users) > 0 {
-			for _, user := range users {
-				result[group.Name] = append(result[group.Name], user.Name)
-			}
-		}
+	rows, _ := sql.Rows()
+	defer rows.Close()
+
+	for rows.Next() {
+		var group string
+		var user string
+
+		rows.Scan(&group, &user)
+
+		result[group] = append(result[group], user)
 	}
 
 	return result

@@ -12,6 +12,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var clusterListFilter []string
+
 var clusterCmd = &cobra.Command{
 	Use:   "cluster",
 	Short: "Manage whitelisted clusters",
@@ -49,6 +51,8 @@ func init() {
 	clusterCmd.AddCommand(clusterRemoveCmd)
 	clusterCmd.AddCommand(clusterExistsCmd)
 
+	clusterListCmd.Flags().StringSliceVarP(&clusterListFilter, "filter", "f", []string{}, "Filter output based on conditions provided")
+
 	clusterCmd.Run = clusterUsage
 	clusterListCmd.Run = clusterList
 	clusterAddCmd.Run = clusterAdd
@@ -70,7 +74,9 @@ func clusterList(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
-	clusters := s.ListClusters()
+	filters := utils.ConvertSliceToMap("=", clusterListFilter)
+
+	clusters := s.ListClusters(filters)
 
 	if len(clusters) > 0 {
 		w := tabwriter.NewWriter(os.Stdout, 20, 1, 2, ' ', 0)

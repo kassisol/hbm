@@ -18,24 +18,29 @@ func (c *Config) RemoveCluster(name string) error {
 	return nil
 }
 
-func (c *Config) ListClusters() map[string][]string {
-	var clusters []Cluster
-	var hosts []Host
-
+func (c *Config) ListClusters(filter map[string]string) map[string][]string {
 	result := make(map[string][]string)
 
-	c.DB.Find(&clusters)
+	sql := c.DB.Table("clusters").Select("clusters.name, hosts.name").Joins("LEFT JOIN cluster_hosts ON cluster_hosts.cluster_id = clusters.id").Joins("LEFT JOIN hosts ON hosts.id = cluster_hosts.host_id")
 
-	for _, cluster := range clusters {
-		c.DB.Model(cluster).Related(&hosts, "Hosts")
+	if v, ok := filter["name"]; ok {
+		sql = sql.Where("clusters.name = ?", v)
+	}
 
-		result[cluster.Name] = []string{}
+	if v, ok := filter["elem"]; ok {
+		sql = sql.Where("hosts.name = ?", v)
+	}
 
-		if len(hosts) > 0 {
-			for _, host := range hosts {
-				result[cluster.Name] = append(result[cluster.Name], host.Name)
-			}
-		}
+	rows, _ := sql.Rows()
+	defer rows.Close()
+
+	for rows.Next() {
+		var cluster string
+		var host string
+
+		rows.Scan(&cluster, &host)
+
+		result[cluster] = append(result[cluster], host)
 	}
 
 	return result

@@ -15,6 +15,8 @@ import (
 )
 
 var (
+	resourceListFilter []string
+
 	resourceAddType            string
 	resourceAddValue           string
 	resourceAddVolumeRecursive bool
@@ -68,6 +70,7 @@ func init() {
 	resourceCmd.AddCommand(resourceExistsCmd)
 	resourceCmd.AddCommand(resourceMemberCmd)
 
+	resourceListCmd.Flags().StringSliceVarP(&resourceListFilter, "filter", "f", []string{}, "Filter output based on conditions provided")
 	resourceAddCmd.Flags().StringVarP(&resourceAddType, "type", "t", "action", "Add resource to group")
 	resourceAddCmd.Flags().StringVarP(&resourceAddValue, "value", "v", "", "Add resource to group")
 	resourceAddCmd.Flags().BoolVarP(&resourceAddVolumeRecursive, "recursive", "", false, "Add resource to group")
@@ -98,7 +101,9 @@ func resourceList(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
-	resources := s.ListResources()
+	filters := utils.ConvertSliceToMap("=", resourceListFilter)
+
+	resources := s.ListResources(filters)
 
 	if len(resources) > 0 {
 		w := tabwriter.NewWriter(os.Stdout, 20, 1, 2, ' ', 0)

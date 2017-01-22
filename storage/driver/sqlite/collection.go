@@ -18,24 +18,29 @@ func (c *Config) RemoveCollection(name string) error {
 	return nil
 }
 
-func (c *Config) ListCollections() map[string][]string {
-	var collections []Collection
-	var resources []Resource
-
+func (c *Config) ListCollections(filter map[string]string) map[string][]string {
 	result := make(map[string][]string)
 
-	c.DB.Find(&collections)
+	sql := c.DB.Table("collections").Select("collections.name, resources.name").Joins("LEFT JOIN collection_resources ON collection_resources.collection_id = collections.id").Joins("LEFT JOIN resources ON resources.id = collection_resources.resource_id")
 
-	for _, collection := range collections {
-		c.DB.Model(collection).Related(&resources, "Resources")
+	if v, ok := filter["name"]; ok {
+		sql = sql.Where("collections.name = ?", v)
+	}
 
-		result[collection.Name] = []string{}
+	if v, ok := filter["elem"]; ok {
+		sql = sql.Where("resources.name = ?", v)
+	}
 
-		if len(resources) > 0 {
-			for _, resource := range resources {
-				result[collection.Name] = append(result[collection.Name], resource.Name)
-			}
-		}
+	rows, _ := sql.Rows()
+	defer rows.Close()
+
+	for rows.Next() {
+		var collection string
+		var resource string
+
+		rows.Scan(&collection, &resource)
+
+		result[collection] = append(result[collection], resource)
 	}
 
 	return result

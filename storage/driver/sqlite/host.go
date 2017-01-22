@@ -18,28 +18,29 @@ func (c *Config) RemoveHost(name string) error {
 	return nil
 }
 
-func (c *Config) ListHosts() map[string][]string {
-	var hosts []Host
-
+func (c *Config) ListHosts(filter map[string]string) map[string][]string {
 	result := make(map[string][]string)
 
-	c.DB.Find(&hosts)
+	sql := c.DB.Table("hosts").Select("hosts.name, clusters.name").Joins("LEFT JOIN cluster_hosts ON cluster_hosts.host_id = hosts.id").Joins("LEFT JOIN clusters ON clusters.id = cluster_hosts.cluster_id")
 
-	for _, host := range hosts {
-		result[host.Name] = []string{}
+	if v, ok := filter["name"]; ok {
+		sql = sql.Where("hosts.name = ?", v)
+	}
 
-		sql := c.DB.Table("cluster_hosts").Select("clusters.name").Joins("JOIN clusters ON clusters.id = cluster_hosts.cluster_id").Where("cluster_hosts.host_id = ?", host.ID)
+	if v, ok := filter["elem"]; ok {
+		sql = sql.Where("clusters.name = ?", v)
+	}
 
-		rows, _ := sql.Rows()
-		defer rows.Close()
+	rows, _ := sql.Rows()
+	defer rows.Close()
 
-		for rows.Next() {
-			var cluster string
+	for rows.Next() {
+		var host string
+		var cluster string
 
-			rows.Scan(&cluster)
+		rows.Scan(&host, &cluster)
 
-			result[host.Name] = append(result[host.Name], cluster)
-		}
+		result[host] = append(result[host], cluster)
 	}
 
 	return result
