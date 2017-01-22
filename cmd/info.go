@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/docker/engine-api/client"
 	"github.com/juliengk/go-utils"
@@ -29,7 +28,7 @@ func infoView(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
-		log.Fatal(err)
+		utils.Exit(err)
 	}
 	defer s.End()
 

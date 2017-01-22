@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"strings"
 	"text/tabwriter"
@@ -66,7 +65,7 @@ func groupList(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
-		log.Fatal(err)
+		utils.Exit(err)
 	}
 	defer s.End()
 
@@ -93,7 +92,7 @@ func groupAdd(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
-		log.Fatal(err)
+		utils.Exit(err)
 	}
 	defer s.End()
 
@@ -109,7 +108,7 @@ func groupRemove(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
-		log.Fatal(err)
+		utils.Exit(err)
 	}
 	defer s.End()
 
@@ -125,7 +124,7 @@ func groupExists(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
-		log.Fatal(err)
+		utils.Exit(err)
 	}
 	defer s.End()
 

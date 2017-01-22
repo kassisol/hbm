@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"text/tabwriter"
 
@@ -80,7 +79,7 @@ func policyList(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
-		log.Fatal(err)
+		utils.Exit(err)
 	}
 	defer s.End()
 
@@ -109,7 +108,7 @@ func policyAdd(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
-		log.Fatal(err)
+		utils.Exit(err)
 	}
 	defer s.End()
 
@@ -137,7 +136,7 @@ func policyRemove(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
-		log.Fatal(err)
+		utils.Exit(err)
 	}
 	defer s.End()
 
@@ -153,7 +152,7 @@ func policyExists(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
-		log.Fatal(err)
+		utils.Exit(err)
 	}
 	defer s.End()
 

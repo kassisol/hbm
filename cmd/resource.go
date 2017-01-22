@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"text/tabwriter"
 
@@ -94,7 +93,7 @@ func resourceList(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
-		log.Fatal(err)
+		utils.Exit(err)
 	}
 	defer s.End()
 
@@ -125,7 +124,7 @@ func resourceAdd(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
-		log.Fatal(err)
+		utils.Exit(err)
 	}
 	defer s.End()
 
@@ -153,7 +152,7 @@ func resourceRemove(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
-		log.Fatal(err)
+		utils.Exit(err)
 	}
 	defer s.End()
 
@@ -169,7 +168,7 @@ func resourceExists(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
-		log.Fatal(err)
+		utils.Exit(err)
 	}
 	defer s.End()
 
@@ -183,7 +182,7 @@ func resourceMember(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
-		log.Fatal(err)
+		utils.Exit(err)
 	}
 	defer s.End()
 

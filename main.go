@@ -15,30 +15,23 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"os"
 	"os/user"
 
+	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cmd"
 )
 
 func main() {
 	user, err := user.Current()
 	if err != nil {
-		log.Fatal(err)
-
-		os.Exit(-1)
+		utils.Exit(err)
 	}
 
 	if user.Uid != "0" {
-		fmt.Println("You must be root to run that command")
-
-		os.Exit(-1)
+		utils.Exit(fmt.Errorf("You must be root to run that command"))
 	}
 
 	if err := cmd.RootCmd.Execute(); err != nil {
-		log.Fatal(err)
-
-		os.Exit(-1)
+		utils.Exit(err)
 	}
 }
