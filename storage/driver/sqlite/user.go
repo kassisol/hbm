@@ -8,14 +8,28 @@ func (c *Config) RemoveUser(name string) {
 	c.DB.Where("name = ?", name).Delete(User{})
 }
 
-func (c *Config) ListUsers() []string {
+func (c *Config) ListUsers() map[string][]string {
 	var users []User
-	var result []string
+
+	result := make(map[string][]string)
 
 	c.DB.Find(&users)
 
 	for _, user := range users {
-		result = append(result, user.Name)
+		result[user.Name] = []string{}
+
+		sql := c.DB.Table("group_users").Select("groups.name").Joins("JOIN groups ON groups.id = group_users.group_id").Where("group_users.user_id = ?", user.ID)
+
+		rows, _ := sql.Rows()
+		defer rows.Close()
+
+		for rows.Next() {
+			var group string
+
+			rows.Scan(&group)
+
+			result[user.Name] = append(result[user.Name], group)
+		}
 	}
 
 	return result

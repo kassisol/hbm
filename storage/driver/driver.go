@@ -3,7 +3,7 @@ package driver
 type Storager interface {
 	AddUser(name string)
 	RemoveUser(name string)
-	ListUsers() []string
+	ListUsers() map[string][]string
 	FindUser(name string) bool
 	CountUser() int
 	AddUserToGroup(group, user string)
@@ -17,7 +17,7 @@ type Storager interface {
 
 	AddHost(name string)
 	RemoveHost(name string)
-	ListHosts() []string
+	ListHosts() map[string][]string
 	FindHost(name string) bool
 	CountHost() int
 	AddHostToCluster(cluster, host string)
@@ -31,7 +31,7 @@ type Storager interface {
 
 	AddResource(name, rtype, value, options string)
 	RemoveResource(name string)
-	ListResources() []ResourceResult
+	ListResources() map[ResourceResult][]string
 	FindResource(name string) bool
 	CountResource(rtype string) int
 	AddResourceToCollection(col, res string)

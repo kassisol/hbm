@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 	"text/tabwriter"
 
 	"github.com/juliengk/go-utils"
@@ -86,10 +87,14 @@ func hostList(cmd *cobra.Command, args []string) {
 
 	if len(hosts) > 0 {
 		w := tabwriter.NewWriter(os.Stdout, 20, 1, 2, ' ', 0)
-		fmt.Fprintln(w, "NAME")
+		fmt.Fprintln(w, "NAME\tCLUSTERS")
 
-		for _, host := range hosts {
-			fmt.Fprintf(w, "%s\n", host)
+		for host, clusters := range hosts {
+			if len(clusters) > 0 {
+				fmt.Fprintf(w, "%s\t%s\n", host, strings.Join(clusters, ", "))
+			} else {
+				fmt.Fprintf(w, "%s\n", host)
+			}
 		}
 
 		w.Flush()

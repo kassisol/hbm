@@ -8,14 +8,28 @@ func (c *Config) RemoveHost(name string) {
 	c.DB.Where("name = ?", name).Delete(Host{})
 }
 
-func (c *Config) ListHosts() []string {
+func (c *Config) ListHosts() map[string][]string {
 	var hosts []Host
-	var result []string
+
+	result := make(map[string][]string)
 
 	c.DB.Find(&hosts)
 
 	for _, host := range hosts {
-		result = append(result, host.Name)
+		result[host.Name] = []string{}
+
+		sql := c.DB.Table("cluster_hosts").Select("clusters.name").Joins("JOIN clusters ON clusters.id = cluster_hosts.cluster_id").Where("cluster_hosts.host_id = ?", host.ID)
+
+		rows, _ := sql.Rows()
+		defer rows.Close()
+
+		for rows.Next() {
+			var cluster string
+
+			rows.Scan(&cluster)
+
+			result[host.Name] = append(result[host.Name], cluster)
+		}
 	}
 
 	return result

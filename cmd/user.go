@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 	"text/tabwriter"
 
 	"github.com/juliengk/go-utils"
@@ -87,10 +88,14 @@ func userList(cmd *cobra.Command, args []string) {
 
 	if len(users) > 0 {
 		w := tabwriter.NewWriter(os.Stdout, 20, 1, 2, ' ', 0)
-		fmt.Fprintln(w, "NAME")
+		fmt.Fprintln(w, "NAME\tGROUPS")
 
-		for _, user := range users {
-			fmt.Fprintf(w, "%s\n", user)
+		for user, groups := range users {
+			if len(groups) > 0 {
+				fmt.Fprintf(w, "%s\t%s\n", user, strings.Join(groups, ", "))
+			} else {
+				fmt.Fprintf(w, "%s\n", user)
+			}
 		}
 
 		w.Flush()

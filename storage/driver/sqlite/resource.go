@@ -17,14 +17,29 @@ func (c *Config) RemoveResource(name string) {
 	c.DB.Where("name = ?", name).Delete(Resource{})
 }
 
-func (c *Config) ListResources() []driver.ResourceResult {
+func (c *Config) ListResources() map[driver.ResourceResult][]string {
 	var resources []Resource
-	var result []driver.ResourceResult
+
+	result := make(map[driver.ResourceResult][]string)
 
 	c.DB.Find(&resources)
 
 	for _, res := range resources {
-		result = append(result, driver.ResourceResult{Name: res.Name, Type: res.Type, Value: res.Value, Option: res.Option})
+		rr := driver.ResourceResult{Name: res.Name, Type: res.Type, Value: res.Value, Option: res.Option}
+		result[rr] = []string{}
+
+		sql := c.DB.Table("collection_resources").Select("collections.name").Joins("JOIN collections ON collections.id = collection_resources.collection_id").Where("collection_resources.resource_id = ?", res.ID)
+
+		rows, _ := sql.Rows()
+		defer rows.Close()
+
+		for rows.Next() {
+			var collection string
+
+			rows.Scan(&collection)
+
+			result[rr] = append(result[rr], collection)
+		}
 	}
 
 	return result

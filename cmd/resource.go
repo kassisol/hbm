@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 	"text/tabwriter"
 
 	"github.com/juliengk/go-utils"
@@ -101,10 +102,15 @@ func resourceList(cmd *cobra.Command, args []string) {
 
 	if len(resources) > 0 {
 		w := tabwriter.NewWriter(os.Stdout, 20, 1, 2, ' ', 0)
-		fmt.Fprintln(w, "NAME\tTYPE\tVALUE\tOPTION")
 
-		for _, resource := range resources {
-			fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", resource.Name, resource.Type, resource.Value, resource.Option)
+		fmt.Fprintln(w, "NAME\tTYPE\tVALUE\tOPTION\tCOLLECTIONS")
+
+		for resource, collections := range resources {
+			if len(collections) > 0 {
+				fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", resource.Name, resource.Type, resource.Value, resource.Option, strings.Join(collections, ", "))
+			} else {
+				fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", resource.Name, resource.Type, resource.Value, resource.Option)
+			}
 		}
 
 		w.Flush()
