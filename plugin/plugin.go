@@ -1,8 +1,6 @@
 package plugin
 
 import (
-	"log"
-
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/utils"
 )
@@ -20,7 +18,7 @@ func (p *plugin) AuthZReq(req authorization.Request) authorization.Response {
 
 	a, err := NewApi(apiver, p.appPath)
 	if err != nil {
-		log.Fatal(err)
+		return authorization.Response{Err: err.Error()}
 	}
 
 	r := a.Allow(req)
