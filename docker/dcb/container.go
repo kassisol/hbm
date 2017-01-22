@@ -250,6 +250,16 @@ func ContainerCreate(req authorization.Request, re *regexp.Regexp) string {
 		}
 	}
 
+	if len(cc.HostConfig.LogConfig.Type) > 0 {
+		cmd.Add(fmt.Sprintf("--log-driver %s", cc.HostConfig.LogConfig.Type))
+	}
+
+	if len(cc.HostConfig.LogConfig.Config) > 0 {
+		for k, v := range cc.HostConfig.LogConfig.Config {
+			cmd.Add(fmt.Sprintf("--log-opt \"%s=%s\"", k, v))
+		}
+	}
+
 	//PortBindings - A map of exposed container ports and the host port they should map to. A JSON object in the form { <port>/<protocol>: [{ "HostPort": "<port>" }] } Take note that port is specified as a string and not an integer value.
 
 	if cc.HostConfig.PublishAllPorts {
