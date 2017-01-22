@@ -1,8 +1,6 @@
 package allow
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
 	"log"
 	"path"
@@ -11,8 +9,11 @@ import (
 	"github.com/docker/engine-api/types/container"
 	"github.com/docker/go-connections/nat"
 	"github.com/docker/go-plugins-helpers/authorization"
+	"github.com/juliengk/go-utils"
+	"github.com/juliengk/go-utils/json"
 	"github.com/kassisol/hbm/allow/types"
-	"github.com/kassisol/hbm/pkg/db"
+	"github.com/kassisol/hbm/storage"
+	"github.com/kassisol/hbm/storage/driver"
 )
 
 func AllowContainerCreate(req authorization.Request, config *types.Config) *types.AllowResult {
@@ -22,60 +23,57 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 	}
 	cc := &ContainerCreateConfig{}
 
-	if req.RequestBody == nil {
-		return &types.AllowResult{Allow: false, Error: "Malformed request"}
-	}
-	if err := json.NewDecoder(bytes.NewReader(req.RequestBody)).Decode(cc); err != nil {
+	if err := json.Decode(req.RequestBody, cc); err != nil {
 		return &types.AllowResult{Allow: false, Error: err.Error()}
 	}
 
-	defer db.RecoverFunc()
+	defer utils.RecoverFunc()
 
-	d, err := db.NewDB(config.AppPath)
+	s, err := storage.NewDriver("sqlite", config.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer d.Conn.Close()
+	defer s.End()
 
 	if cc.HostConfig.Privileged {
-		if !d.KeyExists("config", "container_create_privileged") {
+		if !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_privileged", "") {
 			return &types.AllowResult{Allow: false, Msg: "--privileged param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.IpcMode == "host" {
-		if !d.KeyExists("config", "container_create_ipc_host") {
+		if !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_ipc_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--ipc=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.NetworkMode == "host" {
-		if !d.KeyExists("config", "container_create_net_host") {
+		if !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_net_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--net=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.PidMode == "host" {
-		if !d.KeyExists("config", "container_create_pid_host") {
+		if !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_pid_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--pid=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.UsernsMode == "host" {
-		if !d.KeyExists("config", "container_create_userns_host") {
+		if !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_userns_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--userns=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.UTSMode == "host" {
-		if !d.KeyExists("config", "container_create_uts_host") {
+		if !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_uts_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--uts=\"host\" param is not allowed"}
 		}
 	}
 
 	if len(cc.HostConfig.CapAdd) > 0 {
 		for _, c := range cc.HostConfig.CapAdd {
-			if !d.KeyExists("cap", c) {
+			if !s.ValidatePolicy(config.Username, config.Hostname, "cap", c, "") {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Capability %s is not allowed", c)}
 			}
 		}
@@ -83,7 +81,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 
 	if len(cc.HostConfig.Devices) > 0 {
 		for _, dev := range cc.HostConfig.Devices {
-			if !d.KeyExists("device", dev.PathOnHost) {
+			if !s.ValidatePolicy(config.Username, config.Hostname, "device", dev.PathOnHost, "") {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Device %s is not allowed to be exported", dev.PathOnHost)}
 			}
 		}
@@ -91,7 +89,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 
 	if len(cc.HostConfig.DNS) > 0 {
 		for _, dns := range cc.HostConfig.DNS {
-			if !d.KeyExists("dns", dns) {
+			if !s.ValidatePolicy(config.Username, config.Hostname, "dns", dns, "") {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("DNS server %s is not allowed", dns)}
 			}
 		}
@@ -102,7 +100,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 			for _, pb := range pbs {
 				spb := GetPortBindingString(&pb)
 
-				if !d.KeyExists("port", spb) {
+				if !s.ValidatePolicy(config.Username, config.Hostname, "port", spb, "") {
 					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be pubished", spb)}
 				}
 			}
@@ -110,7 +108,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 	}
 
 	if len(cc.HostConfig.Binds) > 0 {
-		d.Conn.Close()
+		s.End()
 
 		for _, b := range cc.HostConfig.Binds {
 			vol := strings.Split(b, ":")
@@ -122,7 +120,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 	}
 
 	if len(cc.User) > 0 {
-		if cc.Config.User == "root" && !d.KeyExists("config", "container_create_user_root") {
+		if cc.Config.User == "root" && !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_user_root", "") {
 			return &types.AllowResult{Allow: false, Msg: "Running as user \"root\" is not allowed. Please use --user=\"someuser\" param."}
 		}
 	}
@@ -141,15 +139,21 @@ func GetPortBindingString(pb *nat.PortBinding) string {
 }
 
 func AllowVolume(vol string, config *types.Config) bool {
-	defer db.RecoverFunc()
+	defer utils.RecoverFunc()
 
-	d, err := db.NewDB(config.AppPath)
+	s, err := storage.NewDriver("sqlite", config.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer d.Conn.Close()
+	defer s.End()
 
-	if d.KeyExists("volume", vol) {
+	vo := driver.VolumeOptions{
+		Recursive: false,
+	}
+	jsonVO := json.Encode(vo)
+	opts := jsonVO.String()
+
+	if s.ValidatePolicy(config.Username, config.Hostname, "volume", vol, opts) {
 		return true
 	}
 
@@ -161,7 +165,13 @@ func AllowVolume(vol string, config *types.Config) bool {
 	for i := 1; i < len(v); i++ {
 		p = append(p, v[i])
 
-		if d.KeyExistsRecursive("volume", path.Join(p...)) {
+		vo = driver.VolumeOptions{
+			Recursive: true,
+		}
+		jsonVO = json.Encode(vo)
+		opts = jsonVO.String()
+
+		if s.ValidatePolicy(config.Username, config.Hostname, "volume", path.Join(p...), opts) {
 			return true
 		}
 	}

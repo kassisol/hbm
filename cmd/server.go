@@ -11,8 +11,8 @@ import (
 	"syscall"
 
 	"github.com/docker/go-plugins-helpers/authorization"
+	"github.com/juliengk/go-utils/filedir"
 	"github.com/kassisol/hbm/plugin"
-	"github.com/kassisol/hbm/pkg/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -49,7 +49,7 @@ func serverInitConfig() {
 		}
 	}
 
-	if !utils.FileExists(dockerPluginFile) {
+	if !filedir.FileExists(dockerPluginFile) {
 		err := ioutil.WriteFile(dockerPluginFile, pluginSpecContent, 0644)
 		if err != nil {
 			log.Fatal(err)

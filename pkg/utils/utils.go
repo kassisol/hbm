@@ -3,7 +3,6 @@ package utils
 import (
 	"log"
 	"net/url"
-	"os"
 	"regexp"
 
 	"github.com/docker/go-plugins-helpers/authorization"
@@ -29,13 +28,4 @@ func GetURLParams(r string) url.Values {
 	}
 
 	return u.Query()
-}
-
-func FileExists(f string) bool {
-	_, err := os.Lstat(f)
-	if err != nil {
-		return false
-	}
-
-	return true
 }

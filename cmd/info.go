@@ -3,10 +3,10 @@ package cmd
 import (
 	"fmt"
 	"log"
-	"strconv"
 
 	"github.com/docker/engine-api/client"
-	"github.com/kassisol/hbm/pkg/db"
+	"github.com/juliengk/go-utils"
+	"github.com/kassisol/hbm/storage"
 	"github.com/kassisol/hbm/version"
 	"github.com/spf13/cobra"
 	"golang.org/x/net/context"
@@ -25,30 +25,38 @@ func init() {
 }
 
 func infoView(cmd *cobra.Command, args []string) {
-	defer db.RecoverFunc()
+	defer utils.RecoverFunc()
 
-	d, err := db.NewDB(appPath)
+	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer s.End()
 
-	fmt.Println("Whitelists:")
-	fmt.Println(" Actions:", strconv.Itoa(d.Count("action")))
-	fmt.Println(" Capabilities:", strconv.Itoa(d.Count("cap")))
-	fmt.Println(" Configs:", strconv.Itoa(d.Count("config")))
-	fmt.Println(" Devices:", strconv.Itoa(d.Count("device")))
-	fmt.Println(" DNS servers:", strconv.Itoa(d.Count("dns")))
-	fmt.Println(" Images:", strconv.Itoa(d.Count("image")))
-	fmt.Println(" Ports:", strconv.Itoa(d.Count("port")))
-	fmt.Println(" Registries:", strconv.Itoa(d.Count("registry")))
-	fmt.Println(" Volumes:", strconv.Itoa(d.Count("volume")))
-
-	d.Conn.Close()
+	fmt.Println("Policies:", s.CountPolicy())
+	fmt.Println("Groups:", s.CountGroup())
+	fmt.Println(" Users:", s.CountUser())
+	fmt.Println("Clusters:", s.CountCluster())
+	fmt.Println(" Hosts:", s.CountHost())
+	fmt.Println("Collections:", s.CountCollection())
+	fmt.Println(" Resources:", s.CountResource("all"))
+	fmt.Println("  Actions:", s.CountResource("action"))
+	fmt.Println("  Config:", s.CountResource("config"))
+	fmt.Println("  Capabilities:", s.CountResource("cap"))
+	fmt.Println("  Devices:", s.CountResource("device"))
+	fmt.Println("  DNS Servers:", s.CountResource("dns"))
+	fmt.Println("  Images:", s.CountResource("image"))
+	fmt.Println("  Ports:", s.CountResource("port"))
+	fmt.Println("  Registries:", s.CountResource("registry"))
+	fmt.Println("  Volumes:", s.CountResource("volume"))
 
 	fmt.Println("Server Version:", version.VERSION)
-	fmt.Println("Harbormaster Root Dir:", appPath)
+	fmt.Println("Storage Driver: sqlite")
+	fmt.Println("Logging Driver: standard")
 	fmt.Println("Server Status: running")
 	fmt.Println("Docker AuthZ Plugin Enabled:", PluginEnabled())
+	fmt.Println("Harbormaster Root Dir:", appPath)
+	fmt.Println("Debug mode (server): false")
 }
 
 func PluginEnabled() bool {

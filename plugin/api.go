@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"log/syslog"
+	"os"
 
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/allow"
@@ -98,7 +99,17 @@ func NewApi(version, appPath string) (*Api, error) {
 func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 	_, urlPath := utils.GetURIInfo(req)
 
-	config := types.Config{AppPath: a.AppPath}
+	user := req.User
+	if user == "" {
+		user = "root"
+	}
+
+	host, err := os.Hostname()
+	if err != nil {
+		host = "localhost"
+	}
+
+	config := types.Config{AppPath: a.AppPath, Username: user, Hostname: host}
 
 	u, err := a.Uris.GetURI(req.RequestMethod, urlPath)
 	if err != nil {

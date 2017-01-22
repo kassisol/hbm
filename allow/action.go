@@ -4,21 +4,21 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/allow/types"
-	"github.com/kassisol/hbm/pkg/db"
+	"github.com/kassisol/hbm/storage"
 )
 
 func AllowAction(config *types.Config, action, cmd string) *types.AllowResult {
-	defer db.RecoverFunc()
+	defer utils.RecoverFunc()
 
-	d, err := db.NewDB(config.AppPath)
+	s, err := storage.NewDriver("sqlite", config.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer d.Conn.Close()
+	defer s.End()
 
-	// Validate Docker command is allowed
-	if !d.KeyExists("action", action) {
+	if !s.ValidatePolicy(config.Username, config.Hostname, "action", action, "") {
 		return &types.AllowResult{Allow: false, Error: fmt.Sprintf("%s is not allowed", cmd)}
 	}
 

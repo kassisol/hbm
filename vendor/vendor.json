@@ -3,16 +3,14 @@
 	"ignore": "test",
 	"package": [
 		{
+			"path": "context",
+			"revision": ""
+		},
+		{
 			"checksumSHA1": "htjvdG/znrHmFYRQBqA2vHrJsF4=",
 			"path": "github.com/Sirupsen/logrus",
 			"revision": "f3cfb454f4c209e6668c95216c4744b8fddb2356",
 			"revisionTime": "2016-06-01T11:32:10Z"
-		},
-		{
-			"checksumSHA1": "CIaQq8mfGNZbWy7kmDAJkXE+Xtc=",
-			"path": "github.com/boltdb/bolt",
-			"revision": "3f7947a25d970e1e5f512276c14d5dcf731ccd5e",
-			"revisionTime": "2016-06-16T19:33:16Z"
 		},
 		{
 			"checksumSHA1": "9Db3Cx4Xt5zoHab2W6TEu1LphNU=",
@@ -195,10 +193,52 @@
 			"revisionTime": "2016-06-13T21:20:13Z"
 		},
 		{
+			"checksumSHA1": "H18LnRcn9+g26Z1rN7/AFXCIk/w=",
+			"path": "github.com/jinzhu/gorm",
+			"revision": "7fb9b62c17d90320e0582a4720db025c1652fd6a",
+			"revisionTime": "2017-01-16T01:48:06Z"
+		},
+		{
+			"checksumSHA1": "4VZ1gLZHMumRjV3fclS1aX8S1aQ=",
+			"path": "github.com/jinzhu/gorm/dialects/sqlite",
+			"revision": "7fb9b62c17d90320e0582a4720db025c1652fd6a",
+			"revisionTime": "2017-01-16T01:48:06Z"
+		},
+		{
+			"checksumSHA1": "VIp1lZm6joWhlNdwhady8u//qRw=",
+			"path": "github.com/jinzhu/inflection",
+			"revision": "1c35d901db3da928c72a72d8458480cc9ade058f",
+			"revisionTime": "2017-01-02T12:52:26Z"
+		},
+		{
 			"checksumSHA1": "ltddWnwM8N4LYmpywWH8zM8y1qI=",
 			"path": "github.com/juliengk/go-docker/image",
 			"revision": "6fd225f521b5352ca79d27605992b819054bab12",
 			"revisionTime": "2016-10-09T12:45:36Z"
+		},
+		{
+			"checksumSHA1": "JRyO9qwZoB+aSWY8pNjJSbVsub4=",
+			"path": "github.com/juliengk/go-utils",
+			"revision": "3eb3e3041b06508b9a2f0565d3ab727ff3dee067",
+			"revisionTime": "2017-01-18T17:57:45Z"
+		},
+		{
+			"checksumSHA1": "BHV6ZmUv64EI8AXwoJqP+6ccakk=",
+			"path": "github.com/juliengk/go-utils/json",
+			"revision": "3eb3e3041b06508b9a2f0565d3ab727ff3dee067",
+			"revisionTime": "2017-01-18T17:57:45Z"
+		},
+		{
+			"checksumSHA1": "00HsUPa2MfoiyWXBoe+RGrpYY2w=",
+			"path": "github.com/juliengk/go-utils/validation",
+			"revision": "3eb3e3041b06508b9a2f0565d3ab727ff3dee067",
+			"revisionTime": "2017-01-18T17:57:45Z"
+		},
+		{
+			"checksumSHA1": "jAmPL1ZFpCfmrzMRIkA9D+9ivuo=",
+			"path": "github.com/mattn/go-sqlite3",
+			"revision": "7ed900a7c4cc22315a007cc49821cce3baa7be0f",
+			"revisionTime": "2017-01-18T17:20:24Z"
 		},
 		{
 			"checksumSHA1": "3AoPMXlmVq2+iWMpsdJZkcUKHB8=",
