@@ -9,6 +9,7 @@ import (
 	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/json"
 	"github.com/juliengk/go-utils/validation"
+	u "github.com/kassisol/hbm/pkg/utils"
 	"github.com/kassisol/hbm/storage"
 	"github.com/kassisol/hbm/storage/driver"
 	"github.com/spf13/cobra"
@@ -114,7 +115,7 @@ func resourceList(cmd *cobra.Command, args []string) {
 			if len(collections) > 0 {
 				fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", resource.Name, resource.Type, resource.Value, resource.Option, strings.Join(collections, ", "))
 			} else {
-				fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", resource.Name, resource.Type, resource.Value, resource.Option)
+				fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", resource.Name, resource.Type, resource.Value, u.RemoveLastChar(resource.Option))
 			}
 		}
 
