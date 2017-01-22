@@ -114,6 +114,10 @@ func hostAdd(cmd *cobra.Command, args []string) {
 	//      utils.Exit(err)
 	//}
 
+	if s.FindHost(args[0]) {
+		utils.Exit(fmt.Errorf("%s already exists", args[0]))
+	}
+
 	s.AddHost(args[0])
 }
 

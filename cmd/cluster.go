@@ -101,6 +101,10 @@ func clusterAdd(cmd *cobra.Command, args []string) {
 		utils.Exit(err)
 	}
 
+	if s.FindCluster(args[0]) {
+		utils.Exit(fmt.Errorf("%s already exists", args[0]))
+	}
+
 	s.AddCluster(args[0])
 }
 

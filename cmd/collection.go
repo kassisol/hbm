@@ -100,6 +100,10 @@ func collectionAdd(cmd *cobra.Command, args []string) {
 		utils.Exit(err)
 	}
 
+	if s.FindCollection(args[0]) {
+		utils.Exit(fmt.Errorf("%s already exists", args[0]))
+	}
+
 	s.AddCollection(args[0])
 }
 

@@ -116,6 +116,10 @@ func policyAdd(cmd *cobra.Command, args []string) {
 		utils.Exit(err)
 	}
 
+	if s.FindPolicy(args[0]) {
+		utils.Exit(fmt.Errorf("%s already exists", args[0]))
+	}
+
 	if !s.FindGroup(policyAddGroup) {
 		utils.Exit(fmt.Errorf("%s does not exist", policyAddGroup))
 	}

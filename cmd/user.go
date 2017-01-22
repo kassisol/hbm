@@ -115,6 +115,10 @@ func userAdd(cmd *cobra.Command, args []string) {
 		utils.Exit(err)
 	}
 
+	if s.FindUser(args[0]) {
+		utils.Exit(fmt.Errorf("%s already exists", args[0]))
+	}
+
 	s.AddUser(args[0])
 }
 

@@ -138,6 +138,10 @@ func resourceAdd(cmd *cobra.Command, args []string) {
 		utils.Exit(err)
 	}
 
+	if s.FindResource(args[0]) {
+		utils.Exit(fmt.Errorf("%s already exists", args[0]))
+	}
+
 	rt := NewResourceTypes()
 	if err = rt.IsValidResourceType(resourceAddType); err != nil {
 		utils.Exit(err)

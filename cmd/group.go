@@ -60,6 +60,7 @@ func groupUsage(cmd *cobra.Command, args []string) {
 	groupCmd.Usage()
 	os.Exit(-1)
 }
+
 func groupList(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
@@ -98,6 +99,10 @@ func groupAdd(cmd *cobra.Command, args []string) {
 
 	if err = validation.IsValidGroupname(args[0]); err != nil {
 		utils.Exit(err)
+	}
+
+	if s.FindGroup(args[0]) {
+		utils.Exit(fmt.Errorf("%s already exists", args[0]))
 	}
 
 	s.AddGroup(args[0])
