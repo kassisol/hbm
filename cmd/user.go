@@ -135,7 +135,9 @@ func userRemove(cmd *cobra.Command, args []string) {
 		utils.Exit(fmt.Errorf("%s does not exist", args[0]))
 	}
 
-	s.RemoveUser(args[0])
+	if err = s.RemoveUser(args[0]); err != nil {
+		utils.Exit(err)
+	}
 }
 
 func userExists(cmd *cobra.Command, args []string) {

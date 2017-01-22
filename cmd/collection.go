@@ -120,7 +120,9 @@ func collectionRemove(cmd *cobra.Command, args []string) {
 		utils.Exit(fmt.Errorf("%s does not exist", args[0]))
 	}
 
-	s.RemoveCollection(args[0])
+	if err = s.RemoveCollection(args[0]); err != nil {
+		utils.Exit(err)
+	}
 }
 
 func collectionExists(cmd *cobra.Command, args []string) {

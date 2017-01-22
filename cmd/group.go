@@ -121,7 +121,9 @@ func groupRemove(cmd *cobra.Command, args []string) {
 		utils.Exit(fmt.Errorf("%s does not exist", args[0]))
 	}
 
-	s.RemoveGroup(args[0])
+	if err = s.RemoveGroup(args[0]); err != nil {
+		utils.Exit(err)
+	}
 }
 
 func groupExists(cmd *cobra.Command, args []string) {

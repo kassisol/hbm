@@ -1,11 +1,21 @@
 package sqlite
 
+import (
+	"fmt"
+)
+
 func (c *Config) AddGroup(name string) {
 	c.DB.Create(&Group{Name: name})
 }
 
-func (c *Config) RemoveGroup(name string) {
+func (c *Config) RemoveGroup(name string) error {
+	if c.groupUsedInPolicy(name) {
+		return fmt.Errorf("group \"%s\" cannot be removed. It is being used by a policy", name)
+	}
+
 	c.DB.Where("name = ?", name).Delete(Group{})
+
+	return nil
 }
 
 func (c *Config) ListGroups() map[string][]string {
@@ -49,4 +59,16 @@ func (c *Config) CountGroup() int {
 	c.DB.Model(&Group{}).Count(&count)
 
 	return int(count)
+}
+
+func (c *Config) groupUsedInPolicy(name string) bool {
+	var count int64
+
+	c.DB.Table("policies").Joins("JOIN groups ON groups.id = policies.group_id").Where("groups.name = ?", name).Count(&count)
+
+	if count > 0 {
+		return true
+	}
+
+	return false
 }

@@ -170,7 +170,9 @@ func resourceRemove(cmd *cobra.Command, args []string) {
 		utils.Exit(fmt.Errorf("%s does not exist", args[0]))
 	}
 
-	s.RemoveResource(args[0])
+	if err = s.RemoveResource(args[0]); err != nil {
+		utils.Exit(err)
+	}
 }
 
 func resourceExists(cmd *cobra.Command, args []string) {

@@ -1,11 +1,21 @@
 package sqlite
 
+import (
+	"fmt"
+)
+
 func (c *Config) AddHost(name string) {
 	c.DB.Create(&Host{Name: name})
 }
 
-func (c *Config) RemoveHost(name string) {
+func (c *Config) RemoveHost(name string) error {
+	if c.memberOfCluster(name) {
+		return fmt.Errorf("host \"%s\" cannot be removed. It is being used by a cluster", name)
+	}
+
 	c.DB.Where("name = ?", name).Delete(Host{})
+
+	return nil
 }
 
 func (c *Config) ListHosts() map[string][]string {
@@ -73,4 +83,16 @@ func (c *Config) RemoveHostFromCluster(cluster, host string) {
 	c.DB.Where("name = ?", cluster).Find(&cl)
 
 	c.DB.Model(&cl).Association("Hosts").Delete(&h)
+}
+
+func (c *Config) memberOfCluster(name string) bool {
+	var count int64
+
+	c.DB.Table("clusters").Joins("JOIN cluster_hosts ON cluster_hosts.cluster_id = clusters.id").Joins("JOIN hosts ON hosts.id = cluster_hosts.host_id").Where("hosts.name = ?", name).Count(&count)
+
+	if count > 0 {
+		return true
+	}
+
+	return false
 }

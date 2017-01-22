@@ -134,7 +134,9 @@ func hostRemove(cmd *cobra.Command, args []string) {
 		utils.Exit(fmt.Errorf("%s does not exist", args[0]))
 	}
 
-	s.RemoveHost(args[0])
+	if err = s.RemoveHost(args[0]); err != nil {
+		utils.Exit(err)
+	}
 }
 
 func hostExists(cmd *cobra.Command, args []string) {

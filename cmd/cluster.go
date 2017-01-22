@@ -121,7 +121,9 @@ func clusterRemove(cmd *cobra.Command, args []string) {
 		utils.Exit(fmt.Errorf("%s does not exist", args[0]))
 	}
 
-	s.RemoveCluster(args[0])
+	if err = s.RemoveCluster(args[0]); err != nil {
+		utils.Exit(err)
+	}
 }
 
 func clusterExists(cmd *cobra.Command, args []string) {
