@@ -241,6 +241,12 @@
 			"revisionTime": "2017-01-18T17:57:45Z"
 		},
 		{
+			"checksumSHA1": "+bwLSpw0+nU7HT8Ir1FK6yEGcuk=",
+			"path": "github.com/juliengk/go-utils/filedir",
+			"revision": "3eb3e3041b06508b9a2f0565d3ab727ff3dee067",
+			"revisionTime": "2017-01-18T17:57:45Z"
+		},
+		{
 			"checksumSHA1": "BHV6ZmUv64EI8AXwoJqP+6ccakk=",
 			"path": "github.com/juliengk/go-utils/json",
 			"revision": "3eb3e3041b06508b9a2f0565d3ab727ff3dee067",
