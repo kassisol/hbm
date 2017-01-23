@@ -38,3 +38,13 @@ func (uris *URIs) GetURI(method, url string) (URI, error) {
 
 	return URI{}, nil
 }
+
+func (uris *URIs) ActionExists(action string) bool {
+	for _, u := range *uris {
+		if u.Action == action {
+			return true
+		}
+	}
+
+	return false
+}

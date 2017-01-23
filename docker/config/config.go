@@ -5,7 +5,9 @@ type Config struct {
 	Description string
 }
 
-func New() []Config {
+type Configs []Config
+
+func New() Configs {
 	config := []Config{}
 
 	config = append(config, Config{Action: "container_create_privileged", Description: "--privileged param"})
@@ -19,4 +21,14 @@ func New() []Config {
 	config = append(config, Config{Action: "image_create_official", Description: "Pull of Official image"})
 
 	return config
+}
+
+func (c Configs) ActionExists(name string) bool {
+	for _, config := range c {
+		if config.Action == name {
+			return true
+		}
+	}
+
+	return false
 }

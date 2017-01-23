@@ -9,6 +9,8 @@ import (
 	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/json"
 	"github.com/juliengk/go-utils/validation"
+	"github.com/kassisol/hbm/docker/config"
+	"github.com/kassisol/hbm/docker/endpoint"
 	u "github.com/kassisol/hbm/pkg/utils"
 	"github.com/kassisol/hbm/storage"
 	"github.com/kassisol/hbm/storage/driver"
@@ -18,10 +20,9 @@ import (
 var (
 	resourceListFilter []string
 
-	resourceAddType            string
-	resourceAddValue           string
-	resourceAddVolumeRecursive bool
-	resourceAddVolumeNoSuid    bool
+	resourceAddOption []string
+	resourceAddType   string
+	resourceAddValue  string
 
 	resourceMemberAdd    bool
 	resourceMemberRemove bool
@@ -72,10 +73,10 @@ func init() {
 	resourceCmd.AddCommand(resourceMemberCmd)
 
 	resourceListCmd.Flags().StringSliceVarP(&resourceListFilter, "filter", "f", []string{}, "Filter output based on conditions provided")
+
+	resourceAddCmd.Flags().StringSliceVarP(&resourceAddOption, "option", "o", []string{}, "Specify options")
 	resourceAddCmd.Flags().StringVarP(&resourceAddType, "type", "t", "action", "Add resource to group")
 	resourceAddCmd.Flags().StringVarP(&resourceAddValue, "value", "v", "", "Add resource to group")
-	resourceAddCmd.Flags().BoolVarP(&resourceAddVolumeRecursive, "recursive", "", false, "Add resource to group")
-	resourceAddCmd.Flags().BoolVarP(&resourceAddVolumeNoSuid, "no-suid", "", false, "Allow volume mounted with nosuid option")
 
 	resourceMemberCmd.Flags().BoolVarP(&resourceMemberAdd, "add", "a", false, "Add resource to group")
 	resourceMemberCmd.Flags().BoolVarP(&resourceMemberRemove, "remove", "r", false, "Remove resource to group")
@@ -126,14 +127,6 @@ func resourceList(cmd *cobra.Command, args []string) {
 func resourceAdd(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	if resourceAddType != "volume" && resourceAddVolumeRecursive {
-		fmt.Printf("Conflicting options --type %s and --recursive\n", resourceAddType)
-	}
-
-	if resourceAddType != "volume" && resourceAddVolumeNoSuid {
-		fmt.Printf("Conflicting options --type %s and --no-suid\n", resourceAddType)
-	}
-
 	s, err := storage.NewDriver("sqlite", appPath)
 	if err != nil {
 		utils.Exit(err)
@@ -148,19 +141,61 @@ func resourceAdd(cmd *cobra.Command, args []string) {
 		utils.Exit(fmt.Errorf("%s already exists", args[0]))
 	}
 
+	options := utils.ConvertSliceToMap("=", resourceAddOption)
+	if len(options) > 0 {
+		if err := IsValidResourceOptionKeys(options); err != nil {
+			utils.Exit(err)
+		}
+	}
+
 	rt := NewResourceTypes()
 	if err = rt.IsValidResourceType(resourceAddType); err != nil {
 		utils.Exit(err)
 	}
 
-	options := ""
-	if resourceAddType == "volume" && resourceAddVolumeRecursive || resourceAddVolumeNoSuid {
-		vo := driver.VolumeOptions{Recursive: resourceAddVolumeRecursive, NoSuid: resourceAddVolumeNoSuid}
-		jsonR := json.Encode(vo)
-		options = jsonR.String()
+	if resourceAddType == "action" {
+		uris := endpoint.GetUris()
+
+		if !uris.ActionExists(resourceAddValue) {
+			utils.Exit(fmt.Errorf("%s is not a valid action", resourceAddValue))
+		}
 	}
 
-	s.AddResource(args[0], resourceAddType, resourceAddValue, options)
+	if resourceAddType == "cap" {
+		if !IsValidCapability(resourceAddValue) {
+			utils.Exit(fmt.Errorf("%s is not a valid cap", resourceAddValue))
+		}
+	}
+
+	if resourceAddType == "config" {
+		configs := config.New()
+
+		if !configs.ActionExists(resourceAddValue) {
+			utils.Exit(fmt.Errorf("%s is not a valid config", resourceAddValue))
+		}
+	}
+
+	if resourceAddType == "logdriver" {
+		if !IsValidLogDriver(resourceAddValue) {
+			utils.Exit(fmt.Errorf("%s is not a valid logdriver", resourceAddValue))
+		}
+	}
+
+	opts := ""
+	if resourceAddType == "volume" {
+		vo := driver.VolumeOptions{}
+		if _, ok := options["recursive"]; ok {
+			vo.Recursive = true
+		}
+		if _, ok := options["nosuid"]; ok {
+			vo.NoSuid = true
+		}
+		jsonR := json.Encode(vo)
+		opts = jsonR.String()
+	}
+
+	// Add to DB
+	s.AddResource(args[0], resourceAddType, resourceAddValue, opts)
 }
 
 func resourceRemove(cmd *cobra.Command, args []string) {
