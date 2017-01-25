@@ -9,6 +9,11 @@ type Model struct {
 	CreatedAt time.Time `gorm:"created_at"`
 }
 
+type AppConfig struct {
+	Model
+	Key string
+}
+
 type User struct {
 	Model
 	Name string `gorm:"unique;"`

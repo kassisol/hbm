@@ -12,6 +12,8 @@ import (
 	"github.com/kassisol/hbm/docker/endpoint"
 	"github.com/kassisol/hbm/pkg/uri"
 	"github.com/kassisol/hbm/pkg/utils"
+	"github.com/kassisol/hbm/storage"
+	"github.com/kassisol/hbm/version"
 )
 
 var SupportedVersion = "v1.23"
@@ -58,10 +60,24 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 		return &types.AllowResult{Allow: false, Error: msg}
 	}
 
-	// Validate Docker command is allowed
-	r := allow.AllowAction(&config, u.Action, u.CmdName)
-	if r.Allow {
-		r = u.AllowFunc(req, &config)
+	r := allow.AllowTrue(req, &config)
+
+	s, err := storage.NewDriver("sqlite", a.AppPath)
+	if err != nil {
+		l.WithFields(driver.Fields{
+			"storagedriver": "sqlite",
+			"logdriver":     "standard",
+			"version":       version.VERSION,
+		}).Fatal(err)
+	}
+	defer s.End()
+
+	if s.FindConfig("authorization") {
+		// Validate Docker command is allowed
+		r = allow.AllowAction(&config, u.Action, u.CmdName)
+		if r.Allow {
+			r = u.AllowFunc(req, &config)
+		}
 	}
 
 	// Build Docker command from data sent to Docker daemon

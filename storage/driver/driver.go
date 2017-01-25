@@ -1,6 +1,11 @@
 package driver
 
 type Storager interface {
+	AddConfig(name string)
+	RemoveConfig(name string) error
+	ListConfigs() []string
+	FindConfig(name string) bool
+
 	AddUser(name string)
 	RemoveUser(name string) error
 	ListUsers(filter map[string]string) map[string][]string
