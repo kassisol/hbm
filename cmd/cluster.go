@@ -103,6 +103,11 @@ func clusterAdd(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
+
 	if err = validation.IsValidName(args[0]); err != nil {
 		utils.Exit(err)
 	}
@@ -123,6 +128,11 @@ func clusterRemove(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
+
 	if !s.FindCluster(args[0]) {
 		utils.Exit(fmt.Errorf("%s does not exist", args[0]))
 	}
@@ -140,6 +150,11 @@ func clusterExists(cmd *cobra.Command, args []string) {
 		utils.Exit(err)
 	}
 	defer s.End()
+
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
 
 	result := s.FindCluster(args[0])
 

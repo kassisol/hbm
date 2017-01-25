@@ -64,6 +64,7 @@ func collectionUsage(cmd *cobra.Command, args []string) {
 	collectionCmd.Usage()
 	os.Exit(-1)
 }
+
 func collectionList(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
@@ -102,6 +103,11 @@ func collectionAdd(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
+
 	if err = validation.IsValidName(args[0]); err != nil {
 		utils.Exit(err)
 	}
@@ -122,6 +128,11 @@ func collectionRemove(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
+
 	if !s.FindCollection(args[0]) {
 		utils.Exit(fmt.Errorf("%s does not exist", args[0]))
 	}
@@ -139,6 +150,11 @@ func collectionExists(cmd *cobra.Command, args []string) {
 		utils.Exit(err)
 	}
 	defer s.End()
+
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
 
 	result := s.FindCollection(args[0])
 

@@ -112,6 +112,11 @@ func policyAdd(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
+
 	if err = validation.IsValidName(args[0]); err != nil {
 		utils.Exit(err)
 	}
@@ -144,6 +149,11 @@ func policyRemove(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
+
 	if !s.FindPolicy(args[0]) {
 		utils.Exit(fmt.Errorf("%s does not exist", args[0]))
 	}
@@ -159,6 +169,11 @@ func policyExists(cmd *cobra.Command, args []string) {
 		utils.Exit(err)
 	}
 	defer s.End()
+
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
 
 	result := s.FindPolicy(args[0])
 

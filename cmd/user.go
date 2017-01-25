@@ -115,6 +115,11 @@ func userAdd(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
+
 	if err = validation.IsValidUsername(args[0]); err != nil {
 		utils.Exit(err)
 	}
@@ -135,6 +140,11 @@ func userRemove(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
+
 	if !s.FindUser(args[0]) {
 		utils.Exit(fmt.Errorf("%s does not exist", args[0]))
 	}
@@ -153,6 +163,11 @@ func userExists(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
+
 	result := s.FindUser(args[0])
 
 	fmt.Println(result)
@@ -166,6 +181,11 @@ func userMember(cmd *cobra.Command, args []string) {
 		utils.Exit(err)
 	}
 	defer s.End()
+
+	if len(args) < 2 || len(args) > 2 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
 
 	if !s.FindGroup(args[0]) {
 		utils.Exit(fmt.Errorf("%s does not exist", args[0]))

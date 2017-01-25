@@ -114,6 +114,11 @@ func hostAdd(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
+
 	//if err = utils.IsValidHostname(args[0]); err != nil {
 	//      utils.Exit(err)
 	//}
@@ -134,6 +139,11 @@ func hostRemove(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
+
 	if !s.FindHost(args[0]) {
 		utils.Exit(fmt.Errorf("%s does not exist", args[0]))
 	}
@@ -152,6 +162,11 @@ func hostExists(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
+	if len(args) < 1 || len(args) > 1 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
+
 	result := s.FindHost(args[0])
 
 	fmt.Println(result)
@@ -165,6 +180,11 @@ func hostMember(cmd *cobra.Command, args []string) {
 		utils.Exit(err)
 	}
 	defer s.End()
+
+	if len(args) < 2 || len(args) > 2 {
+		cmd.Usage()
+		os.Exit(-1)
+	}
 
 	if !s.FindCluster(args[0]) {
 		utils.Exit(fmt.Errorf("%s does not exist", args[0]))
