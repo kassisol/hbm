@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -37,34 +36,35 @@ func serverInitConfig() {
 	var dockerPluginFile = path.Join(dockerPluginPath, "hbm.spec")
 	var pluginSpecContent = []byte("unix://run/docker/plugins/hbm.sock")
 
-	l, _ := log.NewDriver("standard", nil)
-
-	_, err := exec.LookPath("docker")
+	l, err := log.NewDriver("standard", nil)
 	if err != nil {
-		fmt.Println("Docker does not seem to be installed. Please check your installation.")
+		l.Fatal(err)
+	}
 
-		os.Exit(-1)
+	if _, err = exec.LookPath("docker"); err != nil {
+		l.Fatal("Docker does not seem to be installed. Please check your installation.")
 	}
 
 	if _, err := os.Stat(dockerPluginPath); os.IsNotExist(err) {
-		err := os.Mkdir(dockerPluginPath, 0755)
-		if err != nil {
+		if err := os.Mkdir(dockerPluginPath, 0755); err != nil {
 			l.Fatal(err)
 		}
 	}
 
 	if !filedir.FileExists(dockerPluginFile) {
-		err := ioutil.WriteFile(dockerPluginFile, pluginSpecContent, 0644)
-		if err != nil {
+		if err := ioutil.WriteFile(dockerPluginFile, pluginSpecContent, 0644); err != nil {
 			l.Fatal(err)
 		}
 	}
 
-	l.Print("Server has completed initialization")
+	l.Info("Server has completed initialization")
 }
 
 func server(cmd *cobra.Command, args []string) {
-	l, _ := log.NewDriver("standard", nil)
+	l, err := log.NewDriver("standard", nil)
+	if err != nil {
+		l.Fatal(err)
+	}
 
 	serverInitConfig()
 
@@ -91,5 +91,5 @@ func server(cmd *cobra.Command, args []string) {
 	}()
 
 	s := <-ch
-	l.Printf("Processing signal '%s'", s)
+	l.Info("Processing signal '%s'", s)
 }
