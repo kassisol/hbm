@@ -93,7 +93,7 @@ func runStart(cmd *cobra.Command, args []string) {
 		l.WithFields(driver.Fields{
 			"storagedriver": "sqlite",
 			"logdriver":     "standard",
-			"version":       version.VERSION,
+			"version":       version.Version,
 		}).Info("HBM server")
 
 		l.Info("Listening on socket file")

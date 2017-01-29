@@ -67,7 +67,7 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 		l.WithFields(driver.Fields{
 			"storagedriver": "sqlite",
 			"logdriver":     "standard",
-			"version":       version.VERSION,
+			"version":       version.Version,
 		}).Fatal(err)
 	}
 	defer s.End()

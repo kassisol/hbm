@@ -20,7 +20,7 @@ binary: dep
 build: Dockerfile
 	@hack/docker-check-image-exist.sh ${IMAGE_REPO} ${IMAGE_NAME} ${TAG_VERSION}
 
-	docker build --rm --no-cache -t ${IMAGE_REPO}/${IMAGE_NAME}:${TAG_VERSION} .
+	docker build --rm --no-cache --build-arg version=${TAG_VERSION} -t ${IMAGE_REPO}/${IMAGE_NAME}:${TAG_VERSION} .
 
 clean: scripts
 	git reset --hard origin/${GIT_BRANCH}

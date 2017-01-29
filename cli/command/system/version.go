@@ -13,7 +13,7 @@ func NewVersionCommand() *cobra.Command {
 		Short: "Show the HBM version information",
 		Long:  versionDescription,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("HBM", version.VERSION, "-- HEAD")
+			fmt.Println("HBM", version.Version, "-- HEAD")
 		},
 	}
 

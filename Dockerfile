@@ -1,9 +1,11 @@
-# docker build --rm --no-cache -t kassisol/hbm:x.x.x .
+# docker build --rm --no-cache --build-arg version=x.x.x -t kassisol/hbm:x.x.x .
 # docker run -t --rm -v /tmp/hbm:/tmp/hbm kassisol/hbm:x.x.x <all|binary|rpm>
 #
 FROM centos:7
 
 MAINTAINER Julien K. <hbm@kassisol.com>
+
+ARG version
 
 ENV GO_VERSION 1.6.2
 
@@ -22,9 +24,8 @@ RUN build="gcc git rpm-build" \
 	&& mkdir -p /go/src/github.com \
 	&& PATH=$PATH:/usr/local/go/bin \
 	&& export GOPATH=/go \
-	# Create version file
-	&& sh hack/hbm-version-go.sh \
 	# Build hbm binary
+	&& go build -o /go/bin/hbm --ldflags "-X github.com/kassisol/hbm/version.Version=$version -linkmode external -extldflags -static" \
 	&& go install \
 	# Build RPM package
 	&& sh hack/make.sh \

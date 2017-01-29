@@ -21,7 +21,7 @@ func AllowAction(config *types.Config, action, cmd string) *types.AllowResult {
 		l.WithFields(driver.Fields{
 			"storagedriver": "sqlite",
 			"logdriver":     "standard",
-			"version":       version.VERSION,
+			"version":       version.Version,
 		}).Fatal(err)
 	}
 	defer s.End()

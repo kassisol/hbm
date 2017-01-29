@@ -40,7 +40,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		l.WithFields(logdriver.Fields{
 			"storagedriver": "sqlite",
 			"logdriver":     "standard",
-			"version":       version.VERSION,
+			"version":       version.Version,
 		}).Fatal(err)
 	}
 	defer s.End()
@@ -174,7 +174,7 @@ func AllowVolume(vol string, config *types.Config) bool {
 		l.WithFields(logdriver.Fields{
 			"storagedriver": "sqlite",
 			"logdriver":     "standard",
-			"version":       version.VERSION,
+			"version":       version.Version,
 		}).Fatal(err)
 	}
 	defer s.End()

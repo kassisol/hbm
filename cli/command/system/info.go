@@ -49,7 +49,7 @@ func runInfo(cmd *cobra.Command, args []string) {
 	fmt.Println("  Registries:", s.CountResource("registry"))
 	fmt.Println("  Volumes:", s.CountResource("volume"))
 
-	fmt.Println("Server Version:", version.VERSION)
+	fmt.Println("Server Version:", version.Version)
 	fmt.Println("Storage Driver: sqlite")
 	fmt.Println("Logging Driver: standard")
 	fmt.Println("Harbormaster Root Dir:", command.AppPath)
