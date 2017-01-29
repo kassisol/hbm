@@ -15,23 +15,71 @@ package main
 
 import (
 	"fmt"
-	"os/user"
 
 	"github.com/juliengk/go-utils"
-	"github.com/kassisol/hbm/cmd"
+	"github.com/juliengk/go-utils/user"
+	"github.com/kassisol/hbm/cli/command/commands"
+	"github.com/spf13/cobra"
 )
 
+func newHbmCommand() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "hbm",
+		Short: "HBM is an application to authorize and manage authorized docker commands",
+		Long:  "HBM is an application to authorize and manage authorized docker commands",
+	}
+
+	cmd.SetHelpTemplate(helpTemplate)
+	cmd.SetUsageTemplate(usageTemplate)
+
+	commands.AddCommands(cmd)
+
+	return cmd
+}
+
 func main() {
-	user, err := user.Current()
+	u, err := user.New()
 	if err != nil {
 		utils.Exit(err)
 	}
 
-	if user.Uid != "0" {
+	if !u.IsRoot() {
 		utils.Exit(fmt.Errorf("You must be root to run that command"))
 	}
 
-	if err := cmd.RootCmd.Execute(); err != nil {
+	cmd := newHbmCommand()
+	if err := cmd.Execute(); err != nil {
 		utils.Exit(err)
 	}
 }
+
+var usageTemplate = `{{ .Short | trim }}
+
+Usage:{{ if .Runnable }}
+{{ if .HasAvailableFlags }}{{ appendIfNotPresent .UseLine "[flags]" }}{{ else }}{{ .UseLine }}{{ end }}{{ end }}{{ if .HasAvailableSubCommands }}
+{{ .CommandPath }} [command]{{ end }}{{ if gt .Aliases 0 }}
+
+Aliases:
+  {{ .NameAndAliases }}
+{{- end }}{{ if .HasExample }}
+
+Examples:
+{{ .Example }}{{ end }}{{ if .HasAvailableSubCommands}}
+
+Available Commands:{{ range .Commands }}{{ if .IsAvailableCommand }}
+  {{ rpad .Name .NamePadding }} {{ .Short }}{{ end }}{{ end }}{{ end }}{{ if .HasAvailableLocalFlags }}
+
+Flags:
+{{ .LocalFlags.FlagUsages | trimRightSpace }}{{ end }}{{ if .HasAvailableInheritedFlags }}
+
+Global Flags:
+{{ .InheritedFlags.FlagUsages | trimRightSpace }}{{ end }}{{ if .HasHelpSubCommands }}
+
+Additional help topics: {{ range .Commands }}{{ if .IsHelpCommand }}
+  {{ rpad .CommandPath .CommandPathPadding }} {{ .Short }}{{ end }}{{ end }}{{ end }}{{ if .HasAvailableSubCommands }}
+
+Use "{{ .CommandPath }} [command] --help" for more information about a command.{{ end }}
+`
+
+var helpTemplate = `
+{{ if or .Runnable .HasSubCommands }}{{ .UsageString }}{{ end }}`
