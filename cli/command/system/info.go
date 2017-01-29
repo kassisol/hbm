@@ -32,6 +32,8 @@ func runInfo(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
+	fmt.Println("Features Enabled:")
+	fmt.Println(" Authorization:", s.FindConfig("authorization"))
 	fmt.Println("Policies:", s.CountPolicy())
 	fmt.Println("Groups:", s.CountGroup())
 	fmt.Println(" Users:", s.CountUser())
