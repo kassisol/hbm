@@ -38,7 +38,7 @@ func runAdd(cmd *cobra.Command, args []string) {
 	}
 
 	configs := config.New()
-	if configs.ConfigExists(args[0]) {
+	if !configs.ConfigExists(args[0]) {
 		utils.Exit(fmt.Errorf("This feature does not exist"))
 	}
 
