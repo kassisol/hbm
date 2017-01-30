@@ -16,7 +16,7 @@ import (
 	"github.com/kassisol/hbm/version"
 )
 
-var SupportedVersion = "v1.23"
+var SupportedVersion = "v1.24"
 
 type Api struct {
 	Uris    *uri.URIs

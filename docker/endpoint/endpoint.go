@@ -9,6 +9,7 @@ import (
 func GetUris() *uri.URIs {
 	uris := uri.New()
 
+	// Common
 	uris.Register("GET", `^/containers/json`, allow.AllowTrue, dcb.ContainerList, "container_list", "ps", "List containers")
 	uris.Register("POST", `^/containers/create`, allow.AllowContainerCreate, dcb.ContainerCreate, "container_create", "create", "Create a new container")
 	uris.Register("GET", `^/containers/(.+)/json`, allow.AllowTrue, dcb.ContainerInspect, "container_inspect", "inspect", "Return low-level information on a container or image")
@@ -73,6 +74,27 @@ func GetUris() *uri.URIs {
 	uris.Register("POST", `^/networks/(.+)/connect`, allow.AllowTrue, dcb.NetworkConnect, "network_connect", "network connect", "Connect container to a network")
 	uris.Register("POST", `^/networks/(.+)/disconnect`, allow.AllowTrue, dcb.NetworkDisconnect, "network_disconnect", "network disconnect", "Disconnect container from a network")
 	uris.Register("DELETE", `^/networks/(.+)`, allow.AllowTrue, dcb.NetworkRemove, "network_remove", "network rm", "Remove a network")
+
+	// v1.24
+	uris.Register("GET", `^/nodes`, allow.AllowTrue, dcb.NodeList, "node_list", "node ls", "List nodes")
+	uris.Register("GET", `^/nodes/(.+)`, allow.AllowTrue, dcb.NodeInspect, "node_inspect", "node inspect", "Return low-level information on the node id")
+	uris.Register("DELETE", `^/nodes/(.+)`, allow.AllowTrue, dcb.NodeRemove, "node_remove", "node rm", "Remove a node [id] from the swarm")
+	uris.Register("POST", `^/nodes/(.+)/update`, allow.AllowTrue, dcb.NodeUpdate, "node_update", "node update", "Update the node id")
+
+	uris.Register("GET", `^/swarm`, allow.AllowTrue, dcb.SwarmInspect, "swarm_inspect", "swarm info", "Get swarm info")
+	uris.Register("POST", `^/swarm/init`, allow.AllowTrue, dcb.SwarmInit, "swarm_init", "swarm init", "Initialize a new swarm")
+	uris.Register("POST", `^/swarm/join`, allow.AllowTrue, dcb.SwarmJoin, "swarm_join", "swarm join", "Join an existing swarm")
+	uris.Register("POST", `^/swarm/leave`, allow.AllowTrue, dcb.SwarmLeave, "swarm_leave", "swarm leave", "Leave a swarm")
+	uris.Register("POST", `^/swarm/update`, allow.AllowTrue, dcb.SwarmUpdate, "swarm_update", "swarm update", "Update a swarm")
+
+	uris.Register("GET", `^/services`, allow.AllowTrue, dcb.ServiceList, "service_list", "service ls", "List services")
+	uris.Register("POST", `^/services/create`, allow.AllowTrue, dcb.ServiceCreate, "service_create", "service create", "Create a service")
+	uris.Register("DELETE", `^/services/(.+)`, allow.AllowTrue, dcb.ServiceRemove, "service_remove", "service rm", "Remove a service")
+	uris.Register("GET", `^/services/(.+)`, allow.AllowTrue, dcb.ServiceInspect, "service_inspect", "service inspect", "Return information on the service id")
+	uris.Register("POST", `^/services/(.+)/update`, allow.AllowTrue, dcb.ServiceUpdate, "service_update", "service update", "Update a service")
+
+	uris.Register("GET", `^/tasks`, allow.AllowTrue, dcb.TaskList, "task_list", "stask services", "List tasks")
+	uris.Register("GET", `^/tasks/(.+)`, allow.AllowTrue, dcb.TaskInspect, "task_inspect", "stask tasks", "Get details on a task")
 
 	return uris
 }

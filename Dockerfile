@@ -7,7 +7,7 @@ MAINTAINER Julien K. <hbm@kassisol.com>
 
 ARG version
 
-ENV GO_VERSION 1.6.2
+ENV GO_VERSION 1.7.4
 
 COPY . /go/src/github.com/kassisol/hbm/
 WORKDIR /go/src/github.com/kasisol/hbm
