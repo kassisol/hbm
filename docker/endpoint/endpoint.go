@@ -88,10 +88,10 @@ func GetUris() *uri.URIs {
 	uris.Register("POST", `^/swarm/update`, allow.AllowTrue, dcb.SwarmUpdate, "swarm_update", "swarm update", "Update a swarm")
 
 	uris.Register("GET", `^/services`, allow.AllowTrue, dcb.ServiceList, "service_list", "service ls", "List services")
-	uris.Register("POST", `^/services/create`, allow.AllowTrue, dcb.ServiceCreate, "service_create", "service create", "Create a service")
+	uris.Register("POST", `^/services/create`, allow.AllowServiceCreate, dcb.ServiceCreate, "service_create", "service create", "Create a service")
 	uris.Register("DELETE", `^/services/(.+)`, allow.AllowTrue, dcb.ServiceRemove, "service_remove", "service rm", "Remove a service")
 	uris.Register("GET", `^/services/(.+)`, allow.AllowTrue, dcb.ServiceInspect, "service_inspect", "service inspect", "Return information on the service id")
-	uris.Register("POST", `^/services/(.+)/update`, allow.AllowTrue, dcb.ServiceUpdate, "service_update", "service update", "Update a service")
+	uris.Register("POST", `^/services/(.+)/update`, allow.AllowServiceCreate, dcb.ServiceUpdate, "service_update", "service update", "Update a service")
 
 	uris.Register("GET", `^/tasks`, allow.AllowTrue, dcb.TaskList, "task_list", "stask services", "List tasks")
 	uris.Register("GET", `^/tasks/(.+)`, allow.AllowTrue, dcb.TaskInspect, "task_inspect", "stask tasks", "Get details on a task")
