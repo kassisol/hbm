@@ -24,7 +24,7 @@ tar cvzf /srv/rpmbuild/SOURCES/hbm.tar.gz -C /tmp hbm
 
 cp ${HBM_SRC_PATH}/hack/hbm.spec /srv/rpmbuild/SPECS/
 
-VERSION=`${HBM_SRC_PATH}/hack/git-version.sh`
+VERSION=`/tmp/hbm/hbm version | awk '{ print $2 }'`
 
 if [ -z $VERSION ]; then
 	echo "VERSION var is not set"
