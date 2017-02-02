@@ -59,8 +59,8 @@ func main() {
 var usageTemplate = `{{ .Short | trim }}
 
 Usage:{{ if .Runnable }}
-{{ if .HasAvailableFlags }}{{ appendIfNotPresent .UseLine "[flags]" }}{{ else }}{{ .UseLine }}{{ end }}{{ end }}{{ if .HasAvailableSubCommands }}
-{{ .CommandPath }} [command]{{ end }}{{ if gt .Aliases 0 }}
+  {{ if .HasAvailableFlags }}{{ appendIfNotPresent .UseLine "[flags]" }}{{ else }}{{ .UseLine }}{{ end }}{{ end }}{{ if .HasAvailableSubCommands }}
+  {{ .CommandPath }} [command]{{ end }}{{ if gt .Aliases 0 }}
 
 Aliases:
   {{ .NameAndAliases }}
