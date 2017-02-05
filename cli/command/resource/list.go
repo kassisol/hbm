@@ -43,47 +43,6 @@ func runList(cmd *cobra.Command, args []string) {
 	resources := s.ListResources(filters)
 
 	if len(resources) > 0 {
-		/*w := map[string]int{
-			"name": 20,
-			"type": 20,
-			"value": 20,
-			"options": 20,
-			"collections": 20,
-		}
-
-		for resource, collections := range resources {
-			nameLen := len(resource.Name)
-			typeLen := len(resource.Type)
-			valueLen := len(resource.Value)
-			optionsLen := len(resource.Option)
-			collectionsLen := len(strings.Join(collections, ", "))
-
-			if nameLen > w["name"] {
-				w["name"] = nameLen
-			}
-			if typeLen > w["type"] {
-				w["type"] = typeLen
-			}
-			if valueLen > w["value"] {
-				w["value"] = valueLen
-			}
-			if optionsLen > w["options"] {
-				w["options"] = optionsLen
-			}
-			if collectionsLen > w["collections"] {
-				w["collections"] = collectionsLen
-			}
-		}
-
-		fmt.Printf("%s %s %s %s %s\n", stringpad("NAME", w["name"]), stringpad("TYPE", w["type"]), stringpad("VALUE", w["value"]), stringpad("OPTIONS", w["options"]), stringpad("COLLECTIONS", w["collections"]))
-		for resource, collections := range resources {
-			if len(collections) > 0 {
-				fmt.Printf("%s %s %s %s %s\n", stringpad(resource.Name, w["name"]), stringpad(resource.Type, w["type"]), stringpad(resource.Value, w["value"]), stringpad(removeLastChar(resource.Option), w["options"]), stringpad(strings.Join(collections, ", "), w["collections"]))
-			} else {
-				fmt.Printf("%s %s %s %s %s\n", stringpad(resource.Name, w["name"]), stringpad(resource.Type, w["type"]), stringpad(resource.Value, w["value"]), stringpad(removeLastChar(resource.Option), w["options"]))
-			}
-		}*/
-
 		tw := tabwriter.NewWriter(os.Stdout, 20, 1, 2, ' ', 0)
 		fmt.Fprintln(tw, "NAME\tTYPE\tVALUE\tOPTIONS\tCOLLECTIONS")
 
@@ -108,15 +67,6 @@ func removeLastChar(s string) string {
 
 	return newStr
 }
-
-/*
-func stringpad(s string, width int) string {
-	l := len(s)
-	g := width - l
-
-	return s + strings.Repeat(" ", g)
-}
-*/
 
 var listDescription = `
 List whitelisted resources
