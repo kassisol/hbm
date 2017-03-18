@@ -101,7 +101,7 @@ func runStart(cmd *cobra.Command, args []string) {
 	}()
 
 	s := <-ch
-	l.Info("Processing signal '%s'", s)
+	l.Infof("Processing signal '%s'", s)
 }
 
 var serverDescription = `
