@@ -31,6 +31,12 @@
 			"revisionTime": "2016-06-23T18:35:23Z"
 		},
 		{
+			"checksumSHA1": "ntacCkWfMT63DaehXLG5FeXWyNM=",
+			"path": "github.com/cpuguy83/go-md2man/md2man",
+			"revision": "a65d4d2de4d5f7c74868dfa9b202a3c8be315aaa",
+			"revisionTime": "2016-09-04T16:08:59Z"
+		},
+		{
 			"checksumSHA1": "f1wARLDzsF/JoyN01yoxXEwFIp8=",
 			"path": "github.com/docker/distribution/digest",
 			"revision": "4e17ab5d319ac5b70b2769442947567a83386fbc",
@@ -205,6 +211,12 @@
 			"revisionTime": "2016-06-13T21:20:13Z"
 		},
 		{
+			"checksumSHA1": "40vJyUB4ezQSn/NSadsKEOrudMc=",
+			"path": "github.com/inconshreveable/mousetrap",
+			"revision": "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75",
+			"revisionTime": "2014-10-17T20:07:13Z"
+		},
+		{
 			"checksumSHA1": "H18LnRcn9+g26Z1rN7/AFXCIk/w=",
 			"path": "github.com/jinzhu/gorm",
 			"revision": "7fb9b62c17d90320e0582a4720db025c1652fd6a",
@@ -259,10 +271,10 @@
 			"revisionTime": "2017-01-18T17:57:45Z"
 		},
 		{
-			"checksumSHA1": "+bwLSpw0+nU7HT8Ir1FK6yEGcuk=",
+			"checksumSHA1": "blC8BiiPdg4xYMXS6iOE7G7ueqI=",
 			"path": "github.com/juliengk/go-utils/filedir",
-			"revision": "3eb3e3041b06508b9a2f0565d3ab727ff3dee067",
-			"revisionTime": "2017-01-18T17:57:45Z"
+			"revision": "200136242a4e39522f434da7e073e15d34944077",
+			"revisionTime": "2017-03-23T14:49:40Z"
 		},
 		{
 			"checksumSHA1": "BHV6ZmUv64EI8AXwoJqP+6ccakk=",
@@ -295,10 +307,28 @@
 			"revisionTime": "2016-07-01T22:11:51Z"
 		},
 		{
-			"checksumSHA1": "58DHZSuvG0+mKl+Ijks8uF60+fw=",
+			"checksumSHA1": "c7jHQZk5ZEsFR9EXsWJXkszPBZA=",
+			"path": "github.com/russross/blackfriday",
+			"revision": "5f33e7b7878355cd2b7e6b8eefc48a5472c69f70",
+			"revisionTime": "2016-10-03T16:27:22Z"
+		},
+		{
+			"checksumSHA1": "kbgJvKG3NRoqU91rYnXGnyR+8HQ=",
+			"path": "github.com/shurcooL/sanitized_anchor_name",
+			"revision": "1dba4b3954bc059efc3991ec364f9f9a35f597d2",
+			"revisionTime": "2016-09-18T04:11:01Z"
+		},
+		{
+			"checksumSHA1": "lU+gVOtSFnBKx11uhPL8b9v0uTE=",
 			"path": "github.com/spf13/cobra",
-			"revision": "6a8bd97bdb1fc0d08a83459940498ea49d3e8c93",
-			"revisionTime": "2016-06-21T20:47:55Z"
+			"revision": "7be4beda01ec05d0b93d80b3facd2b6f44080d94",
+			"revisionTime": "2017-03-14T17:12:53Z"
+		},
+		{
+			"checksumSHA1": "PYbTJf6/eKMy0TkHt/tu1x9mb68=",
+			"path": "github.com/spf13/cobra/doc",
+			"revision": "7be4beda01ec05d0b93d80b3facd2b6f44080d94",
+			"revisionTime": "2017-03-14T17:12:53Z"
 		},
 		{
 			"checksumSHA1": "45OZzM/Hyc8mwjG2zn38n6bKZws=",
@@ -317,6 +347,12 @@
 			"path": "golang.org/x/net/proxy",
 			"revision": "b400c2eff1badec7022a8c8f5bea058b6315eed7",
 			"revisionTime": "2016-06-19T19:44:24Z"
+		},
+		{
+			"checksumSHA1": "0KwOlQV1dNUh9X8t+5s7nX5bqfk=",
+			"path": "gopkg.in/yaml.v2",
+			"revision": "a3f3340b5840cee44f372bddb5880fcbc419b46a",
+			"revisionTime": "2017-02-08T14:18:51Z"
 		}
 	],
 	"rootPath": "github.com/kassisol/hbm"

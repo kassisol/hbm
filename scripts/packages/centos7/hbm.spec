@@ -30,11 +30,17 @@ install -p -m 755 hbm $RPM_BUILD_ROOT/%{_sbindir}/
 install -d $RPM_BUILD_ROOT/%{_unitdir}
 install -p -m 644 hbm.service $RPM_BUILD_ROOT/%{_unitdir}/hbm.service
 
+# install manpages
+install -d $RPM_BUILD_ROOT/%{_mandir}/man8
+install -p -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8
+
 # list files owned by the package here
 %files
 #%doc README.md
 %{_sbindir}/hbm
 /%{_unitdir}/hbm.service
+%doc
+/%{_mandir}/man8/*
 
 %post
 %systemd_post hbm

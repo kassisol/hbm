@@ -10,3 +10,6 @@ mkdir -p build
 
 cp ${ROOTDIR}/contrib/init/systemd/hbm.service build/
 cp ${ROOTDIR}/bin/hbm build/
+
+go run ${ROOTDIR}/gen/man/genman.go
+cp -r /tmp/hbm/man build/
