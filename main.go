@@ -41,10 +41,7 @@ func newHbmCommand() *cobra.Command {
 }
 
 func main() {
-	u, err := user.New()
-	if err != nil {
-		utils.Exit(err)
-	}
+	u := user.New()
 
 	if !u.IsRoot() {
 		utils.Exit(fmt.Errorf("You must be root to run that command"))

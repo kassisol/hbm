@@ -1,20 +1,35 @@
 package user
 
 import (
-	"os/user"
+	"strconv"
+	"syscall"
 )
 
 type User struct {
-	*user.User
+	Uid      string
+	Gid      string
+	Username string
+	Name     string
+	HomeDir  string
 }
 
-func New() (*User, error) {
-	user, err := user.Current()
-	if err != nil {
-		return nil, err
+func New() *User {
+	u := User{}
+
+	u.Uid = strconv.Itoa(syscall.Getuid())
+	u.Gid = strconv.Itoa(syscall.Getgid())
+
+	username, exists := syscall.Getenv("USER")
+	if exists {
+		u.Username = username
 	}
 
-	return &User{user}, nil
+	homedir, exists := syscall.Getenv("HOME")
+	if exists {
+		u.HomeDir = homedir
+	}
+
+	return &u
 }
 
 func (u *User) IsRoot() bool {
