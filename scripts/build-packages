@@ -9,7 +9,13 @@ source $(dirname $0)/version
 for i in ${BASE}/*; do
 	echo "build-package: Building ${i}"
 
-	cd ${i}
+	cd ${ORIGIN}/${i}
+
+	if [ ! -f "Dockerfile" ]; then
+		echo "WARN: Skipping"
+
+		continue
+	fi
 
 	if [ -x "prebuild.sh" ]; then
 		./prebuild.sh
@@ -28,8 +34,6 @@ for i in ${BASE}/*; do
 
 	mv dist/* ${ORIGIN}/dist/
 	rmdir dist
-
-	cd ${ORIGIN}
 done
 
 echo "build-package: DONE"
