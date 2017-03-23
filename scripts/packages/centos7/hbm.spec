@@ -30,6 +30,10 @@ install -p -m 755 hbm $RPM_BUILD_ROOT/%{_sbindir}/
 install -d $RPM_BUILD_ROOT/%{_unitdir}
 install -p -m 644 hbm.service $RPM_BUILD_ROOT/%{_unitdir}/hbm.service
 
+# add bash completions
+install -d $RPM_BUILD_ROOT/usr/share/bash-completion/completions
+install -p -m 644 shellcompletion/bash $RPM_BUILD_ROOT/usr/share/bash-completion/completions/hbm
+
 # install manpages
 install -d $RPM_BUILD_ROOT/%{_mandir}/man8
 install -p -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8
@@ -39,6 +43,7 @@ install -p -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8
 #%doc README.md
 %{_sbindir}/hbm
 /%{_unitdir}/hbm.service
+/usr/share/bash-completion/completions/hbm
 %doc
 /%{_mandir}/man8/*
 

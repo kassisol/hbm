@@ -13,3 +13,6 @@ cp ${ROOTDIR}/bin/hbm build/
 
 go run ${ROOTDIR}/gen/man/genman.go
 cp -r /tmp/hbm/man build/
+
+go run ${ROOTDIR}/gen/shellcompletion/genshellcompletion.go
+cp -r /tmp/hbm/shellcompletion build/
