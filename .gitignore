@@ -1,2 +1,6 @@
+.dapper
+.github-release
+bin/
+dist/
 tmp/
 hack/packages/*/tmp

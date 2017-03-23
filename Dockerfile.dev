@@ -1,5 +1,0 @@
-FROM kassis/dev
-
-MAINTAINER Julien Kassar <hbm@kassisol.com>
-
-COPY . /srv/dev/go/src/github.com/kassisol/hbm/

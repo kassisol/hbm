@@ -16,7 +16,7 @@ BuildRoot: %{_tmppath}/%{name}-buildroot
 Source: hbm.tar.gz
 
 %description
-HBM is an application to authorize and manage authorized docker commands.
+HBM is an authorization plugin for docker commands.
 
 %prep
 %setup -n %{name}

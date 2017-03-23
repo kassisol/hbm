@@ -1,0 +1,31 @@
+#!/bin/bash
+set -e
+
+CGO_ENABLED=0
+
+OUTPUT=${OUTPUT:-bin/hbm}
+
+source $(dirname $0)/version
+
+CONST="-X github.com/kassisol/hbm/version.Version=$VERSION"
+
+cd $(dirname $0)/..
+
+echo " Building ${VERSION} from ${COMMIT} on ${ARCH}"
+
+if [ "$CROSS" = 1 ]; then
+	GOOS=darwin go build -ldflags "${CONST}" -o ${OUTPUT}-Darwin-x86_64
+	GOARCH=arm64 go build -ldflags "${CONST}" -o ${OUTPUT}-Linux-arm64
+	GOARCH=arm go build -ldflags "${CONST}" -o ${OUTPUT}-Linux-arm
+	go build -ldflags "${CONST} -linkmode external -extldflags -static -s -w" -o ${OUTPUT}-Linux-x86_64
+
+	strip --strip-all ${OUTPUT}-Linux-x86_64
+
+	echo Built ${OUTPUT}-Linux-x86_64
+else
+	go build -ldflags "${CONST} -linkmode external -extldflags -static -s -w" -o ${OUTPUT}
+
+	strip --strip-all ${OUTPUT}
+
+	echo Built ${OUTPUT}
+fi

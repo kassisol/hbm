@@ -1,0 +1,35 @@
+#!/bin/bash
+set -e
+
+ORIGIN=`pwd`
+BASE="scripts/packages"
+
+source $(dirname $0)/version
+
+for i in ${BASE}/*; do
+	echo "build-package: Building ${i}"
+
+	cd ${i}
+
+	if [ -x "prebuild.sh" ]; then
+		./prebuild.sh
+	fi
+
+	dapper -d -m cp -f Dockerfile -- ${VERSION} ${RELEASE}
+	code=$?
+
+	if [ -d "build" ]; then
+		rm -rf build
+	fi
+
+	if [ "${code}" != "0" ]; then
+		continue
+	fi
+
+	mv dist/* ${ORIGIN}/dist/
+	rmdir dist
+
+	cd ${ORIGIN}
+done
+
+echo "build-package: DONE"

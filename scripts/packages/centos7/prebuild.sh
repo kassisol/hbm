@@ -1,0 +1,12 @@
+#!/bin/bash
+
+ROOTDIR=$(dirname $0)/../../..
+cd $(dirname $0)
+
+if [ -d "build" ]; then
+	rm -rf build
+fi
+mkdir -p build
+
+cp ${ROOTDIR}/contrib/init/systemd/hbm.service build/
+cp ${ROOTDIR}/bin/hbm build/
