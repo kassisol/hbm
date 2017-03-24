@@ -1,3 +1,4 @@
 .dapper
+.github-release
 bin/
 dist/
