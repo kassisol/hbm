@@ -48,24 +48,14 @@ func runList(cmd *cobra.Command, args []string) {
 
 		for resource, collections := range resources {
 			if len(collections) > 0 {
-				fmt.Fprintf(tw, "%s\t%s\t%s\t%s\t%s\n", resource.Name, resource.Type, resource.Value, removeLastChar(resource.Option), strings.Join(collections, ", "))
+				fmt.Fprintf(tw, "%s\t%s\t%s\t%s\t%s\n", resource.Name, resource.Type, resource.Value, utils.RemoveLastChar(resource.Option), strings.Join(collections, ", "))
 			} else {
-				fmt.Fprintf(tw, "%s\t%s\t%s\t%s\n", resource.Name, resource.Type, resource.Value, removeLastChar(resource.Option))
+				fmt.Fprintf(tw, "%s\t%s\t%s\t%s\n", resource.Name, resource.Type, resource.Value, utils.RemoveLastChar(resource.Option))
 			}
 		}
 
 		tw.Flush()
 	}
-}
-
-func removeLastChar(s string) string {
-	strLen := len(s) - 1
-	newStr := s
-	if strLen > 0 {
-		newStr = s[0:strLen]
-	}
-
-	return newStr
 }
 
 var listDescription = `

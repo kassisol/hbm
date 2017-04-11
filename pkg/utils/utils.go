@@ -13,13 +13,3 @@ func GetURLParams(r string) url.Values {
 
 	return u.Query()
 }
-
-func RemoveLastChar(s string) string {
-        strLen := len(s) - 1
-        newStr := s
-        if strLen > 0 {
-                newStr = s[0:strLen]
-        }
-
-        return newStr
-}

@@ -259,16 +259,16 @@
 			"revisionTime": "2016-10-09T13:06:13Z"
 		},
 		{
-			"checksumSHA1": "HAIy2brneIuFgolzIJYSie5wQjI=",
+			"checksumSHA1": "7aL+m4RMdqfXnIRUXhUxBPUzzsQ=",
 			"path": "github.com/juliengk/go-mount",
-			"revision": "3c13ac9c027fbadba4d4ab8f283104c261b24adb",
-			"revisionTime": "2016-10-11T21:31:10Z"
+			"revision": "e7123cbaaaf638f8242e57e1f243ee3df0753f2f",
+			"revisionTime": "2017-04-06T14:12:35Z"
 		},
 		{
-			"checksumSHA1": "JRyO9qwZoB+aSWY8pNjJSbVsub4=",
+			"checksumSHA1": "jHh2ae5XtR1B6cTGXdtMxfOl0VU=",
 			"path": "github.com/juliengk/go-utils",
-			"revision": "3eb3e3041b06508b9a2f0565d3ab727ff3dee067",
-			"revisionTime": "2017-01-18T17:57:45Z"
+			"revision": "58e35466a5366634a0b3176915ed8c88a273cbd9",
+			"revisionTime": "2017-04-11T14:25:09Z"
 		},
 		{
 			"checksumSHA1": "blC8BiiPdg4xYMXS6iOE7G7ueqI=",
@@ -353,6 +353,10 @@
 			"path": "gopkg.in/yaml.v2",
 			"revision": "a3f3340b5840cee44f372bddb5880fcbc419b46a",
 			"revisionTime": "2017-02-08T14:18:51Z"
+		},
+		{
+			"path": "vendor/github.com/juliengk/go-mount",
+			"revision": ""
 		}
 	],
 	"rootPath": "github.com/kassisol/hbm"

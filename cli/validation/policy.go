@@ -18,7 +18,7 @@ func IsValidPolicyFilterKeys(filters map[string]string) error {
 	}
 
 	for k, _ := range filters {
-		if !utils.StringInSlice(k, validKeys) {
+		if !utils.StringInSlice(k, validKeys, false) {
 			return fmt.Errorf("%s is not a valid filter key", k)
 		}
 	}

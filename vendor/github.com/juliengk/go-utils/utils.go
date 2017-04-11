@@ -43,9 +43,16 @@ func ConvertSliceToMap(sep string, slice []string) map[string]string {
 	return result
 }
 
-func StringInSlice(a string, list []string) bool {
+func StringInSlice(a string, list []string, insensitive bool) bool {
 	for _, v := range list {
-		if a == v {
+		a1 := a
+		v1 := v
+		if insensitive {
+			a1 = strings.ToLower(a)
+			v1 = strings.ToLower(v)
+		}
+
+		if a1 == v1 {
 			return true
 		}
 	}
@@ -57,4 +64,14 @@ func Exit(err error) {
 	fmt.Println(err)
 
 	os.Exit(1)
+}
+
+func RemoveLastChar(s string) string {
+	strLen := len(s) - 1
+	newStr := s
+	if strLen > 0 {
+		newStr = s[0:strLen]
+	}
+
+	return newStr
 }

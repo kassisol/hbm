@@ -67,7 +67,7 @@ func (entries Entries) Find(mountpoint string) (Entry, error) {
 }
 
 func (entry Entry) FindOption(opt string) bool {
-	if utils.StringInSlice(opt, entry.Options) {
+	if utils.StringInSlice(opt, entry.Options, false) {
 		return true
 	}
 
