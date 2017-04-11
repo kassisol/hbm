@@ -3,3 +3,4 @@ set -e
 
 $(dirname $0)/build-target
 $(dirname $0)/build-packages
+$(dirname $0)/build-image

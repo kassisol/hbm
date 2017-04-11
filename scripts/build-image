@@ -1,0 +1,31 @@
+#!/bin/bash
+set -e
+
+IMAGE_NAME="kassisol/hbm"
+
+source $(dirname $0)/version
+
+echo "build-image: Building ${IMAGE_NAME}:${VERSION}"
+
+cd $(dirname $0)/image
+
+DIST_IMAGE_FILE="../../dist/image"
+
+if [ -f ${DIST_IMAGE_FILE} ]; then
+	rm -f ${DIST_IMAGE_FILE}
+fi
+
+if [ -x "prebuild.sh" ]; then
+	./prebuild.sh
+fi
+
+docker build --build-arg version=${VERSION} -t ${IMAGE_NAME}:${VERSION} .
+if [ $? -eq 0 ]; then
+	echo "${IMAGE_NAME}:${VERSION}" > ${DIST_IMAGE_FILE}
+fi
+
+if [ -d "build" ]; then
+	rm -rf build
+fi
+
+echo "build-image: DONE"
