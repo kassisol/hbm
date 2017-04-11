@@ -105,6 +105,12 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		}
 	}
 
+	if cc.HostConfig.PublishAllPorts {
+		if !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_publish_all", "") {
+			return &types.AllowResult{Allow: false, Msg: "--publish-all param is not allowed"}
+		}
+	}
+
 	if len(cc.HostConfig.PortBindings) > 0 {
 		for _, pbs := range cc.HostConfig.PortBindings {
 			for _, pb := range pbs {
