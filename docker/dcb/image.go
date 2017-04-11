@@ -7,10 +7,9 @@ import (
 
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
-	"github.com/kassisol/hbm/pkg/utils"
 )
 
-func ImageList(req authorization.Request, re *regexp.Regexp) string {
+func ImageList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("images")
 
 	cmd.GetParams(req.RequestURI)
@@ -47,7 +46,7 @@ func ImageList(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func ImageBuild(req authorization.Request, re *regexp.Regexp) string {
+func ImageBuild(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("build")
 
 	cmd.GetParams(req.RequestURI)
@@ -83,7 +82,7 @@ func ImageBuild(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func ImageCreate(req authorization.Request, re *regexp.Regexp) string {
+func ImageCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("pull")
 
 	cmd.GetParams(req.RequestURI)
@@ -97,28 +96,25 @@ func ImageCreate(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func ImageInspect(req authorization.Request, re *regexp.Regexp) string {
+func ImageInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("inspect")
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ImageHistory(req authorization.Request, re *regexp.Regexp) string {
+func ImageHistory(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("history")
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ImagePush(req authorization.Request, re *regexp.Regexp) string {
+func ImagePush(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("push")
 
-	_, urlPath := utils.GetURIInfo(req)
 	image := re.FindStringSubmatch(urlPath)[1]
 
 	cmd.GetParams(req.RequestURI)
@@ -134,10 +130,9 @@ func ImagePush(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func ImageTag(req authorization.Request, re *regexp.Regexp) string {
+func ImageTag(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("tag")
 
-	_, urlPath := utils.GetURIInfo(req)
 	image := re.FindStringSubmatch(urlPath)[1]
 
 	cmd.GetParams(req.RequestURI)
@@ -151,7 +146,7 @@ func ImageTag(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func ImageRemove(req authorization.Request, re *regexp.Regexp) string {
+func ImageRemove(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("rmi")
 
 	cmd.GetParams(req.RequestURI)
@@ -161,13 +156,12 @@ func ImageRemove(req authorization.Request, re *regexp.Regexp) string {
 		cmd.GetParamAndAdd("noprune", "--no-prune", true)
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ImageSearch(req authorization.Request, re *regexp.Regexp) string {
+func ImageSearch(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("search")
 
 	cmd.GetParams(req.RequestURI)
@@ -181,22 +175,21 @@ func ImageSearch(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func ImageSaveImage(req authorization.Request, re *regexp.Regexp) string {
+func ImageSaveImage(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("save")
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ImageSaveImages(req authorization.Request, re *regexp.Regexp) string {
+func ImageSaveImages(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("save")
 
 	return cmd.String()
 }
 
-func ImageLoad(req authorization.Request, re *regexp.Regexp) string {
+func ImageLoad(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("load")
 
 	return cmd.String()

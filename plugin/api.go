@@ -11,7 +11,6 @@ import (
 	"github.com/kassisol/hbm/allow/types"
 	"github.com/kassisol/hbm/docker/endpoint"
 	"github.com/kassisol/hbm/pkg/uri"
-	"github.com/kassisol/hbm/pkg/utils"
 	"github.com/kassisol/hbm/storage"
 	"github.com/kassisol/hbm/version"
 )
@@ -36,7 +35,13 @@ func NewApi(version, appPath string) (*Api, error) {
 func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 	l, _ := log.NewDriver("standard", nil)
 
-	_, urlPath := utils.GetURIInfo(req)
+	uriinfo, err := uri.GetURIInfo(req)
+	if err != nil {
+		// Log event
+		l.Warning(err)
+
+		return &types.AllowResult{Allow: false, Error: err.Error()}
+	}
 
 	user := req.User
 	if user == "" {
@@ -50,9 +55,9 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 
 	config := types.Config{AppPath: a.AppPath, Username: user, Hostname: host}
 
-	u, err := a.Uris.GetURI(req.RequestMethod, urlPath)
+	u, err := a.Uris.GetURI(req.RequestMethod, uriinfo.Path)
 	if err != nil {
-		msg := fmt.Sprintf("%s is not implemented", urlPath)
+		msg := fmt.Sprintf("%s is not implemented", uriinfo.Path)
 
 		// Log event
 		l.Warning(msg)
@@ -81,7 +86,7 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 	}
 
 	// Build Docker command from data sent to Docker daemon
-	lmsg := u.DCBFunc(req, u.Re)
+	lmsg := u.DCBFunc(req, uriinfo.Path, u.Re)
 
 	// Log event to syslog
 	l.WithFields(driver.Fields{

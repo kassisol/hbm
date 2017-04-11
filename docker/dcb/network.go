@@ -9,10 +9,9 @@ import (
 	"github.com/docker/engine-api/types"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
-	"github.com/kassisol/hbm/pkg/utils"
 )
 
-func NetworkList(req authorization.Request, re *regexp.Regexp) string {
+func NetworkList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("network")
 	cmd.Add("ls")
 
@@ -44,18 +43,16 @@ func NetworkList(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func NetworkInspect(req authorization.Request, re *regexp.Regexp) string {
+func NetworkInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("network")
 	cmd.Add("inspect")
-
-	_, urlPath := utils.GetURIInfo(req)
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func NetworkCreate(req authorization.Request, re *regexp.Regexp) string {
+func NetworkCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("network")
 	cmd.Add("create")
 
@@ -132,7 +129,7 @@ func NetworkCreate(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func NetworkConnect(req authorization.Request, re *regexp.Regexp) string {
+func NetworkConnect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("network")
 	cmd.Add("connect")
 
@@ -165,7 +162,6 @@ func NetworkConnect(req authorization.Request, re *regexp.Regexp) string {
 	}
 
 	// Network ID
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	// Container
@@ -176,7 +172,7 @@ func NetworkConnect(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func NetworkDisconnect(req authorization.Request, re *regexp.Regexp) string {
+func NetworkDisconnect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("network")
 	cmd.Add("disconnect")
 
@@ -193,7 +189,6 @@ func NetworkDisconnect(req authorization.Request, re *regexp.Regexp) string {
 	}
 
 	// Network ID
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	// Container
@@ -204,11 +199,9 @@ func NetworkDisconnect(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func NetworkRemove(req authorization.Request, re *regexp.Regexp) string {
+func NetworkRemove(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("network")
 	cmd.Add("rm")
-
-	_, urlPath := utils.GetURIInfo(req)
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 

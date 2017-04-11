@@ -11,11 +11,11 @@ import (
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
 )
 
-func Anyroute(req authorization.Request, re *regexp.Regexp) string {
+func Anyroute(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	return ""
 }
 
-func Auth(req authorization.Request, re *regexp.Regexp) string {
+func Auth(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("login")
 
 	ac := &types.AuthConfig{}
@@ -37,23 +37,23 @@ func Auth(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func Info(req authorization.Request, re *regexp.Regexp) string {
+func Info(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("info")
 
 	return cmd.String()
 }
 
-func Version(req authorization.Request, re *regexp.Regexp) string {
+func Version(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("version")
 
 	return cmd.String()
 }
 
-func Ping(req authorization.Request, re *regexp.Regexp) string {
+func Ping(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	return ""
 }
 
-func Commit(req authorization.Request, re *regexp.Regexp) string {
+func Commit(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("commit")
 
 	cmd.GetParams(req.RequestURI)
@@ -80,7 +80,7 @@ func Commit(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func Events(req authorization.Request, re *regexp.Regexp) string {
+func Events(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("events")
 
 	cmd.GetParams(req.RequestURI)

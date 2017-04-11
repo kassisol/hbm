@@ -11,14 +11,14 @@ import (
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
 )
 
-func SwarmInspect(req authorization.Request, re *regexp.Regexp) string {
+func SwarmInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("swarm")
 	cmd.Add("info")
 
 	return cmd.String()
 }
 
-func SwarmInit(req authorization.Request, re *regexp.Regexp) string {
+func SwarmInit(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("swarm")
 	cmd.Add("init")
 
@@ -61,7 +61,7 @@ func SwarmInit(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func SwarmJoin(req authorization.Request, re *regexp.Regexp) string {
+func SwarmJoin(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("swarm")
 	cmd.Add("join")
 
@@ -92,7 +92,7 @@ func SwarmJoin(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func SwarmLeave(req authorization.Request, re *regexp.Regexp) string {
+func SwarmLeave(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("swarm")
 	cmd.Add("leave")
 
@@ -105,7 +105,7 @@ func SwarmLeave(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func SwarmUpdate(req authorization.Request, re *regexp.Regexp) string {
+func SwarmUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("swarm")
 	cmd.Add("update")
 

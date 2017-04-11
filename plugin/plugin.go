@@ -2,7 +2,7 @@ package plugin
 
 import (
 	"github.com/docker/go-plugins-helpers/authorization"
-	"github.com/kassisol/hbm/pkg/utils"
+	"github.com/kassisol/hbm/pkg/uri"
 )
 
 type plugin struct {
@@ -14,9 +14,12 @@ func NewPlugin(appPath string) (*plugin, error) {
 }
 
 func (p *plugin) AuthZReq(req authorization.Request) authorization.Response {
-	apiver, _ := utils.GetURIInfo(req)
+	uriinfo, err := uri.GetURIInfo(req)
+	if err != nil {
+		return authorization.Response{Err: err.Error()}
+	}
 
-	a, err := NewApi(apiver, p.appPath)
+	a, err := NewApi(uriinfo.Version, p.appPath)
 	if err != nil {
 		return authorization.Response{Err: err.Error()}
 	}

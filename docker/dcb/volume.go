@@ -9,10 +9,9 @@ import (
 	"github.com/docker/engine-api/types"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
-	"github.com/kassisol/hbm/pkg/utils"
 )
 
-func VolumeList(req authorization.Request, re *regexp.Regexp) string {
+func VolumeList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("volume")
 	cmd.Add("ls")
 
@@ -44,7 +43,7 @@ func VolumeList(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func VolumeCreate(req authorization.Request, re *regexp.Regexp) string {
+func VolumeCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("volume")
 	cmd.Add("create")
 
@@ -79,22 +78,18 @@ func VolumeCreate(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func VolumeInspect(req authorization.Request, re *regexp.Regexp) string {
+func VolumeInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("volume")
 	cmd.Add("inspect")
-
-	_, urlPath := utils.GetURIInfo(req)
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func VolumeRemove(req authorization.Request, re *regexp.Regexp) string {
+func VolumeRemove(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("volume")
 	cmd.Add("rm")
-
-	_, urlPath := utils.GetURIInfo(req)
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 

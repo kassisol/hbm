@@ -12,7 +12,6 @@ import (
 	"github.com/docker/engine-api/types/network"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
-	"github.com/kassisol/hbm/pkg/utils"
 )
 
 type ContainerCreateConfig struct {
@@ -21,7 +20,7 @@ type ContainerCreateConfig struct {
 	NetworkingConfig network.NetworkingConfig
 }
 
-func ContainerList(req authorization.Request, re *regexp.Regexp) string {
+func ContainerList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("ps")
 
 	cmd.GetParams(req.RequestURI)
@@ -57,7 +56,7 @@ func ContainerList(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func ContainerCreate(req authorization.Request, re *regexp.Regexp) string {
+func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("run")
 
 	cc := &ContainerCreateConfig{}
@@ -348,7 +347,7 @@ func ContainerCreate(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func ContainerInspect(req authorization.Request, re *regexp.Regexp) string {
+func ContainerInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("inspect")
 
 	cmd.GetParams(req.RequestURI)
@@ -357,16 +356,14 @@ func ContainerInspect(req authorization.Request, re *regexp.Regexp) string {
 		cmd.GetParamAndAdd("size", "-s", true)
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerTop(req authorization.Request, re *regexp.Regexp) string {
+func ContainerTop(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("top")
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	cmd.GetParams(req.RequestURI)
@@ -379,7 +376,7 @@ func ContainerTop(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func ContainerLogs(req authorization.Request, re *regexp.Regexp) string {
+func ContainerLogs(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("logs")
 
 	cmd.GetParams(req.RequestURI)
@@ -393,31 +390,28 @@ func ContainerLogs(req authorization.Request, re *regexp.Regexp) string {
 		cmd.GetParamAndAdd("tail", "--tail", false)
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerChanges(req authorization.Request, re *regexp.Regexp) string {
+func ContainerChanges(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("diff")
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerExport(req authorization.Request, re *regexp.Regexp) string {
+func ContainerExport(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("export")
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerStats(req authorization.Request, re *regexp.Regexp) string {
+func ContainerStats(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("stats")
 
 	cmd.GetParams(req.RequestURI)
@@ -426,19 +420,18 @@ func ContainerStats(req authorization.Request, re *regexp.Regexp) string {
 		cmd.GetParamAndAdd("stream", "--no-stream", true)
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerResize(req authorization.Request, re *regexp.Regexp) string {
+func ContainerResize(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("resize")
 
 	return cmd.String()
 }
 
-func ContainerStart(req authorization.Request, re *regexp.Regexp) string {
+func ContainerStart(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("start")
 
 	cmd.GetParams(req.RequestURI)
@@ -447,13 +440,12 @@ func ContainerStart(req authorization.Request, re *regexp.Regexp) string {
 		cmd.GetParamAndAdd("detachKeys", "--detach-keys", false)
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerStop(req authorization.Request, re *regexp.Regexp) string {
+func ContainerStop(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("stop")
 
 	cmd.GetParams(req.RequestURI)
@@ -462,13 +454,12 @@ func ContainerStop(req authorization.Request, re *regexp.Regexp) string {
 		cmd.GetParamAndAdd("t", "--time", false)
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerRestart(req authorization.Request, re *regexp.Regexp) string {
+func ContainerRestart(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("restart")
 
 	cmd.GetParams(req.RequestURI)
@@ -477,13 +468,12 @@ func ContainerRestart(req authorization.Request, re *regexp.Regexp) string {
 		cmd.GetParamAndAdd("t", "--time", false)
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerKill(req authorization.Request, re *regexp.Regexp) string {
+func ContainerKill(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("kill")
 
 	cmd.GetParams(req.RequestURI)
@@ -492,13 +482,12 @@ func ContainerKill(req authorization.Request, re *regexp.Regexp) string {
 		cmd.GetParamAndAdd("signal", "--signal", false)
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerUpdate(req authorization.Request, re *regexp.Regexp) string {
+func ContainerUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("update")
 
 	uc := &container.UpdateConfig{}
@@ -558,10 +547,9 @@ func ContainerUpdate(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func ContainerRename(req authorization.Request, re *regexp.Regexp) string {
+func ContainerRename(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("rename")
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	cmd.GetParams(req.RequestURI)
@@ -573,25 +561,23 @@ func ContainerRename(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func ContainerPause(req authorization.Request, re *regexp.Regexp) string {
+func ContainerPause(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("pause")
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerUnpause(req authorization.Request, re *regexp.Regexp) string {
+func ContainerUnpause(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("unpause")
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerAttach(req authorization.Request, re *regexp.Regexp) string {
+func ContainerAttach(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("attach")
 
 	cmd.GetParams(req.RequestURI)
@@ -607,13 +593,12 @@ func ContainerAttach(req authorization.Request, re *regexp.Regexp) string {
 
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerAttachWS(req authorization.Request, re *regexp.Regexp) string {
+func ContainerAttachWS(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("attach")
 
 	cmd.GetParams(req.RequestURI)
@@ -629,22 +614,20 @@ func ContainerAttachWS(req authorization.Request, re *regexp.Regexp) string {
 
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerWait(req authorization.Request, re *regexp.Regexp) string {
+func ContainerWait(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("wait")
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerRemove(req authorization.Request, re *regexp.Regexp) string {
+func ContainerRemove(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("rm")
 
 	cmd.GetParams(req.RequestURI)
@@ -654,24 +637,22 @@ func ContainerRemove(req authorization.Request, re *regexp.Regexp) string {
 		cmd.GetParamAndAdd("f", "-f", true)
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ContainerCopy(req authorization.Request, re *regexp.Regexp) string {
+func ContainerCopy(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	return ""
 }
 
-func ContainerArchiveInfo(req authorization.Request, re *regexp.Regexp) string {
+func ContainerArchiveInfo(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	return ""
 }
 
-func ContainerArchive(req authorization.Request, re *regexp.Regexp) string {
+func ContainerArchive(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("cp")
 
-	_, urlPath := utils.GetURIInfo(req)
 	image := re.FindStringSubmatch(urlPath)[1]
 
 	cmd.GetParams(req.RequestURI)
@@ -681,10 +662,9 @@ func ContainerArchive(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func ContainerArchiveExtract(req authorization.Request, re *regexp.Regexp) string {
+func ContainerArchiveExtract(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("cp")
 
-	_, urlPath := utils.GetURIInfo(req)
 	image := re.FindStringSubmatch(urlPath)[1]
 
 	cmd.GetParams(req.RequestURI)
@@ -694,7 +674,7 @@ func ContainerArchiveExtract(req authorization.Request, re *regexp.Regexp) strin
 	return cmd.String()
 }
 
-func ContainerExecCreate(req authorization.Request, re *regexp.Regexp) string {
+func ContainerExecCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("exec")
 
 	ec := &types.ExecConfig{}
@@ -729,7 +709,6 @@ func ContainerExecCreate(req authorization.Request, re *regexp.Regexp) string {
 		cmd.Add(fmt.Sprintf("-u %s", ec.User))
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	if len(ec.Cmd) > 0 {

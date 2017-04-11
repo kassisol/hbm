@@ -9,10 +9,9 @@ import (
 	"github.com/docker/engine-api/types/swarm"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
-	"github.com/kassisol/hbm/pkg/utils"
 )
 
-func NodeList(req authorization.Request, re *regexp.Regexp) string {
+func NodeList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("node")
 	cmd.Add("ls")
 
@@ -48,17 +47,16 @@ func NodeList(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func NodeInspect(req authorization.Request, re *regexp.Regexp) string {
+func NodeInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("node")
 	cmd.Add("inspect")
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func NodeRemove(req authorization.Request, re *regexp.Regexp) string {
+func NodeRemove(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("node")
 	cmd.Add("rm")
 
@@ -68,13 +66,12 @@ func NodeRemove(req authorization.Request, re *regexp.Regexp) string {
 		cmd.GetParamAndAdd("force", "-f", true)
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func NodeUpdate(req authorization.Request, re *regexp.Regexp) string {
+func NodeUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("node")
 	cmd.Add("update")
 
@@ -100,7 +97,6 @@ func NodeUpdate(req authorization.Request, re *regexp.Regexp) string {
 		cmd.Add(fmt.Sprintf("--role %s", ns.Role))
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()

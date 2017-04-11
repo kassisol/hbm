@@ -10,10 +10,9 @@ import (
 	"github.com/docker/engine-api/types/swarm"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
-	"github.com/kassisol/hbm/pkg/utils"
 )
 
-func ServiceList(req authorization.Request, re *regexp.Regexp) string {
+func ServiceList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("service")
 	cmd.Add("ls")
 
@@ -49,7 +48,7 @@ func ServiceList(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func ServiceCreate(req authorization.Request, re *regexp.Regexp) string {
+func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("service")
 	cmd.Add("create")
 
@@ -258,27 +257,25 @@ func ServiceCreate(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func ServiceRemove(req authorization.Request, re *regexp.Regexp) string {
+func ServiceRemove(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("service")
 	cmd.Add("rm")
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ServiceInspect(req authorization.Request, re *regexp.Regexp) string {
+func ServiceInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("service")
 	cmd.Add("inspect")
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
 }
 
-func ServiceUpdate(req authorization.Request, re *regexp.Regexp) string {
+func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("service")
 	cmd.Add("update")
 
@@ -466,7 +463,6 @@ func ServiceUpdate(req authorization.Request, re *regexp.Regexp) string {
 		}
 	}
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()

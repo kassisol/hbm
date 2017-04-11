@@ -7,10 +7,9 @@ import (
 
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
-	"github.com/kassisol/hbm/pkg/utils"
 )
 
-func TaskList(req authorization.Request, re *regexp.Regexp) string {
+func TaskList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("stask")
 	cmd.Add("services")
 
@@ -46,11 +45,10 @@ func TaskList(req authorization.Request, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
-func TaskInspect(req authorization.Request, re *regexp.Regexp) string {
+func TaskInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("stask")
 	cmd.Add("tasks")
 
-	_, urlPath := utils.GetURIInfo(req)
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
 	return cmd.String()
