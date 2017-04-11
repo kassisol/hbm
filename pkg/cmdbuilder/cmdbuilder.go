@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
-
-	"github.com/kassisol/hbm/pkg/utils"
 )
 
 type Config struct {
@@ -18,7 +16,10 @@ func New(cmd string) *Config {
 }
 
 func (c *Config) GetParams(r string) {
-	c.Params = utils.GetURLParams(r)
+	u, err := url.ParseRequestURI(r)
+	if err == nil {
+		c.Params = u.Query()
+	}
 }
 
 func (c *Config) Add(t string) {
