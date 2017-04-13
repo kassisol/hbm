@@ -7,7 +7,12 @@ OUTPUT=${OUTPUT:-bin/hbm}
 
 source $(dirname $0)/version
 
-CONST="-X github.com/kassisol/hbm/version.Version=$VERSION"
+GITSTATE="clean"
+if [ -n $DIRTY ]; then
+	GITSTATE="dirty"
+fi
+
+CONST="-X github.com/kassisol/hbm/version.Version=$VERSION -X github.com/kassisol/hbm/version.GitCommit=${COMMIT} -X github.com/kassisol/hbm/version.GitState=${GITSTATE} -X github.com/kassisol/hbm/version.BuildDate=$(date +%s)"
 
 cd $(dirname $0)/..
 
