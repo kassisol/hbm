@@ -89,7 +89,7 @@ func (c *Config) RemoveUserFromGroup(group, user string) {
 func (c *Config) memberOfGroup(name string) bool {
 	var count int64
 
-	c.DB.Table("clusters").Joins("JOIN cluster_hosts ON cluster_hosts.cluster_id = clusters.id").Joins("JOIN hosts ON hosts.id = cluster_hosts.host_id").Where("hosts.name = ?", name).Count(&count)
+	c.DB.Table("groups").Joins("JOIN group_users ON group_users.group_id = groups.id").Joins("JOIN users ON users.id = group_users.user_id").Where("users.name = ?", name).Count(&count)
 
 	if count > 0 {
 		return true
