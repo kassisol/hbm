@@ -9,17 +9,17 @@ import (
 )
 
 var (
-	Version   string = "0.0.0"
-	GitCommit string = ""
-	GitState  string = ""
-	BuildDate string = ""
+	Version   string
+	GitCommit string
+	GitState  string
+	BuildDate string
 )
 
 var versionTemplate = `Version:     {{.Version}}
-Go version:  {{.GoVersion}}
 Git commit:  {{.GitCommit}}{{if eq .GitState "dirty"}}
 Git State:   {{.GitState}}{{end}}
 Built:       {{.BuildDate}}
+Go version:  {{.GoVersion}}
 OS/Arch:     {{.Os}}/{{.Arch}}`
 
 type VersionInfo struct {
