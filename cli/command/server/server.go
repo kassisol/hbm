@@ -51,11 +51,8 @@ func serverInitConfig() {
 		os.Exit(-1)
 	}
 
-	if _, err := os.Stat(dockerPluginPath); os.IsNotExist(err) {
-		err := os.Mkdir(dockerPluginPath, 0755)
-		if err != nil {
-			l.Fatal(err)
-		}
+	if err := filedir.CreateDirIfNotExist(dockerPluginPath, false, 0755); err != nil {
+		l.Fatal(err)
 	}
 
 	if !filedir.FileExists(dockerPluginFile) {
