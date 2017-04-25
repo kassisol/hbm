@@ -2,7 +2,6 @@ package plugin
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/juliengk/go-log"
@@ -48,12 +47,7 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 		user = "root"
 	}
 
-	host, err := os.Hostname()
-	if err != nil {
-		host = "localhost"
-	}
-
-	config := types.Config{AppPath: a.AppPath, Username: user, Hostname: host}
+	config := types.Config{AppPath: a.AppPath, Username: user}
 
 	u, err := a.Uris.GetURI(req.RequestMethod, uriinfo.Path)
 	if err != nil {
@@ -91,7 +85,6 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 	// Log event to syslog
 	l.WithFields(driver.Fields{
 		"user":    user,
-		"host":    host,
 		"allowed": r.Allow,
 	}).Info(lmsg)
 

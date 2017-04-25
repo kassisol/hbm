@@ -48,10 +48,10 @@ func runList(cmd *cobra.Command, args []string) {
 
 	if len(policies) > 0 {
 		w := tabwriter.NewWriter(os.Stdout, 20, 1, 2, ' ', 0)
-		fmt.Fprintln(w, "NAME\tGROUP\tCLUSTER\tCOLLECTION")
+		fmt.Fprintln(w, "NAME\tGROUP\tCOLLECTION")
 
 		for _, policy := range policies {
-			fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", policy.Name, policy.Group, policy.Cluster, policy.Collection)
+			fmt.Fprintf(w, "%s\t%s\t%s\n", policy.Name, policy.Group, policy.Collection)
 		}
 
 		w.Flush()

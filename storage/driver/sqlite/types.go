@@ -25,17 +25,6 @@ type Group struct {
 	Users []User `gorm:"many2many:group_users;"`
 }
 
-type Host struct {
-	Model
-	Name string `gorm:"unique;"`
-}
-
-type Cluster struct {
-	Model
-	Name  string `gorm:"unique;"`
-	Hosts []Host `gorm:"many2many:cluster_hosts;"`
-}
-
 type Resource struct {
 	Model
 	Name   string `gorm:"unique;"`
@@ -55,8 +44,6 @@ type Policy struct {
 	Name         string `gorm:"unique;"`
 	Group        Group
 	GroupID      uint
-	Cluster      Cluster
-	ClusterID    uint
 	Collection   Collection
 	CollectionID uint
 }

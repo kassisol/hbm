@@ -37,8 +37,6 @@ func runInfo(cmd *cobra.Command, args []string) {
 	fmt.Println("Policies:", s.CountPolicy())
 	fmt.Println("Groups:", s.CountGroup())
 	fmt.Println(" Users:", s.CountUser())
-	fmt.Println("Clusters:", s.CountCluster())
-	fmt.Println(" Hosts:", s.CountHost())
 	fmt.Println("Collections:", s.CountCollection())
 	fmt.Println(" Resources:", s.CountResource("all"))
 	fmt.Println("  Actions:", s.CountResource("action"))

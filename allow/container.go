@@ -46,44 +46,44 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 	defer s.End()
 
 	if cc.HostConfig.Privileged {
-		if !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_privileged", "") {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_privileged", "") {
 			return &types.AllowResult{Allow: false, Msg: "--privileged param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.IpcMode == "host" {
-		if !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_ipc_host", "") {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_ipc_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--ipc=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.NetworkMode == "host" {
-		if !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_net_host", "") {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_net_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--net=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.PidMode == "host" {
-		if !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_pid_host", "") {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_pid_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--pid=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.UsernsMode == "host" {
-		if !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_userns_host", "") {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_userns_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--userns=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.UTSMode == "host" {
-		if !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_uts_host", "") {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_uts_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--uts=\"host\" param is not allowed"}
 		}
 	}
 
 	if len(cc.HostConfig.CapAdd) > 0 {
 		for _, c := range cc.HostConfig.CapAdd {
-			if !s.ValidatePolicy(config.Username, config.Hostname, "cap", c, "") {
+			if !s.ValidatePolicy(config.Username, "cap", c, "") {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Capability %s is not allowed", c)}
 			}
 		}
@@ -91,7 +91,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 
 	if len(cc.HostConfig.Devices) > 0 {
 		for _, dev := range cc.HostConfig.Devices {
-			if !s.ValidatePolicy(config.Username, config.Hostname, "device", dev.PathOnHost, "") {
+			if !s.ValidatePolicy(config.Username, "device", dev.PathOnHost, "") {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Device %s is not allowed to be exported", dev.PathOnHost)}
 			}
 		}
@@ -99,14 +99,14 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 
 	if len(cc.HostConfig.DNS) > 0 {
 		for _, dns := range cc.HostConfig.DNS {
-			if !s.ValidatePolicy(config.Username, config.Hostname, "dns", dns, "") {
+			if !s.ValidatePolicy(config.Username, "dns", dns, "") {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("DNS server %s is not allowed", dns)}
 			}
 		}
 	}
 
 	if cc.HostConfig.PublishAllPorts {
-		if !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_publish_all", "") {
+		if !s.ValidatePolicy(config.Username, "config", "container_publish_all", "") {
 			return &types.AllowResult{Allow: false, Msg: "--publish-all param is not allowed"}
 		}
 	}
@@ -116,7 +116,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 			for _, pb := range pbs {
 				spb := GetPortBindingString(&pb)
 
-				if !s.ValidatePolicy(config.Username, config.Hostname, "port", spb, "") {
+				if !s.ValidatePolicy(config.Username, "port", spb, "") {
 					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be pubished", spb)}
 				}
 			}
@@ -136,7 +136,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 	}
 
 	if len(cc.HostConfig.LogConfig.Type) > 0 {
-		if !s.ValidatePolicy(config.Username, config.Hostname, "logdriver", cc.HostConfig.LogConfig.Type, "") {
+		if !s.ValidatePolicy(config.Username, "logdriver", cc.HostConfig.LogConfig.Type, "") {
 			return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log driver %s is not allowed", cc.HostConfig.LogConfig.Type)}
 		}
 	}
@@ -145,14 +145,14 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		for k, v := range cc.HostConfig.LogConfig.Config {
 			los := fmt.Sprintf("%s=%s", k, v)
 
-			if !s.ValidatePolicy(config.Username, config.Hostname, "logopt", los, "") {
+			if !s.ValidatePolicy(config.Username, "logopt", los, "") {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log driver %s is not allowed", los)}
 			}
 		}
 	}
 
 	if len(cc.User) > 0 {
-		if cc.Config.User == "root" && !s.ValidatePolicy(config.Username, config.Hostname, "config", "container_create_user_root", "") {
+		if cc.Config.User == "root" && !s.ValidatePolicy(config.Username, "config", "container_create_user_root", "") {
 			return &types.AllowResult{Allow: false, Msg: "Running as user \"root\" is not allowed. Please use --user=\"someuser\" param."}
 		}
 	}
@@ -194,7 +194,7 @@ func AllowVolume(vol string, config *types.Config) bool {
 	jsonVO := json.Encode(vo)
 	opts := jsonVO.String()
 
-	if s.ValidatePolicy(config.Username, config.Hostname, "volume", vol, opts) {
+	if s.ValidatePolicy(config.Username, "volume", vol, opts) {
 		return true
 	}
 
@@ -217,7 +217,7 @@ func AllowVolume(vol string, config *types.Config) bool {
 		jsonVO = json.Encode(vo)
 		opts = jsonVO.String()
 
-		if s.ValidatePolicy(config.Username, config.Hostname, "volume", path.Join(p...), opts) {
+		if s.ValidatePolicy(config.Username, "volume", path.Join(p...), opts) {
 			return true
 		}
 	}

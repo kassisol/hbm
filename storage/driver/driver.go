@@ -20,20 +20,6 @@ type Storager interface {
 	FindGroup(name string) bool
 	CountGroup() int
 
-	AddHost(name string)
-	RemoveHost(name string) error
-	ListHosts(filter map[string]string) map[string][]string
-	FindHost(name string) bool
-	CountHost() int
-	AddHostToCluster(cluster, host string)
-	RemoveHostFromCluster(cluster, host string)
-
-	AddCluster(name string)
-	RemoveCluster(name string) error
-	ListClusters(filter map[string]string) map[string][]string
-	FindCluster(name string) bool
-	CountCluster() int
-
 	AddResource(name, rtype, value, options string)
 	RemoveResource(name string) error
 	ListResources(filter map[string]string) map[ResourceResult][]string
@@ -48,13 +34,13 @@ type Storager interface {
 	FindCollection(name string) bool
 	CountCollection() int
 
-	AddPolicy(name, group, cluster, collection string)
+	AddPolicy(name, group, collection string)
 	RemovePolicy(name string)
 	ListPolicies(filter map[string]string) []PolicyResult
 	FindPolicy(name string) bool
 	CountPolicy() int
 
-	ValidatePolicy(user, host, res_type, res_value, option string) bool
+	ValidatePolicy(user, res_type, res_value, option string) bool
 
 	End()
 }

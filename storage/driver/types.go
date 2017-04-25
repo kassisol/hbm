@@ -10,7 +10,6 @@ type ResourceResult struct {
 type PolicyResult struct {
 	Name       string
 	Group      string
-	Cluster    string
 	Collection string
 }
 

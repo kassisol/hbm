@@ -47,16 +47,16 @@ func AllowImage(img string, config *types.Config) bool {
 	i := image.NewImage(img)
 
 	if i.Official {
-		if s.ValidatePolicy(config.Username, config.Hostname, "config", "image_create_official", "") {
+		if s.ValidatePolicy(config.Username, "config", "image_create_official", "") {
 			return true
 		}
 	}
 
-	if s.ValidatePolicy(config.Username, config.Hostname, "registry", i.Registry, "") {
+	if s.ValidatePolicy(config.Username, "registry", i.Registry, "") {
 		return true
 	}
 
-	if s.ValidatePolicy(config.Username, config.Hostname, "image", i.String(), "") {
+	if s.ValidatePolicy(config.Username, "image", i.String(), "") {
 		return true
 	}
 

@@ -26,7 +26,7 @@ func AllowAction(config *types.Config, action, cmd string) *types.AllowResult {
 	}
 	defer s.End()
 
-	if !s.ValidatePolicy(config.Username, config.Hostname, "action", action, "") {
+	if !s.ValidatePolicy(config.Username, "action", action, "") {
 		return &types.AllowResult{Allow: false, Error: fmt.Sprintf("%s is not allowed", cmd)}
 	}
 

@@ -13,7 +13,6 @@ import (
 
 var (
 	policyAddGroup      string
-	policyAddCluster    string
 	policyAddCollection string
 )
 
@@ -27,7 +26,6 @@ func newAddCommand() *cobra.Command {
 
 	flags := cmd.Flags()
 	flags.StringVarP(&policyAddGroup, "group", "g", "", "Set group")
-	flags.StringVarP(&policyAddCluster, "cluster", "c", "", "Set cluster")
 	flags.StringVarP(&policyAddCollection, "collection", "", "", "Set collection")
 
 	return cmd
@@ -55,10 +53,6 @@ func runAdd(cmd *cobra.Command, args []string) {
 		utils.Exit(fmt.Errorf("%s already exists", args[0]))
 	}
 
-	if policyAddCluster != "all" && !s.FindCluster(policyAddCluster) {
-		utils.Exit(fmt.Errorf("%s does not exist", policyAddCluster))
-	}
-
 	if policyAddGroup != "all" && !s.FindGroup(policyAddGroup) {
 		utils.Exit(fmt.Errorf("%s does not exist", policyAddGroup))
 	}
@@ -67,7 +61,7 @@ func runAdd(cmd *cobra.Command, args []string) {
 		utils.Exit(fmt.Errorf("%s does not exist", policyAddCollection))
 	}
 
-	s.AddPolicy(args[0], policyAddGroup, policyAddCluster, policyAddCollection)
+	s.AddPolicy(args[0], policyAddGroup, policyAddCollection)
 }
 
 var addDescription = `
