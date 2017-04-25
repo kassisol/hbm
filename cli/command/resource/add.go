@@ -1,9 +1,9 @@
 package resource
 
 import (
-	"fmt"
 	"os"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/json"
 	"github.com/juliengk/go-utils/validation"
@@ -43,7 +43,7 @@ func runAdd(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", command.AppPath)
 	if err != nil {
-		utils.Exit(err)
+		log.Fatal(err)
 	}
 	defer s.End()
 
@@ -56,26 +56,26 @@ func runAdd(cmd *cobra.Command, args []string) {
 	options := utils.ConvertSliceToMap("=", resourceAddOption)
 	if len(options) > 0 {
 		if err := clivalidation.IsValidResourceOptionKeys(options); err != nil {
-			utils.Exit(err)
+			log.Fatal(err)
 		}
 	}
 
 	rt := clivalidation.NewResourceTypes()
 	if err = rt.IsValidResourceType(resourceAddType); err != nil {
-		utils.Exit(err)
+		log.Fatal(err)
 	}
 
 	if resourceAddType == "action" {
 		uris := endpoint.GetUris()
 
 		if !uris.ActionExists(resourceAddValue) {
-			utils.Exit(fmt.Errorf("%s is not a valid action", resourceAddValue))
+			log.Fatalf("%s is not a valid action", resourceAddValue)
 		}
 	}
 
 	if resourceAddType == "cap" {
 		if !clivalidation.IsValidCapability(resourceAddValue) {
-			utils.Exit(fmt.Errorf("%s is not a valid cap", resourceAddValue))
+			log.Fatalf("%s is not a valid cap", resourceAddValue)
 		}
 	}
 
@@ -83,22 +83,22 @@ func runAdd(cmd *cobra.Command, args []string) {
 		configs := config.New()
 
 		if !configs.ActionExists(resourceAddValue) {
-			utils.Exit(fmt.Errorf("%s is not a valid config", resourceAddValue))
+			log.Fatalf("%s is not a valid config", resourceAddValue)
 		}
 	}
 
 	if resourceAddType == "logdriver" {
 		if !clivalidation.IsValidLogDriver(resourceAddValue) {
-			utils.Exit(fmt.Errorf("%s is not a valid logdriver", resourceAddValue))
+			log.Fatalf("%s is not a valid logdriver", resourceAddValue)
 		}
 	}
 
 	if err = validation.IsValidName(args[0]); err != nil {
-		utils.Exit(err)
+		log.Fatal(err)
 	}
 
 	if s.FindResource(args[0]) {
-		utils.Exit(fmt.Errorf("%s already exists", args[0]))
+		log.Fatalf("%s already exists", args[0])
 	}
 
 	// Add to DB

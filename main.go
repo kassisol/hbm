@@ -17,9 +17,7 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/juliengk/go-utils"
+	"github.com/juliengk/go-log"
 	"github.com/juliengk/go-utils/user"
 	"github.com/kassisol/hbm/cli/command/commands"
 	"github.com/spf13/cobra"
@@ -42,14 +40,15 @@ func newHbmCommand() *cobra.Command {
 
 func main() {
 	u := user.New()
+	l, _ := log.NewDriver("standard", nil)
 
 	if !u.IsRoot() {
-		utils.Exit(fmt.Errorf("You must be root to run that command"))
+		l.Error("You must be root to run that command")
 	}
 
 	cmd := newHbmCommand()
 	if err := cmd.Execute(); err != nil {
-		utils.Exit(err)
+		l.Error(err)
 	}
 }
 

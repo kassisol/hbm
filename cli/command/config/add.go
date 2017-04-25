@@ -1,9 +1,9 @@
 package config
 
 import (
-	"fmt"
 	"os"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/config"
@@ -28,7 +28,7 @@ func runAdd(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", command.AppPath)
 	if err != nil {
-		utils.Exit(err)
+		log.Fatal(err)
 	}
 	defer s.End()
 
@@ -39,11 +39,11 @@ func runAdd(cmd *cobra.Command, args []string) {
 
 	configs := config.New()
 	if !configs.ConfigExists(args[0]) {
-		utils.Exit(fmt.Errorf("This feature does not exist"))
+		log.Fatal("This feature does not exist")
 	}
 
 	if s.FindConfig(args[0]) {
-		utils.Exit(fmt.Errorf("%s is already enabled", args[0]))
+		log.Fatalf("%s is already enabled", args[0])
 	}
 
 	s.AddConfig(args[0])

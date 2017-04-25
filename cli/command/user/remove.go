@@ -1,9 +1,9 @@
 package user
 
 import (
-	"fmt"
 	"os"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/storage"
@@ -27,7 +27,7 @@ func runRemove(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", command.AppPath)
 	if err != nil {
-		utils.Exit(err)
+		log.Fatal(err)
 	}
 	defer s.End()
 
@@ -37,11 +37,11 @@ func runRemove(cmd *cobra.Command, args []string) {
 	}
 
 	if !s.FindUser(args[0]) {
-		utils.Exit(fmt.Errorf("%s does not exist", args[0]))
+		log.Fatalf("%s does not exist", args[0])
 	}
 
 	if err = s.RemoveUser(args[0]); err != nil {
-		utils.Exit(err)
+		log.Fatal(err)
 	}
 }
 

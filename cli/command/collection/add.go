@@ -1,9 +1,9 @@
 package collection
 
 import (
-	"fmt"
 	"os"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/validation"
 	"github.com/kassisol/hbm/cli/command"
@@ -27,7 +27,7 @@ func runAdd(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", command.AppPath)
 	if err != nil {
-		utils.Exit(err)
+		log.Fatal(err)
 	}
 	defer s.End()
 
@@ -37,11 +37,11 @@ func runAdd(cmd *cobra.Command, args []string) {
 	}
 
 	if err = validation.IsValidName(args[0]); err != nil {
-		utils.Exit(err)
+		log.Fatal(err)
 	}
 
 	if s.FindCollection(args[0]) {
-		utils.Exit(fmt.Errorf("%s already exists", args[0]))
+		log.Fatalf("%s already exists", args[0])
 	}
 
 	s.AddCollection(args[0])

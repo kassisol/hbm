@@ -5,6 +5,7 @@ import (
 	"os"
 	"text/tabwriter"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/cli/validation"
@@ -34,14 +35,14 @@ func runList(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", command.AppPath)
 	if err != nil {
-		utils.Exit(err)
+		log.Fatal(err)
 	}
 	defer s.End()
 
 	filters := utils.ConvertSliceToMap("=", policyListFilter)
 
 	if err = validation.IsValidPolicyFilterKeys(filters); err != nil {
-		utils.Exit(err)
+		log.Fatal(err)
 	}
 
 	policies := s.ListPolicies(filters)

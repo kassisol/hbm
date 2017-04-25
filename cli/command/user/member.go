@@ -1,9 +1,9 @@
 package user
 
 import (
-	"fmt"
 	"os"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/storage"
@@ -35,7 +35,7 @@ func runMember(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", command.AppPath)
 	if err != nil {
-		utils.Exit(err)
+		log.Fatal(err)
 	}
 	defer s.End()
 
@@ -45,11 +45,11 @@ func runMember(cmd *cobra.Command, args []string) {
 	}
 
 	if !s.FindGroup(args[0]) {
-		utils.Exit(fmt.Errorf("%s does not exist", args[0]))
+		log.Fatalf("%s does not exist", args[0])
 	}
 
 	if !s.FindUser(args[1]) {
-		utils.Exit(fmt.Errorf("%s does not exist", args[1]))
+		log.Fatalf("%s does not exist", args[1])
 	}
 
 	if userMemberAdd {

@@ -3,6 +3,7 @@ package system
 import (
 	"fmt"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/docker/engine-api/client"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
@@ -28,7 +29,7 @@ func runInfo(cmd *cobra.Command, args []string) {
 
 	s, err := storage.NewDriver("sqlite", command.AppPath)
 	if err != nil {
-		utils.Exit(err)
+		log.Fatal(err)
 	}
 	defer s.End()
 

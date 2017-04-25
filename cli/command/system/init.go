@@ -1,7 +1,7 @@
 package system
 
 import (
-	"github.com/juliengk/go-utils"
+	log "github.com/Sirupsen/logrus"
 	"github.com/juliengk/go-utils/filedir"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/storage"
@@ -21,12 +21,12 @@ func NewInitCommand() *cobra.Command {
 
 func runInit(cmd *cobra.Command, args []string) {
 	if err := filedir.CreateDirIfNotExist(command.AppPath, false, 0700); err != nil {
-		utils.Exit(err)
+		log.Fatal(err)
 	}
 
 	s, err := storage.NewDriver("sqlite", command.AppPath)
 	if err != nil {
-		utils.Exit(err)
+		log.Fatal(err)
 	}
 	s.End()
 }
