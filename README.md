@@ -15,6 +15,15 @@ By default Harbormaster plugin prevents from executing commands with certains pa
   * any dns servers added with parameter `--dns=`
   * any ports added with parameter `--port=`
   * any volumes mounted with parameter `-v`
+  * any logging with parameters "--log-driver" and "--log-opt"
+
+## Versions
+
+Supported Docker versions with HBM.
+
+| HBM Version | Docker Version | Docker API |
+|-------------|----------------|------------|
+| 0.2.x       | 1.12.x         | 1.24       |
 
 ## Getting Started & Documentation
 
