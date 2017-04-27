@@ -77,33 +77,35 @@ func NetworkCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	}
 
 	// IPAM
-	if len(nc.IPAM.Driver) > 0 {
-		cmd.Add(fmt.Sprintf("--ipam-driver=%s", nc.IPAM.Driver))
-	}
-
-	if len(nc.IPAM.Options) > 0 {
-		for k, v := range nc.IPAM.Options {
-			cmd.Add(fmt.Sprintf("--ipam-opt %s=%s", k, v))
+	if nc.IPAM != nil {
+		if len(nc.IPAM.Driver) > 0 {
+			cmd.Add(fmt.Sprintf("--ipam-driver=%s", nc.IPAM.Driver))
 		}
-	}
 
-	if len(nc.IPAM.Config) > 0 {
-		for _, c := range nc.IPAM.Config {
-			if len(c.Subnet) > 0 {
-				cmd.Add(fmt.Sprintf("--subnet %s", c.Subnet))
+		if len(nc.IPAM.Options) > 0 {
+			for k, v := range nc.IPAM.Options {
+				cmd.Add(fmt.Sprintf("--ipam-opt %s=%s", k, v))
 			}
+		}
 
-			if len(c.IPRange) > 0 {
-				cmd.Add(fmt.Sprintf("--ip-range %s", c.IPRange))
-			}
+		if len(nc.IPAM.Config) > 0 {
+			for _, c := range nc.IPAM.Config {
+				if len(c.Subnet) > 0 {
+					cmd.Add(fmt.Sprintf("--subnet %s", c.Subnet))
+				}
 
-			if len(c.Gateway) > 0 {
-				cmd.Add(fmt.Sprintf("--gateway %s", c.Gateway))
-			}
+				if len(c.IPRange) > 0 {
+					cmd.Add(fmt.Sprintf("--ip-range %s", c.IPRange))
+				}
 
-			if len(c.AuxAddress) > 0 {
-				for k, v := range c.AuxAddress {
-					cmd.Add(fmt.Sprintf("--aux-address %s=%s", k, v))
+				if len(c.Gateway) > 0 {
+					cmd.Add(fmt.Sprintf("--gateway %s", c.Gateway))
+				}
+
+				if len(c.AuxAddress) > 0 {
+					for k, v := range c.AuxAddress {
+						cmd.Add(fmt.Sprintf("--aux-address %s=%s", k, v))
+					}
 				}
 			}
 		}
