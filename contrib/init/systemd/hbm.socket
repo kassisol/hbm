@@ -1,0 +1,8 @@
+[Unit]
+Description=Harbormaster Plugin Socket
+
+[Socket]
+ListenStream=/run/docker/plugins/hbm.sock
+
+[Install]
+WantedBy=sockets.target

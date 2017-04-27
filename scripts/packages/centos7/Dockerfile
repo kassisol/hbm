@@ -2,8 +2,6 @@ FROM centos:7
 
 COPY entrypoint.sh /entrypoint.sh
 COPY build /usr/local/src/hbm
-#COPY build/hbm.service /usr/local/src/hbm/hbm.service
-#COPY build/hbm /usr/local/src/hbm/hbm
 
 ENV DAPPER_SOURCE /tmp
 ENV DAPPER_OUTPUT dist

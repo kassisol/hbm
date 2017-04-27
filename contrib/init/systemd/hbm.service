@@ -1,6 +1,8 @@
 [Unit]
-Description=Docker Harbormaster
-After=network.target
+Description=Harbormaster Plugin
+Before=docker.service
+After=network.target hbm.socket
+Requires=hbm.socket docker.service
 
 [Service]
 Type=simple
@@ -11,4 +13,4 @@ ExecStartPre=-/usr/sbin/hbm init
 ExecStart=/usr/sbin/hbm server
 
 [Install]
-WantedBy=multi-user.target docker.service
+WantedBy=multi-user.target

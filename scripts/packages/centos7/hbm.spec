@@ -29,6 +29,7 @@ install -p -m 755 hbm $RPM_BUILD_ROOT/%{_sbindir}/
 # add init scripts
 install -d $RPM_BUILD_ROOT/%{_unitdir}
 install -p -m 644 hbm.service $RPM_BUILD_ROOT/%{_unitdir}/hbm.service
+install -p -m 644 hbm.socket $RPM_BUILD_ROOT/%{_unitdir}/hbm.socket
 
 # add bash completions
 install -d $RPM_BUILD_ROOT/usr/share/bash-completion/completions
@@ -43,20 +44,21 @@ install -p -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8
 #%doc README.md
 %{_sbindir}/hbm
 /%{_unitdir}/hbm.service
+/%{_unitdir}/hbm.socket
 /usr/share/bash-completion/completions/hbm
 %doc
 /%{_mandir}/man8/*
 
 %post
-%systemd_post hbm
+%systemd_post hbm.service
+%systemd_post hbm.socket
 
 %preun
-%systemd_preun hbm
+%systemd_preun hbm.service
+%systemd_preun hbm.socket
 
 %postun
 rm -f %{_sbindir}/hbm
-
-%systemd_postun_with_restart docker
 
 %clean
 rm -rf $RPM_BUILD_ROOT
