@@ -143,12 +143,14 @@ func NetworkConnect(req authorization.Request, urlPath string, re *regexp.Regexp
 		}
 	}
 
-	if len(nc.EndpointConfig.IPAMConfig.IPv4Address) > 0 {
-		cmd.Add(fmt.Sprintf("--ip %s", nc.EndpointConfig.IPAMConfig.IPv4Address))
-	}
+	if nc.EndpointConfig.IPAMConfig != nil {
+		if len(nc.EndpointConfig.IPAMConfig.IPv4Address) > 0 {
+			cmd.Add(fmt.Sprintf("--ip %s", nc.EndpointConfig.IPAMConfig.IPv4Address))
+		}
 
-	if len(nc.EndpointConfig.IPAMConfig.IPv6Address) > 0 {
-		cmd.Add(fmt.Sprintf("--ip6 %s", nc.EndpointConfig.IPAMConfig.IPv6Address))
+		if len(nc.EndpointConfig.IPAMConfig.IPv6Address) > 0 {
+			cmd.Add(fmt.Sprintf("--ip6 %s", nc.EndpointConfig.IPAMConfig.IPv6Address))
+		}
 	}
 
 	if len(nc.EndpointConfig.Links) > 0 {
