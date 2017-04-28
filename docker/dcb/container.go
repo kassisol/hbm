@@ -133,8 +133,10 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 		cmd.Add(fmt.Sprintf("--memory-swap=%s", cc.HostConfig.MemorySwap))
 	}
 
-	if *cc.HostConfig.MemorySwappiness > 0 {
-		cmd.Add(fmt.Sprintf("--memory-swappiness=%s", cc.HostConfig.MemorySwappiness))
+	if cc.HostConfig.MemorySwappiness != nil {
+		if *cc.HostConfig.MemorySwappiness > 0 {
+			cmd.Add(fmt.Sprintf("--memory-swappiness=%s", *cc.HostConfig.MemorySwappiness))
+		}
 	}
 
 	if cc.HostConfig.KernelMemory > 0 {
@@ -193,8 +195,10 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 		}
 	}
 
-	if *cc.HostConfig.OomKillDisable {
-		cmd.Add("--oom-kill-disable")
+	if cc.HostConfig.OomKillDisable != nil {
+		if *cc.HostConfig.OomKillDisable {
+			cmd.Add("--oom-kill-disable")
+		}
 	}
 
 	if cc.HostConfig.OomScoreAdj > 0 {
