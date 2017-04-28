@@ -91,24 +91,18 @@ func Events(req authorization.Request, urlPath string, re *regexp.Regexp) string
 
 		// Filters
 		if _, ok := cmd.Params["filters"]; ok {
-			var v map[string]map[string]bool
+			var v map[string][]string
 
 			err := json.Unmarshal([]byte(cmd.Params["filters"][0]), &v)
 			if err != nil {
 				panic(err)
 			}
 
-			var r []string
-
 			for k, val := range v {
-				r = append(r, k)
-
-				for ka, _ := range val {
-					r = append(r, ka)
+				for _, f := range val {
+					cmd.Add(fmt.Sprintf("--filter \"%s=%s\"", k, f))
 				}
 			}
-
-			cmd.Add(fmt.Sprintf("--filter \"%s=%s\"", r[0], r[1]))
 		}
 	}
 
