@@ -14,8 +14,7 @@ title: HBM
 **Secure, restrict Docker's capabilities**
 
 [**HBM**](http://harbormaster.io) is a basic extendable
-Docker Engine [access authorization plugin]
-(https://docs.docker.com/engine/extend/plugins_authorization/)
+Docker Engine [access authorization plugin](https://docs.docker.com/engine/extend/plugins_authorization/)
 that runs on directly on the Docker host.
 
 ## Why HBM?
@@ -52,7 +51,7 @@ on a variety of platforms.
 ### HBM admin guide
 
 To learn about HBM in more detail and to answer questions about usage and
-implementation, check out the [Docker Admin Guide](admin/index.md).
+implementation, check out the [Admin Guide](admin/index.md).
 
 ## Release notes
 

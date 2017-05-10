@@ -19,8 +19,7 @@ To use this guide you'll need a working installation of Puppet from
 
 ## Installation
 
-The module is available on the [GitHub]
-(https://github.com/kassisol/puppet-module-hbm).
+The module is available on the [GitHub](https://github.com/kassisol/puppet-module-hbm).
 
 ## Usage
 

@@ -72,10 +72,8 @@ Usage:
 hbm [command]
 
 Available Commands:
-cluster     Manage whitelisted clusters
 collection  Manage whitelisted collections
 group       Manage whitelisted groups
-host        Manage whitelisted hosts
 info        Display information about HBM
 init        Initialize config
 policy      Manage policies
