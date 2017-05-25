@@ -83,10 +83,12 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 	lmsg := u.DCBFunc(req, uriinfo.Path, u.Re)
 
 	// Log event to syslog
-	l.WithFields(driver.Fields{
-		"user":    user,
-		"allowed": r.Allow,
-	}).Info(lmsg)
+	if len(lmsg) > 0 {
+		l.WithFields(driver.Fields{
+			"user":    user,
+			"allowed": r.Allow,
+		}).Info(lmsg)
+	}
 
 	// If Docker command is not allowed, return
 	if !r.Allow {
