@@ -60,9 +60,11 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 		}
 	}
 
-	if len(svc.Spec.TaskTemplate.Placement.Constraints) > 0 {
-		for _, constraint := range svc.Spec.TaskTemplate.Placement.Constraints {
-			cmd.Add(fmt.Sprintf("--constraint=%s", constraint))
+	if svc.Spec.TaskTemplate.Placement != nil {
+		if len(svc.Spec.TaskTemplate.Placement.Constraints) > 0 {
+			for _, constraint := range svc.Spec.TaskTemplate.Placement.Constraints {
+				cmd.Add(fmt.Sprintf("--constraint=%s", constraint))
+			}
 		}
 	}
 
@@ -84,29 +86,33 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 		}
 	}
 
-	if svc.Spec.TaskTemplate.Resources.Limits.NanoCPUs > 0 {
-		cmd.Add(fmt.Sprintf("--limit-cpu=%s", svc.Spec.TaskTemplate.Resources.Limits.NanoCPUs))
+	if svc.Spec.TaskTemplate.Resources != nil {
+		if svc.Spec.TaskTemplate.Resources.Limits.NanoCPUs > 0 {
+			cmd.Add(fmt.Sprintf("--limit-cpu=%s", svc.Spec.TaskTemplate.Resources.Limits.NanoCPUs))
+		}
+
+		if svc.Spec.TaskTemplate.Resources.Limits.MemoryBytes > 0 {
+			cmd.Add(fmt.Sprintf("--limit-memory=%s", svc.Spec.TaskTemplate.Resources.Limits.MemoryBytes))
+		}
+
+		if svc.Spec.TaskTemplate.Resources.Reservations.NanoCPUs > 0 {
+			cmd.Add(fmt.Sprintf("--reserve-cpu=%s", svc.Spec.TaskTemplate.Resources.Reservations.NanoCPUs))
+		}
+
+		if svc.Spec.TaskTemplate.Resources.Reservations.MemoryBytes > 0 {
+			cmd.Add(fmt.Sprintf("--reserve-memory=%s", svc.Spec.TaskTemplate.Resources.Reservations.MemoryBytes))
+		}
 	}
 
-	if svc.Spec.TaskTemplate.Resources.Limits.MemoryBytes > 0 {
-		cmd.Add(fmt.Sprintf("--limit-memory=%s", svc.Spec.TaskTemplate.Resources.Limits.MemoryBytes))
-	}
+	if svc.Spec.TaskTemplate.LogDriver != nil {
+		if len(svc.Spec.TaskTemplate.LogDriver.Name) > 0 {
+			cmd.Add(fmt.Sprintf("--log-driver=%s", svc.Spec.TaskTemplate.LogDriver.Name))
+		}
 
-	if svc.Spec.TaskTemplate.Resources.Reservations.NanoCPUs > 0 {
-		cmd.Add(fmt.Sprintf("--reserve-cpu=%s", svc.Spec.TaskTemplate.Resources.Reservations.NanoCPUs))
-	}
-
-	if svc.Spec.TaskTemplate.Resources.Reservations.MemoryBytes > 0 {
-		cmd.Add(fmt.Sprintf("--reserve-memory=%s", svc.Spec.TaskTemplate.Resources.Reservations.MemoryBytes))
-	}
-
-	if len(svc.Spec.TaskTemplate.LogDriver.Name) > 0 {
-		cmd.Add(fmt.Sprintf("--log-driver=%s", svc.Spec.TaskTemplate.LogDriver.Name))
-	}
-
-	if len(svc.Spec.TaskTemplate.LogDriver.Options) > 0 {
-		for k, v := range svc.Spec.TaskTemplate.LogDriver.Options {
-			cmd.Add(fmt.Sprintf("--log-opt \"%s=%s\"", k, v))
+		if len(svc.Spec.TaskTemplate.LogDriver.Options) > 0 {
+			for k, v := range svc.Spec.TaskTemplate.LogDriver.Options {
+				cmd.Add(fmt.Sprintf("--log-opt \"%s=%s\"", k, v))
+			}
 		}
 	}
 
@@ -171,59 +177,67 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 		cmd.Add(strings.Join(nt, ","))
 	}
 
-	if len(svc.Spec.EndpointSpec.Mode) > 0 {
-		cmd.Add(fmt.Sprintf("--endpoint-mode=%s", svc.Spec.EndpointSpec.Mode))
-	}
+	if svc.Spec.EndpointSpec != nil {
+		if len(svc.Spec.EndpointSpec.Mode) > 0 {
+			cmd.Add(fmt.Sprintf("--endpoint-mode=%s", svc.Spec.EndpointSpec.Mode))
+		}
 
-	if len(svc.Spec.EndpointSpec.Ports) > 0 {
-		for _, port := range svc.Spec.EndpointSpec.Ports {
-			pc := fmt.Sprintf("%s:%s", port.TargetPort, port.PublishedPort)
-			if len(port.Protocol) > 0 {
-				pc = fmt.Sprintf("%s/%s", port.Protocol, pc)
+		if len(svc.Spec.EndpointSpec.Ports) > 0 {
+			for _, port := range svc.Spec.EndpointSpec.Ports {
+				pc := fmt.Sprintf("%s:%s", port.TargetPort, port.PublishedPort)
+				if len(port.Protocol) > 0 {
+					pc = fmt.Sprintf("%s/%s", port.Protocol, pc)
+				}
+
+				cmd.Add(fmt.Sprintf("--publish %s", pc))
 			}
-
-			cmd.Add(fmt.Sprintf("--publish %s", pc))
 		}
 	}
 
-	if *svc.Spec.Mode.Replicated.Replicas > 0 {
-		cmd.Add("--mode replicated")
+	if svc.Spec.Mode.Replicated != nil  {
+		if *svc.Spec.Mode.Replicated.Replicas > 0 {
+			cmd.Add("--mode replicated")
+		}
+
+		if *svc.Spec.Mode.Replicated.Replicas > 0 {
+			cmd.Add(fmt.Sprintf("--replicas=%s", svc.Spec.Mode.Replicated.Replicas))
+		}
 	}
 
-	if *svc.Spec.Mode.Replicated.Replicas > 0 {
-		cmd.Add(fmt.Sprintf("--replicas=%s", svc.Spec.Mode.Replicated.Replicas))
+	if svc.Spec.TaskTemplate.RestartPolicy != nil {
+		if len(svc.Spec.TaskTemplate.RestartPolicy.Condition) > 0 {
+			cmd.Add(fmt.Sprintf("--restart-condition=%s", svc.Spec.TaskTemplate.RestartPolicy.Condition))
+		}
+
+		if *svc.Spec.TaskTemplate.RestartPolicy.Delay > 0 {
+			cmd.Add(fmt.Sprintf("--restart-delay=%s", svc.Spec.TaskTemplate.RestartPolicy.Delay))
+		}
+
+		if *svc.Spec.TaskTemplate.RestartPolicy.MaxAttempts > 0 {
+			cmd.Add(fmt.Sprintf("--restart-max-attempts=%s", svc.Spec.TaskTemplate.RestartPolicy.MaxAttempts))
+		}
+
+		if *svc.Spec.TaskTemplate.RestartPolicy.Window > 0 {
+			cmd.Add(fmt.Sprintf("--restart-window=%s", svc.Spec.TaskTemplate.RestartPolicy.Window))
+		}
 	}
 
-	if len(svc.Spec.TaskTemplate.RestartPolicy.Condition) > 0 {
-		cmd.Add(fmt.Sprintf("--restart-condition=%s", svc.Spec.TaskTemplate.RestartPolicy.Condition))
-	}
-
-	if *svc.Spec.TaskTemplate.RestartPolicy.Delay > 0 {
-		cmd.Add(fmt.Sprintf("--restart-delay=%s", svc.Spec.TaskTemplate.RestartPolicy.Delay))
-	}
-
-	if *svc.Spec.TaskTemplate.RestartPolicy.MaxAttempts > 0 {
-		cmd.Add(fmt.Sprintf("--restart-max-attempts=%s", svc.Spec.TaskTemplate.RestartPolicy.MaxAttempts))
-	}
-
-	if *svc.Spec.TaskTemplate.RestartPolicy.Window > 0 {
-		cmd.Add(fmt.Sprintf("--restart-window=%s", svc.Spec.TaskTemplate.RestartPolicy.Window))
-	}
-
-	if *svc.Spec.TaskTemplate.ContainerSpec.StopGracePeriod > 0 {
+	if svc.Spec.TaskTemplate.ContainerSpec.StopGracePeriod != nil {
 		cmd.Add(fmt.Sprintf("--stop-grace-period=%s", svc.Spec.TaskTemplate.ContainerSpec.StopGracePeriod))
 	}
 
-	if svc.Spec.UpdateConfig.Delay > 0 {
-		cmd.Add(fmt.Sprintf("--update-delay=%s", svc.Spec.UpdateConfig.Delay))
-	}
+	if svc.Spec.UpdateConfig != nil {
+		if svc.Spec.UpdateConfig.Delay > 0 {
+			cmd.Add(fmt.Sprintf("--update-delay=%s", svc.Spec.UpdateConfig.Delay))
+		}
 
-	if len(svc.Spec.UpdateConfig.FailureAction) > 0 {
-		cmd.Add(fmt.Sprintf("--update-failure-action=%s", svc.Spec.UpdateConfig.FailureAction))
-	}
+		if len(svc.Spec.UpdateConfig.FailureAction) > 0 {
+			cmd.Add(fmt.Sprintf("--update-failure-action=%s", svc.Spec.UpdateConfig.FailureAction))
+		}
 
-	if svc.Spec.UpdateConfig.Parallelism > 0 {
-		cmd.Add(fmt.Sprintf("--update-parallelism=%s", svc.Spec.UpdateConfig.Parallelism))
+		if svc.Spec.UpdateConfig.Parallelism > 0 {
+			cmd.Add(fmt.Sprintf("--update-parallelism=%s", svc.Spec.UpdateConfig.Parallelism))
+		}
 	}
 
 	if len(svc.Spec.TaskTemplate.ContainerSpec.User) > 0 {
