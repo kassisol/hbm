@@ -14,7 +14,7 @@ func NewPlugin(appPath string) (*plugin, error) {
 }
 
 func (p *plugin) AuthZReq(req authorization.Request) authorization.Response {
-	uriinfo, err := uri.GetURIInfo(req)
+	uriinfo, err := uri.GetURIInfo(SupportedVersion, req)
 	if err != nil {
 		return authorization.Response{Err: err.Error()}
 	}

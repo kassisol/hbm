@@ -34,7 +34,7 @@ func NewApi(version, appPath string) (*Api, error) {
 func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 	l, _ := log.NewDriver("standard", nil)
 
-	uriinfo, err := uri.GetURIInfo(req)
+	uriinfo, err := uri.GetURIInfo(SupportedVersion, req)
 	if err != nil {
 		// Log event
 		l.Warning(err)
