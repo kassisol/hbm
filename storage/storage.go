@@ -12,7 +12,7 @@ type Initialize func(string) (driver.Storager, error)
 
 var initializers = make(map[string]Initialize)
 
-var supportedDriver = func() string {
+func supportedDriver() string {
 	drivers := make([]string, 0, len(initializers))
 
 	for d := range initializers {
@@ -22,14 +22,14 @@ var supportedDriver = func() string {
 	sort.Strings(drivers)
 
 	return strings.Join(drivers, ",")
-}()
+}
 
 func NewDriver(driver, config string) (driver.Storager, error) {
 	if init, exists := initializers[driver]; exists {
 		return init(config)
 	}
 
-	return nil, fmt.Errorf("The Storage Driver: %s is not supported. Supported drivers are %s", driver, supportedDriver)
+	return nil, fmt.Errorf("The Storage Driver: %s is not supported. Supported drivers are %s", driver, supportedDriver())
 }
 
 func RegisterDriver(driver string, init Initialize) {
