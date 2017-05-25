@@ -14,7 +14,7 @@ function upload_file() {
 
 source $(dirname $0)/version
 
-if [ -n $DIRTY ]; then
+if [ -n "$DIRTY" ]; then
 	echo "Not releasing dirty version"
 	exit 1
 fi
