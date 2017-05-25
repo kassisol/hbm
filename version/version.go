@@ -20,7 +20,8 @@ Git commit:  {{.GitCommit}}{{if eq .GitState "dirty"}}
 Git State:   {{.GitState}}{{end}}
 Built:       {{.BuildDate}}
 Go version:  {{.GoVersion}}
-OS/Arch:     {{.Os}}/{{.Arch}}`
+OS/Arch:     {{.Os}}/{{.Arch}}
+`
 
 type VersionInfo struct {
 	Version   string
