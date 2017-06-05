@@ -1,4 +1,4 @@
-TARGETS := $(shell ls scripts | grep -vE 'clean|help|release')
+TARGETS := $(shell ls scripts | grep -vE 'clean|dev|help|release')
 
 .dapper:
 	@echo Downloading dapper
@@ -20,6 +20,10 @@ $(TARGETS): .dapper
 clean:
 	@./scripts/clean
 
+dev: .dapper
+	tmass load -l scripts/dev/tmux/ hbm
+	tmux a -d -t hbm
+
 help:
 	@./scripts/help
 
@@ -28,4 +32,4 @@ release: .github-release
 
 .DEFAULT_GOAL := ci
 
-.PHONY: .dapper $(TARGETS) clean help release
+.PHONY: .dapper $(TARGETS) clean dev help release
