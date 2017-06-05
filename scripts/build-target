@@ -8,7 +8,7 @@ OUTPUT=${OUTPUT:-bin/hbm}
 source $(dirname $0)/version
 
 GITSTATE="clean"
-if [ -n $DIRTY ]; then
+if [ -n "$DIRTY" ]; then
 	GITSTATE="dirty"
 fi
 
