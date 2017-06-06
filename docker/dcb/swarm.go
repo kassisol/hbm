@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/docker/engine-api/types/swarm"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
+	"github.com/moby/moby/api/types/swarm"
 )
 
 func SwarmInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
@@ -54,7 +54,7 @@ func SwarmInit(req authorization.Request, urlPath string, re *regexp.Regexp) str
 		cmd.Add(fmt.Sprintf("--dispatcher-heartbeat=%d", ir.Spec.Dispatcher.HeartbeatPeriod))
 	}
 
-	if ir.Spec.Orchestration.TaskHistoryRetentionLimit > 0 {
+	if ir.Spec.Orchestration.TaskHistoryRetentionLimit != nil {
 		cmd.Add(fmt.Sprintf("--task-history-limit=%d", ir.Spec.Orchestration.TaskHistoryRetentionLimit))
 	}
 
@@ -129,9 +129,23 @@ func SwarmUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) s
 		cmd.Add(fmt.Sprintf("--dispatcher-heartbeat=%d", spec.Dispatcher.HeartbeatPeriod))
 	}
 
-	if spec.Orchestration.TaskHistoryRetentionLimit > 0 {
+	if spec.Orchestration.TaskHistoryRetentionLimit != nil {
 		cmd.Add(fmt.Sprintf("--task-history-limit=%d", spec.Orchestration.TaskHistoryRetentionLimit))
 	}
+
+	return cmd.String()
+}
+
+func SwarmUnlockKey(req authorization.Request, urlPath string, re *regexp.Regexp) string {
+	cmd := cmdbuilder.New("swarm")
+	cmd.Add("unlock-key")
+
+	return cmd.String()
+}
+
+func SwarmUnlock(req authorization.Request, urlPath string, re *regexp.Regexp) string {
+	cmd := cmdbuilder.New("swarm")
+	cmd.Add("unlock")
 
 	return cmd.String()
 }

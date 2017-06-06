@@ -7,9 +7,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/docker/engine-api/types/swarm"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
+	"github.com/moby/moby/api/types/swarm"
 )
 
 func ServiceList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
@@ -194,7 +194,7 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 		}
 	}
 
-	if svc.Spec.Mode.Replicated != nil  {
+	if svc.Spec.Mode.Replicated != nil {
 		if *svc.Spec.Mode.Replicated.Replicas > 0 {
 			cmd.Add("--mode replicated")
 		}
@@ -475,6 +475,27 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 		for _, arg := range svc.Spec.TaskTemplate.ContainerSpec.Args {
 			cmd.Add(arg)
 		}
+	}
+
+	cmd.Add(re.FindStringSubmatch(urlPath)[1])
+
+	return cmd.String()
+}
+
+func ServiceLogs(req authorization.Request, urlPath string, re *regexp.Regexp) string {
+	cmd := cmdbuilder.New("service")
+	cmd.Add("logs")
+
+	cmd.GetParams(req.RequestURI)
+
+	if len(cmd.Params) > 0 {
+		cmd.GetParamAndAdd("details", "--details", true)
+		cmd.GetParamAndAdd("follow", "--follow", true)
+		cmd.GetParamAndAdd("stdout", "--stdout", true)
+		cmd.GetParamAndAdd("stderr", "--stderr", true)
+		cmd.GetParamAndAdd("since", "--since", false)
+		cmd.GetParamAndAdd("timestamps", "--timestamps", true)
+		cmd.GetParamAndAdd("tail", "--tail", false)
 	}
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])

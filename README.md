@@ -24,6 +24,7 @@ Supported Docker versions with HBM.
 | HBM Version | Docker Version | Docker API |
 |-------------|----------------|------------|
 | 0.2.x       | 1.12.x         | 1.24       |
+| 0.3.x       | 17.05.x        | 1.29       |
 
 ## Getting Started & Documentation
 

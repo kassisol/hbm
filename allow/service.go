@@ -3,7 +3,6 @@ package allow
 import (
 	"fmt"
 
-	"github.com/docker/engine-api/types/swarm"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/juliengk/go-log"
 	"github.com/juliengk/go-log/driver"
@@ -12,6 +11,7 @@ import (
 	"github.com/kassisol/hbm/allow/types"
 	"github.com/kassisol/hbm/storage"
 	"github.com/kassisol/hbm/version"
+	"github.com/moby/moby/api/types/swarm"
 )
 
 func AllowServiceCreate(req authorization.Request, config *types.Config) *types.AllowResult {

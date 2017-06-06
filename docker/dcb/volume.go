@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/docker/engine-api/types"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
+	"github.com/moby/moby/api/types/volume"
 )
 
 func VolumeList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
@@ -47,7 +47,7 @@ func VolumeCreate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 	cmd := cmdbuilder.New("volume")
 	cmd.Add("create")
 
-	vol := &types.VolumeCreateRequest{}
+	vol := &volume.VolumesCreateBody{}
 
 	if req.RequestBody != nil {
 		if err := json.NewDecoder(bytes.NewReader(req.RequestBody)).Decode(vol); err != nil {
@@ -92,6 +92,13 @@ func VolumeRemove(req authorization.Request, urlPath string, re *regexp.Regexp) 
 	cmd.Add("rm")
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
+
+	return cmd.String()
+}
+
+func VolumePrune(req authorization.Request, urlPath string, re *regexp.Regexp) string {
+	cmd := cmdbuilder.New("volume")
+	cmd.Add("prune")
 
 	return cmd.String()
 }

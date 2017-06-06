@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/docker/engine-api/types"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
+	"github.com/moby/moby/api/types"
 )
 
 func NetworkList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
@@ -208,6 +208,13 @@ func NetworkRemove(req authorization.Request, urlPath string, re *regexp.Regexp)
 	cmd.Add("rm")
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
+
+	return cmd.String()
+}
+
+func NetworkPrune(req authorization.Request, urlPath string, re *regexp.Regexp) string {
+	cmd := cmdbuilder.New("network")
+	cmd.Add("prune")
 
 	return cmd.String()
 }

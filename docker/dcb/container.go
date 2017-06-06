@@ -7,11 +7,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/docker/engine-api/types"
-	"github.com/docker/engine-api/types/container"
-	"github.com/docker/engine-api/types/network"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
+	"github.com/moby/moby/api/types/container"
+	"github.com/moby/moby/api/types/network"
 )
 
 type ContainerCreateConfig struct {
@@ -21,7 +20,8 @@ type ContainerCreateConfig struct {
 }
 
 func ContainerList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("ps")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("ls")
 
 	cmd.GetParams(req.RequestURI)
 
@@ -51,7 +51,8 @@ func ContainerList(req authorization.Request, urlPath string, re *regexp.Regexp)
 }
 
 func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("run")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("run")
 
 	cc := &ContainerCreateConfig{}
 
@@ -346,7 +347,8 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 }
 
 func ContainerInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("inspect")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("inspect")
 
 	cmd.GetParams(req.RequestURI)
 
@@ -360,7 +362,8 @@ func ContainerInspect(req authorization.Request, urlPath string, re *regexp.Rege
 }
 
 func ContainerTop(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("top")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("top")
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
@@ -375,7 +378,8 @@ func ContainerTop(req authorization.Request, urlPath string, re *regexp.Regexp) 
 }
 
 func ContainerLogs(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("logs")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("logs")
 
 	cmd.GetParams(req.RequestURI)
 
@@ -394,7 +398,8 @@ func ContainerLogs(req authorization.Request, urlPath string, re *regexp.Regexp)
 }
 
 func ContainerChanges(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("diff")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("diff")
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
@@ -402,7 +407,8 @@ func ContainerChanges(req authorization.Request, urlPath string, re *regexp.Rege
 }
 
 func ContainerExport(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("export")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("export")
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
@@ -410,7 +416,8 @@ func ContainerExport(req authorization.Request, urlPath string, re *regexp.Regex
 }
 
 func ContainerStats(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("stats")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("stats")
 
 	cmd.GetParams(req.RequestURI)
 
@@ -424,13 +431,14 @@ func ContainerStats(req authorization.Request, urlPath string, re *regexp.Regexp
 }
 
 func ContainerResize(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("resize")
+	cmd := cmdbuilder.New("*resize*")
 
 	return cmd.String()
 }
 
 func ContainerStart(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("start")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("start")
 
 	cmd.GetParams(req.RequestURI)
 
@@ -444,7 +452,8 @@ func ContainerStart(req authorization.Request, urlPath string, re *regexp.Regexp
 }
 
 func ContainerStop(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("stop")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("stop")
 
 	cmd.GetParams(req.RequestURI)
 
@@ -458,7 +467,8 @@ func ContainerStop(req authorization.Request, urlPath string, re *regexp.Regexp)
 }
 
 func ContainerRestart(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("restart")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("restart")
 
 	cmd.GetParams(req.RequestURI)
 
@@ -472,7 +482,8 @@ func ContainerRestart(req authorization.Request, urlPath string, re *regexp.Rege
 }
 
 func ContainerKill(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("kill")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("kill")
 
 	cmd.GetParams(req.RequestURI)
 
@@ -486,7 +497,8 @@ func ContainerKill(req authorization.Request, urlPath string, re *regexp.Regexp)
 }
 
 func ContainerUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("update")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("update")
 
 	uc := &container.UpdateConfig{}
 
@@ -546,7 +558,8 @@ func ContainerUpdate(req authorization.Request, urlPath string, re *regexp.Regex
 }
 
 func ContainerRename(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("rename")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("rename")
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
@@ -560,7 +573,8 @@ func ContainerRename(req authorization.Request, urlPath string, re *regexp.Regex
 }
 
 func ContainerPause(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("pause")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("pause")
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
@@ -568,7 +582,8 @@ func ContainerPause(req authorization.Request, urlPath string, re *regexp.Regexp
 }
 
 func ContainerUnpause(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("unpause")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("unpause")
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
@@ -576,7 +591,8 @@ func ContainerUnpause(req authorization.Request, urlPath string, re *regexp.Rege
 }
 
 func ContainerAttach(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("attach")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("attach")
 
 	cmd.GetParams(req.RequestURI)
 
@@ -597,7 +613,8 @@ func ContainerAttach(req authorization.Request, urlPath string, re *regexp.Regex
 }
 
 func ContainerAttachWS(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("attach")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("attach")
 
 	cmd.GetParams(req.RequestURI)
 
@@ -618,7 +635,8 @@ func ContainerAttachWS(req authorization.Request, urlPath string, re *regexp.Reg
 }
 
 func ContainerWait(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("wait")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("wait")
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
 
@@ -626,7 +644,8 @@ func ContainerWait(req authorization.Request, urlPath string, re *regexp.Regexp)
 }
 
 func ContainerRemove(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("rm")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("rm")
 
 	cmd.GetParams(req.RequestURI)
 
@@ -640,16 +659,15 @@ func ContainerRemove(req authorization.Request, urlPath string, re *regexp.Regex
 	return cmd.String()
 }
 
-func ContainerCopy(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	return ""
-}
-
 func ContainerArchiveInfo(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	return ""
+	cmd := cmdbuilder.New("*archive head*")
+
+	return cmd.String()
 }
 
 func ContainerArchive(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("cp")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("cp")
 
 	image := re.FindStringSubmatch(urlPath)[1]
 
@@ -661,7 +679,8 @@ func ContainerArchive(req authorization.Request, urlPath string, re *regexp.Rege
 }
 
 func ContainerArchiveExtract(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("cp")
+	cmd := cmdbuilder.New("container")
+	cmd.Add("cp")
 
 	image := re.FindStringSubmatch(urlPath)[1]
 
@@ -672,48 +691,9 @@ func ContainerArchiveExtract(req authorization.Request, urlPath string, re *rege
 	return cmd.String()
 }
 
-func ContainerExecCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("exec")
-
-	ec := &types.ExecConfig{}
-
-	if req.RequestBody != nil {
-		if err := json.NewDecoder(bytes.NewReader(req.RequestBody)).Decode(ec); err != nil {
-			panic(err)
-		}
-	}
-
-	if ec.Detach {
-		cmd.Add("-d")
-	}
-
-	if len(ec.DetachKeys) > 0 {
-		cmd.Add(fmt.Sprintf("--detach-keys=%s", ec.DetachKeys))
-	}
-
-	if ec.Tty {
-		cmd.Add("-t")
-	}
-
-	if ec.AttachStdin {
-		cmd.Add("-i")
-	}
-
-	if ec.Privileged {
-		cmd.Add("--privileged")
-	}
-
-	if len(ec.User) > 0 {
-		cmd.Add(fmt.Sprintf("-u %s", ec.User))
-	}
-
-	cmd.Add(re.FindStringSubmatch(urlPath)[1])
-
-	if len(ec.Cmd) > 0 {
-		for _, c := range ec.Cmd {
-			cmd.Add(c)
-		}
-	}
+func ContainerPrune(req authorization.Request, urlPath string, re *regexp.Regexp) string {
+	cmd := cmdbuilder.New("container")
+	cmd.Add("prune")
 
 	return cmd.String()
 }

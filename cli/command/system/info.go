@@ -1,16 +1,16 @@
 package system
 
 import (
+	"context"
 	"fmt"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/docker/engine-api/client"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/storage"
 	"github.com/kassisol/hbm/version"
+	"github.com/moby/moby/client"
 	"github.com/spf13/cobra"
-	"golang.org/x/net/context"
 )
 
 func NewInfoCommand() *cobra.Command {

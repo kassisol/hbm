@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/docker/engine-api/types/swarm"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
+	"github.com/moby/moby/api/types/swarm"
 )
 
 func NodeList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
