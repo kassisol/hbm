@@ -11,10 +11,11 @@ RUN apt-get update \
 		git \
 		iptables \
 		vim \
-		wget
+		wget \
+	&& mkdir /root/.ssh
 
 ########## Dapper Configuration #####################
-ENV DAPPER_RUN_ARGS --privileged
+ENV DAPPER_RUN_ARGS --privileged --name hbm_dev
 ENV DAPPER_SOURCE /go/src/github.com/kassisol/hbm
 ENV SHELL /bin/bash
 
