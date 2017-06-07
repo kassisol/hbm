@@ -42,13 +42,13 @@ func New() *VersionInfo {
 	tu := time.Unix(i, 0)
 
 	return &VersionInfo{
-		Version: Version,
+		Version:   Version,
 		GoVersion: runtime.Version(),
 		GitCommit: GitCommit,
-		GitState: GitState,
+		GitState:  GitState,
 		BuildDate: tu.String(),
-		Os: runtime.GOOS,
-		Arch: runtime.GOARCH,
+		Os:        runtime.GOOS,
+		Arch:      runtime.GOARCH,
 	}
 }
 
