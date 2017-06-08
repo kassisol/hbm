@@ -45,4 +45,4 @@ release: .github-release
 
 .DEFAULT_GOAL := ci
 
-.PHONY: .dapper .tmass $(TARGETS) clean dev help release
+.PHONY: .dapper .github-release .tmass $(TARGETS) clean dev help release
