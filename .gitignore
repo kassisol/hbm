@@ -1,6 +1,6 @@
 .dapper
 .github-release
 .tmass
-.*.swp
+*.swp
 bin/
 dist/
