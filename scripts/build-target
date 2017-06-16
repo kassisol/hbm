@@ -12,7 +12,7 @@ if [ -n "$DIRTY" ]; then
 	GITSTATE="dirty"
 fi
 
-CONST="-X github.com/kassisol/hbm/version.Version=$VERSION -X github.com/kassisol/hbm/version.GitCommit=${COMMIT} -X github.com/kassisol/hbm/version.GitState=${GITSTATE} -X github.com/kassisol/hbm/version.BuildDate=$(date +%s)"
+CONST="-X github.com/kassisol/hbm/version.Version=${VERSION} -X github.com/kassisol/hbm/version.GitCommit=${COMMIT} -X github.com/kassisol/hbm/version.GitState=${GITSTATE} -X github.com/kassisol/hbm/version.BuildDate=$(date +%s)"
 
 LDFLAGS=${LDFLAGS:-"-linkmode external -extldflags -static -s -w"}
 
