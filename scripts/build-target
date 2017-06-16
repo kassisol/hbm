@@ -14,6 +14,8 @@ fi
 
 CONST="-X github.com/kassisol/hbm/version.Version=$VERSION -X github.com/kassisol/hbm/version.GitCommit=${COMMIT} -X github.com/kassisol/hbm/version.GitState=${GITSTATE} -X github.com/kassisol/hbm/version.BuildDate=$(date +%s)"
 
+LDFLAGS=${LDFLAGS:-"-linkmode external -extldflags -static -s -w"}
+
 cd $(dirname $0)/..
 
 echo " Building ${VERSION} from ${COMMIT} on ${ARCH}"
@@ -22,13 +24,13 @@ if [ "$CROSS" = 1 ]; then
 	GOOS=darwin go build -ldflags "${CONST}" -o ${OUTPUT}-Darwin-x86_64
 	GOARCH=arm64 go build -ldflags "${CONST}" -o ${OUTPUT}-Linux-arm64
 	GOARCH=arm go build -ldflags "${CONST}" -o ${OUTPUT}-Linux-arm
-	go build -ldflags "${CONST} -linkmode external -extldflags -static -s -w" -o ${OUTPUT}-Linux-x86_64
+	go build -ldflags "${CONST} ${LDFLAGS}" -o ${OUTPUT}-Linux-x86_64
 
 	strip --strip-all ${OUTPUT}-Linux-x86_64
 
 	echo Built ${OUTPUT}-Linux-x86_64
 else
-	go build -ldflags "${CONST} -linkmode external -extldflags -static -s -w" -o ${OUTPUT}
+	go build -ldflags "${CONST} ${LDFLAGS}"
 
 	strip --strip-all ${OUTPUT}
 
