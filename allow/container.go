@@ -19,7 +19,8 @@ import (
 	"github.com/kassisol/hbm/version"
 )
 
-func AllowContainerCreate(req authorization.Request, config *types.Config) *types.AllowResult {
+// ContainerCreate called from plugin
+func ContainerCreate(req authorization.Request, config *types.Config) *types.AllowResult {
 	type ContainerCreateConfig struct {
 		container.Config
 		HostConfig container.HostConfig
@@ -114,7 +115,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 	if len(cc.HostConfig.PortBindings) > 0 {
 		for _, pbs := range cc.HostConfig.PortBindings {
 			for _, pb := range pbs {
-				spb := GetPortBindingString(&pb)
+				spb := getPortBindingString(&pb)
 
 				if !s.ValidatePolicy(config.Username, "port", spb, "") {
 					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be pubished", spb)}
@@ -129,7 +130,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		for _, b := range cc.HostConfig.Binds {
 			vol := strings.Split(b, ":")
 
-			if !AllowVolume(vol[0], config) {
+			if !allowVolume(vol[0], config) {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume %s is not allowed to be mounted", b)}
 			}
 		}
@@ -160,7 +161,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 	return &types.AllowResult{Allow: true}
 }
 
-func GetPortBindingString(pb *nat.PortBinding) string {
+func getPortBindingString(pb *nat.PortBinding) string {
 	result := pb.HostPort
 
 	if len(pb.HostIP) > 0 {
@@ -170,7 +171,7 @@ func GetPortBindingString(pb *nat.PortBinding) string {
 	return result
 }
 
-func AllowVolume(vol string, config *types.Config) bool {
+func allowVolume(vol string, config *types.Config) bool {
 	defer utils.RecoverFunc()
 
 	l, _ := log.NewDriver("standard", nil)
@@ -188,7 +189,7 @@ func AllowVolume(vol string, config *types.Config) bool {
 	vo := driver.VolumeOptions{
 		Recursive: false,
 	}
-	if AllowMount(vol) {
+	if allowMount(vol) {
 		vo.NoSuid = true
 	}
 	jsonVO := json.Encode(vo)
@@ -209,7 +210,7 @@ func AllowVolume(vol string, config *types.Config) bool {
 		vo = driver.VolumeOptions{
 			Recursive: true,
 		}
-		if AllowMount(vol) {
+		if allowMount(vol) {
 			vo.NoSuid = true
 		} else {
 			vo.NoSuid = false
@@ -225,7 +226,7 @@ func AllowVolume(vol string, config *types.Config) bool {
 	return false
 }
 
-func AllowMount(vol string) bool {
+func allowMount(vol string) bool {
 	result := false
 
 	entries, err := mount.New()

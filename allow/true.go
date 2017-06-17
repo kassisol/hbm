@@ -5,6 +5,7 @@ import (
 	"github.com/kassisol/hbm/allow/types"
 )
 
-func AllowTrue(req authorization.Request, config *types.Config) *types.AllowResult {
+// True always true
+func True(req authorization.Request, config *types.Config) *types.AllowResult {
 	return &types.AllowResult{Allow: true}
 }

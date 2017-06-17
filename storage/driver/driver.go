@@ -1,5 +1,6 @@
 package driver
 
+// Storager structure
 type Storager interface {
 	AddConfig(name string)
 	RemoveConfig(name string) error

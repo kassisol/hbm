@@ -6,15 +6,18 @@ import (
 	"strings"
 )
 
+// Config structure
 type Config struct {
 	Params url.Values
 	Cmd    []string
 }
 
+// New function
 func New(cmd string) *Config {
 	return &Config{Cmd: []string{"docker", cmd}}
 }
 
+// GetParams function
 func (c *Config) GetParams(r string) {
 	u, err := url.ParseRequestURI(r)
 	if err == nil {
@@ -22,10 +25,12 @@ func (c *Config) GetParams(r string) {
 	}
 }
 
+// Add function
 func (c *Config) Add(t string) {
 	c.Cmd = append(c.Cmd, t)
 }
 
+// GetParamAndAdd function
 func (c *Config) GetParamAndAdd(k, p string, b bool) {
 	if b {
 		if v, ok := c.Params[k]; ok {

@@ -9,6 +9,7 @@ import (
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
 )
 
+// TaskList function
 func TaskList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("stask")
 	cmd.Add("services")
@@ -29,7 +30,7 @@ func TaskList(req authorization.Request, urlPath string, re *regexp.Regexp) stri
 			for k, val := range v {
 				r = append(r, k)
 
-				for ka, _ := range val {
+				for ka := range val {
 					r = append(r, ka)
 				}
 			}
@@ -45,6 +46,7 @@ func TaskList(req authorization.Request, urlPath string, re *regexp.Regexp) stri
 	return cmd.String()
 }
 
+// TaskInspect function
 func TaskInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("stask")
 	cmd.Add("tasks")

@@ -9,6 +9,7 @@ import (
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
 )
 
+// ImageList function
 func ImageList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("images")
 
@@ -30,7 +31,7 @@ func ImageList(req authorization.Request, urlPath string, re *regexp.Regexp) str
 			for k, val := range v {
 				r = append(r, k)
 
-				for ka, _ := range val {
+				for ka := range val {
 					r = append(r, ka)
 				}
 			}
@@ -46,6 +47,7 @@ func ImageList(req authorization.Request, urlPath string, re *regexp.Regexp) str
 	return cmd.String()
 }
 
+// ImageBuild function
 func ImageBuild(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("build")
 
@@ -82,6 +84,7 @@ func ImageBuild(req authorization.Request, urlPath string, re *regexp.Regexp) st
 	return cmd.String()
 }
 
+// ImageCreate function
 func ImageCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("pull")
 
@@ -96,6 +99,7 @@ func ImageCreate(req authorization.Request, urlPath string, re *regexp.Regexp) s
 	return cmd.String()
 }
 
+// ImageInspect function
 func ImageInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("inspect")
 
@@ -104,6 +108,7 @@ func ImageInspect(req authorization.Request, urlPath string, re *regexp.Regexp) 
 	return cmd.String()
 }
 
+// ImageHistory function
 func ImageHistory(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("history")
 
@@ -112,6 +117,7 @@ func ImageHistory(req authorization.Request, urlPath string, re *regexp.Regexp) 
 	return cmd.String()
 }
 
+// ImagePush function
 func ImagePush(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("push")
 
@@ -130,6 +136,7 @@ func ImagePush(req authorization.Request, urlPath string, re *regexp.Regexp) str
 	return cmd.String()
 }
 
+// ImageTag function
 func ImageTag(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("tag")
 
@@ -146,6 +153,7 @@ func ImageTag(req authorization.Request, urlPath string, re *regexp.Regexp) stri
 	return cmd.String()
 }
 
+// ImageRemove function
 func ImageRemove(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("rmi")
 
@@ -161,6 +169,7 @@ func ImageRemove(req authorization.Request, urlPath string, re *regexp.Regexp) s
 	return cmd.String()
 }
 
+// ImageSearch function
 func ImageSearch(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("search")
 
@@ -175,6 +184,7 @@ func ImageSearch(req authorization.Request, urlPath string, re *regexp.Regexp) s
 	return cmd.String()
 }
 
+// ImageSaveImage function
 func ImageSaveImage(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("save")
 
@@ -183,12 +193,14 @@ func ImageSaveImage(req authorization.Request, urlPath string, re *regexp.Regexp
 	return cmd.String()
 }
 
+// ImageSaveImages function
 func ImageSaveImages(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("save")
 
 	return cmd.String()
 }
 
+// ImageLoad function
 func ImageLoad(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("load")
 

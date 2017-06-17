@@ -1,5 +1,6 @@
 package validation
 
+// IsValidCapability is this a valid capability?
 func IsValidCapability(name string) bool {
 	capabilities := []string{
 		"CAP_AUDIT_CONTROL",

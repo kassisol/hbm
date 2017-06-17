@@ -1,15 +1,18 @@
 package sqlite
 
+// AddConfig function
 func (c *Config) AddConfig(name string) {
 	c.DB.Create(&AppConfig{Key: name})
 }
 
+// RemoveConfig function
 func (c *Config) RemoveConfig(name string) error {
 	c.DB.Where("key = ?", name).Delete(AppConfig{})
 
 	return nil
 }
 
+// ListConfigs function
 func (c *Config) ListConfigs() []string {
 	var configs []AppConfig
 
@@ -24,6 +27,7 @@ func (c *Config) ListConfigs() []string {
 	return result
 }
 
+// FindConfig function
 func (c *Config) FindConfig(name string) bool {
 	var count int64
 

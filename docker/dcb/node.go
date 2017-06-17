@@ -11,6 +11,7 @@ import (
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
 )
 
+// NodeList function
 func NodeList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("node")
 	cmd.Add("ls")
@@ -31,7 +32,7 @@ func NodeList(req authorization.Request, urlPath string, re *regexp.Regexp) stri
 			for k, val := range v {
 				r = append(r, k)
 
-				for ka, _ := range val {
+				for ka := range val {
 					r = append(r, ka)
 				}
 			}
@@ -47,6 +48,7 @@ func NodeList(req authorization.Request, urlPath string, re *regexp.Regexp) stri
 	return cmd.String()
 }
 
+// NodeInspect function
 func NodeInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("node")
 	cmd.Add("inspect")
@@ -56,6 +58,7 @@ func NodeInspect(req authorization.Request, urlPath string, re *regexp.Regexp) s
 	return cmd.String()
 }
 
+// NodeRemove function
 func NodeRemove(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("node")
 	cmd.Add("rm")
@@ -71,6 +74,7 @@ func NodeRemove(req authorization.Request, urlPath string, re *regexp.Regexp) st
 	return cmd.String()
 }
 
+// NodeUpdate function
 func NodeUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("node")
 	cmd.Add("update")

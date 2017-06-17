@@ -13,6 +13,7 @@ import (
 	"golang.org/x/net/context"
 )
 
+// NewInfoCommand new info command
 func NewInfoCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "info",
@@ -54,10 +55,10 @@ func runInfo(cmd *cobra.Command, args []string) {
 	fmt.Println("Storage Driver: sqlite")
 	fmt.Println("Logging Driver: standard")
 	fmt.Println("Harbormaster Root Dir:", command.AppPath)
-	fmt.Println("Docker AuthZ Plugin Enabled:", PluginEnabled())
+	fmt.Println("Docker AuthZ Plugin Enabled:", pluginEnabled())
 }
 
-func PluginEnabled() bool {
+func pluginEnabled() bool {
 	cli, err := client.NewEnvClient()
 	if err != nil {
 		return false
