@@ -14,7 +14,8 @@ import (
 	"github.com/kassisol/hbm/version"
 )
 
-func AllowServiceCreate(req authorization.Request, config *types.Config) *types.AllowResult {
+// ServiceCreate called from plugin
+func ServiceCreate(req authorization.Request, config *types.Config) *types.AllowResult {
 	svc := &swarm.Service{}
 
 	err := json.Decode(req.RequestBody, svc)

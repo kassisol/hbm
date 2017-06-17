@@ -12,6 +12,7 @@ import (
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
 )
 
+// ServiceList function
 func ServiceList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("service")
 	cmd.Add("ls")
@@ -32,7 +33,7 @@ func ServiceList(req authorization.Request, urlPath string, re *regexp.Regexp) s
 			for k, val := range v {
 				r = append(r, k)
 
-				for ka, _ := range val {
+				for ka := range val {
 					r = append(r, ka)
 				}
 			}
@@ -48,6 +49,7 @@ func ServiceList(req authorization.Request, urlPath string, re *regexp.Regexp) s
 	return cmd.String()
 }
 
+// ServiceCreate function
 func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("service")
 	cmd.Add("create")
@@ -194,7 +196,7 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 		}
 	}
 
-	if svc.Spec.Mode.Replicated != nil  {
+	if svc.Spec.Mode.Replicated != nil {
 		if *svc.Spec.Mode.Replicated.Replicas > 0 {
 			cmd.Add("--mode replicated")
 		}
@@ -271,6 +273,7 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	return cmd.String()
 }
 
+// ServiceRemove function
 func ServiceRemove(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("service")
 	cmd.Add("rm")
@@ -280,6 +283,7 @@ func ServiceRemove(req authorization.Request, urlPath string, re *regexp.Regexp)
 	return cmd.String()
 }
 
+// ServiceInspect function
 func ServiceInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("service")
 	cmd.Add("inspect")
@@ -289,6 +293,7 @@ func ServiceInspect(req authorization.Request, urlPath string, re *regexp.Regexp
 	return cmd.String()
 }
 
+// ServiceUpdate function
 func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("service")
 	cmd.Add("update")

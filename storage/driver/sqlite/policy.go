@@ -4,6 +4,7 @@ import (
 	"github.com/kassisol/hbm/storage/driver"
 )
 
+// AddPolicy function
 func (c *Config) AddPolicy(name, group, collection string) {
 	g := Group{}
 	col := Collection{}
@@ -14,10 +15,12 @@ func (c *Config) AddPolicy(name, group, collection string) {
 	c.DB.Create(&Policy{Name: name, GroupID: g.ID, CollectionID: col.ID})
 }
 
+// RemovePolicy function
 func (c *Config) RemovePolicy(name string) {
 	c.DB.Where("name = ?", name).Delete(Policy{})
 }
 
+// ListPolicies function
 func (c *Config) ListPolicies(filter map[string]string) []driver.PolicyResult {
 	var policies []driver.PolicyResult
 
@@ -54,6 +57,7 @@ func (c *Config) ListPolicies(filter map[string]string) []driver.PolicyResult {
 	return policies
 }
 
+// FindPolicy function
 func (c *Config) FindPolicy(name string) bool {
 	var count int64
 
@@ -66,6 +70,7 @@ func (c *Config) FindPolicy(name string) bool {
 	return false
 }
 
+// CountPolicy function
 func (c *Config) CountPolicy() int {
 	var count int64
 
@@ -74,6 +79,7 @@ func (c *Config) CountPolicy() int {
 	return int(count)
 }
 
+// ValidatePolicy function
 func (c *Config) ValidatePolicy(user, res_type, res_value, option string) bool {
 	rows, _ := c.DB.Raw("SELECT COUNT(*) FROM users, resources, groups, collections, group_users, collection_resources, policies WHERE policies.group_id = groups.id AND policies.collection_id = collections.id AND group_users.group_id = groups.id AND group_users.user_id = users.id AND collection_resources.collection_id = collections.id AND collection_resources.resource_id = resources.id AND users.name = ? AND resources.type = ? AND resources.value = ? AND resources.option = ?", user, res_type, res_value, option).Rows()
 	defer rows.Close()

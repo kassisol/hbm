@@ -14,7 +14,13 @@ import (
 	"github.com/kassisol/hbm/version"
 )
 
-func AllowImageCreate(req authorization.Request, config *types.Config) *types.AllowResult {
+var (
+	// AllImages allow all images to be pulled
+	AllImages bool
+)
+
+// ImageCreate called from plugin
+func ImageCreate(req authorization.Request, config *types.Config) *types.AllowResult {
 	u, err := url.ParseRequestURI(req.RequestURI)
 	if err != nil {
 		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Could not parse URL query")}
@@ -22,14 +28,14 @@ func AllowImageCreate(req authorization.Request, config *types.Config) *types.Al
 
 	params := u.Query()
 
-	if !AllowImage(params["fromImage"][0], config) {
+	if !allowImage(params["fromImage"][0], config) {
 		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Image %s is not allowed to be pulled", params["fromImage"][0])}
 	}
 
 	return &types.AllowResult{Allow: true}
 }
 
-func AllowImage(img string, config *types.Config) bool {
+func allowImage(img string, config *types.Config) bool {
 	defer utils.RecoverFunc()
 
 	l, _ := log.NewDriver("standard", nil)

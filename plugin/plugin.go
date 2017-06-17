@@ -5,11 +5,13 @@ import (
 	"github.com/kassisol/hbm/pkg/uri"
 )
 
-type plugin struct {
+// Plugin structure
+type Plugin struct {
 	appPath string
 }
 
-func NewPlugin(appPath string) (*plugin, error) {
+// NewPlugin function
+func NewPlugin(appPath string) (*Plugin, error) {
 	return &plugin{appPath: appPath}, nil
 }
 
@@ -19,7 +21,7 @@ func (p *plugin) AuthZReq(req authorization.Request) authorization.Response {
 		return authorization.Response{Err: err.Error()}
 	}
 
-	a, err := NewApi(uriinfo.Version, p.appPath)
+	a, err := NewAPI(uriinfo.Version, p.appPath)
 	if err != nil {
 		return authorization.Response{Err: err.Error()}
 	}

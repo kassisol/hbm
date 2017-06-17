@@ -1,12 +1,15 @@
 package config
 
+// Config structure
 type Config struct {
 	Action      string
 	Description string
 }
 
+// Configs array
 type Configs []Config
 
+// New configs array
 func New() Configs {
 	config := []Config{}
 
@@ -24,6 +27,7 @@ func New() Configs {
 	return config
 }
 
+// ActionExists does action exist?
 func (c Configs) ActionExists(name string) bool {
 	for _, config := range c {
 		if config.Action == name {

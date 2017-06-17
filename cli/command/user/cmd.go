@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// NewCommand new user command
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "user",

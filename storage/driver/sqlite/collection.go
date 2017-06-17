@@ -4,10 +4,12 @@ import (
 	"fmt"
 )
 
+// AddCollection function
 func (c *Config) AddCollection(name string) {
 	c.DB.Create(&Collection{Name: name})
 }
 
+// RemoveCollection function
 func (c *Config) RemoveCollection(name string) error {
 	if c.collectionUsedInPolicy(name) {
 		return fmt.Errorf("collection \"%s\" cannot be removed. It is being used by a policy", name)
@@ -18,6 +20,7 @@ func (c *Config) RemoveCollection(name string) error {
 	return nil
 }
 
+// ListCollections function
 func (c *Config) ListCollections(filter map[string]string) map[string][]string {
 	result := make(map[string][]string)
 
@@ -46,6 +49,7 @@ func (c *Config) ListCollections(filter map[string]string) map[string][]string {
 	return result
 }
 
+// FindCollection function
 func (c *Config) FindCollection(name string) bool {
 	var count int64
 
@@ -58,6 +62,7 @@ func (c *Config) FindCollection(name string) bool {
 	return false
 }
 
+// CountCollection function
 func (c *Config) CountCollection() int {
 	var count int64
 
