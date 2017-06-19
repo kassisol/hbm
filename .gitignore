@@ -4,3 +4,4 @@
 *.swp
 bin/
 dist/
+tmux*
