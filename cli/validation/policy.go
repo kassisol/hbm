@@ -10,8 +10,6 @@ func IsValidPolicyFilterKeys(filters map[string]string) error {
 	validKeys := []string{
 		"user",
 		"group",
-		"host",
-		"cluster",
 		"resource-type",
 		"resource-value",
 		"collection",
