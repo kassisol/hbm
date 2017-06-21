@@ -30,7 +30,7 @@ if [ "$CROSS" = 1 ]; then
 
 	echo Built ${OUTPUT}-Linux-x86_64
 else
-	go build -ldflags "${CONST} ${LDFLAGS}"
+	go build -ldflags "${CONST} ${LDFLAGS}" -o ${OUTPUT}
 
 	strip --strip-all ${OUTPUT}
 
