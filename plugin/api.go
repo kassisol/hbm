@@ -14,24 +14,28 @@ import (
 	"github.com/kassisol/hbm/version"
 )
 
+// SupportedVersion is the supported Docker API version
 var SupportedVersion = "v1.24"
 
-type Api struct {
+// API structure
+type API struct {
 	Uris    *uri.URIs
 	AppPath string
 }
 
-func NewApi(version, appPath string) (*Api, error) {
+// NewAPI function
+func NewAPI(version, appPath string) (*API, error) {
 	if version != SupportedVersion {
-		return &Api{}, fmt.Errorf("This version of HBM does not support Docker API version %s. Supported version is %s", version, SupportedVersion)
+		return &API{}, fmt.Errorf("This version of HBM does not support Docker API version %s. Supported version is %s", version, SupportedVersion)
 	}
 
 	uris := endpoint.GetUris()
 
-	return &Api{Uris: uris, AppPath: appPath}, nil
+	return &API{Uris: uris, AppPath: appPath}, nil
 }
 
-func (a *Api) Allow(req authorization.Request) *types.AllowResult {
+// Allow function
+func (a *API) Allow(req authorization.Request) *types.AllowResult {
 	l, _ := log.NewDriver("standard", nil)
 
 	uriinfo, err := uri.GetURIInfo(SupportedVersion, req)
@@ -59,7 +63,7 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 		return &types.AllowResult{Allow: false, Error: msg}
 	}
 
-	r := allow.AllowTrue(req, &config)
+	r := allow.True(req, &config)
 
 	s, err := storage.NewDriver("sqlite", a.AppPath)
 	if err != nil {
@@ -73,7 +77,7 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 
 	if s.FindConfig("authorization") {
 		// Validate Docker command is allowed
-		r = allow.AllowAction(&config, u.Action, u.CmdName)
+		r = allow.Action(&config, u.Action, u.CmdName)
 		if r.Allow {
 			r = u.AllowFunc(req, &config)
 		}

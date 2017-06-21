@@ -9,9 +9,13 @@ import (
 )
 
 var (
-	Version   string
+	// Version string
+	Version string
+	// GitCommit string
 	GitCommit string
-	GitState  string
+	// GitState string
+	GitState string
+	// BuildDate string
 	BuildDate string
 )
 
@@ -23,7 +27,8 @@ Go version:  {{.GoVersion}}
 OS/Arch:     {{.Os}}/{{.Arch}}
 `
 
-type VersionInfo struct {
+// Info structure
+type Info struct {
 	Version   string
 	GoVersion string
 	GitCommit string
@@ -33,7 +38,8 @@ type VersionInfo struct {
 	Arch      string
 }
 
-func New() *VersionInfo {
+// New function
+func New() *Info {
 	i, err := strconv.ParseInt(BuildDate, 10, 64)
 	if err != nil {
 		panic(err)
@@ -41,7 +47,7 @@ func New() *VersionInfo {
 
 	tu := time.Unix(i, 0)
 
-	return &VersionInfo{
+	return &Info{
 		Version:   Version,
 		GoVersion: runtime.Version(),
 		GitCommit: GitCommit,
@@ -52,7 +58,8 @@ func New() *VersionInfo {
 	}
 }
 
-func (i *VersionInfo) ShowVersion() {
+// ShowVersion function
+func (i *Info) ShowVersion() {
 	tmpl, err := template.New("version").Parse(versionTemplate)
 	if err != nil {
 		panic(err)

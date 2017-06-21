@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// NewCommand new resource command
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "resource",

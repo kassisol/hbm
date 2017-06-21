@@ -14,7 +14,8 @@ import (
 	"github.com/kassisol/hbm/version"
 )
 
-func AllowImageCreate(req authorization.Request, config *types.Config) *types.AllowResult {
+// ImageCreate called from plugin
+func ImageCreate(req authorization.Request, config *types.Config) *types.AllowResult {
 	u, err := url.ParseRequestURI(req.RequestURI)
 	if err != nil {
 		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Could not parse URL query")}
@@ -29,6 +30,7 @@ func AllowImageCreate(req authorization.Request, config *types.Config) *types.Al
 	return &types.AllowResult{Allow: true}
 }
 
+// AllowImage checks if image is allowed to be pulled (created) according to server policy
 func AllowImage(img string, config *types.Config) bool {
 	defer utils.RecoverFunc()
 

@@ -14,12 +14,14 @@ import (
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
 )
 
+// ContainerCreateConfig structure
 type ContainerCreateConfig struct {
 	container.Config
 	HostConfig       container.HostConfig
 	NetworkingConfig network.NetworkingConfig
 }
 
+// ContainerList function
 func ContainerList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("ps")
 
@@ -50,6 +52,7 @@ func ContainerList(req authorization.Request, urlPath string, re *regexp.Regexp)
 	return cmd.String()
 }
 
+// ContainerCreate function
 func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("run")
 
@@ -345,6 +348,7 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 	return cmd.String()
 }
 
+// ContainerInspect function
 func ContainerInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("inspect")
 
@@ -359,6 +363,7 @@ func ContainerInspect(req authorization.Request, urlPath string, re *regexp.Rege
 	return cmd.String()
 }
 
+// ContainerTop function
 func ContainerTop(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("top")
 
@@ -374,6 +379,7 @@ func ContainerTop(req authorization.Request, urlPath string, re *regexp.Regexp) 
 	return cmd.String()
 }
 
+// ContainerLogs function
 func ContainerLogs(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("logs")
 
@@ -393,6 +399,7 @@ func ContainerLogs(req authorization.Request, urlPath string, re *regexp.Regexp)
 	return cmd.String()
 }
 
+// ContainerChanges function
 func ContainerChanges(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("diff")
 
@@ -401,6 +408,7 @@ func ContainerChanges(req authorization.Request, urlPath string, re *regexp.Rege
 	return cmd.String()
 }
 
+// ContainerExport function
 func ContainerExport(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("export")
 
@@ -409,6 +417,7 @@ func ContainerExport(req authorization.Request, urlPath string, re *regexp.Regex
 	return cmd.String()
 }
 
+// ContainerStats function
 func ContainerStats(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("stats")
 
@@ -423,12 +432,14 @@ func ContainerStats(req authorization.Request, urlPath string, re *regexp.Regexp
 	return cmd.String()
 }
 
+// ContainerResize function
 func ContainerResize(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("resize")
 
 	return cmd.String()
 }
 
+// ContainerStart function
 func ContainerStart(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("start")
 
@@ -443,6 +454,7 @@ func ContainerStart(req authorization.Request, urlPath string, re *regexp.Regexp
 	return cmd.String()
 }
 
+// ContainerStop function
 func ContainerStop(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("stop")
 
@@ -457,6 +469,7 @@ func ContainerStop(req authorization.Request, urlPath string, re *regexp.Regexp)
 	return cmd.String()
 }
 
+// ContainerRestart function
 func ContainerRestart(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("restart")
 
@@ -471,6 +484,7 @@ func ContainerRestart(req authorization.Request, urlPath string, re *regexp.Rege
 	return cmd.String()
 }
 
+// ContainerKill function
 func ContainerKill(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("kill")
 
@@ -485,6 +499,7 @@ func ContainerKill(req authorization.Request, urlPath string, re *regexp.Regexp)
 	return cmd.String()
 }
 
+// ContainerUpdate function
 func ContainerUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("update")
 
@@ -545,6 +560,7 @@ func ContainerUpdate(req authorization.Request, urlPath string, re *regexp.Regex
 	return cmd.String()
 }
 
+// ContainerRename function
 func ContainerRename(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("rename")
 
@@ -559,6 +575,7 @@ func ContainerRename(req authorization.Request, urlPath string, re *regexp.Regex
 	return cmd.String()
 }
 
+// ContainerPause function
 func ContainerPause(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("pause")
 
@@ -567,6 +584,7 @@ func ContainerPause(req authorization.Request, urlPath string, re *regexp.Regexp
 	return cmd.String()
 }
 
+// ContainerUnpause function
 func ContainerUnpause(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("unpause")
 
@@ -575,6 +593,7 @@ func ContainerUnpause(req authorization.Request, urlPath string, re *regexp.Rege
 	return cmd.String()
 }
 
+// ContainerAttach function
 func ContainerAttach(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("attach")
 
@@ -596,6 +615,7 @@ func ContainerAttach(req authorization.Request, urlPath string, re *regexp.Regex
 	return cmd.String()
 }
 
+// ContainerAttachWS function
 func ContainerAttachWS(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("attach")
 
@@ -617,6 +637,7 @@ func ContainerAttachWS(req authorization.Request, urlPath string, re *regexp.Reg
 	return cmd.String()
 }
 
+// ContainerWait function
 func ContainerWait(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("wait")
 
@@ -625,6 +646,7 @@ func ContainerWait(req authorization.Request, urlPath string, re *regexp.Regexp)
 	return cmd.String()
 }
 
+// ContainerRemove function
 func ContainerRemove(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("rm")
 
@@ -640,14 +662,17 @@ func ContainerRemove(req authorization.Request, urlPath string, re *regexp.Regex
 	return cmd.String()
 }
 
+// ContainerCopy function
 func ContainerCopy(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	return ""
 }
 
+// ContainerArchiveInfo function
 func ContainerArchiveInfo(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	return ""
 }
 
+// ContainerArchive function
 func ContainerArchive(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("cp")
 
@@ -660,6 +685,7 @@ func ContainerArchive(req authorization.Request, urlPath string, re *regexp.Rege
 	return cmd.String()
 }
 
+// ContainerArchiveExtract function
 func ContainerArchiveExtract(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("cp")
 
@@ -672,6 +698,7 @@ func ContainerArchiveExtract(req authorization.Request, urlPath string, re *rege
 	return cmd.String()
 }
 
+// ContainerExecCreate function
 func ContainerExecCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("exec")
 

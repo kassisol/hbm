@@ -6,6 +6,7 @@ import (
 	"github.com/kassisol/hbm/storage/driver"
 )
 
+// AddResource function
 func (c *Config) AddResource(name, rtype, value, options string) {
 	c.DB.Create(&Resource{
 		Name:   name,
@@ -15,6 +16,7 @@ func (c *Config) AddResource(name, rtype, value, options string) {
 	})
 }
 
+// RemoveResource function
 func (c *Config) RemoveResource(name string) error {
 	if c.memberOfCollection(name) {
 		return fmt.Errorf("resource \"%s\" cannot be removed. It is being used by a collection", name)
@@ -25,6 +27,7 @@ func (c *Config) RemoveResource(name string) error {
 	return nil
 }
 
+// ListResources function
 func (c *Config) ListResources(filter map[string]string) map[driver.ResourceResult][]string {
 	result := make(map[driver.ResourceResult][]string)
 
@@ -50,15 +53,15 @@ func (c *Config) ListResources(filter map[string]string) map[driver.ResourceResu
 	defer rows.Close()
 
 	for rows.Next() {
-		var res_name string
-		var res_type string
-		var res_value string
-		var res_option string
+		var rName string
+		var rType string
+		var rValue string
+		var rOption string
 		var collection string
 
-		rows.Scan(&res_name, &res_type, &res_value, &res_option, &collection)
+		rows.Scan(&rName, &rType, &rValue, &rOption, &collection)
 
-		rr := driver.ResourceResult{Name: res_name, Type: res_type, Value: res_value, Option: res_option}
+		rr := driver.ResourceResult{Name: rName, Type: rType, Value: rValue, Option: rOption}
 
 		result[rr] = append(result[rr], collection)
 	}
@@ -66,6 +69,7 @@ func (c *Config) ListResources(filter map[string]string) map[driver.ResourceResu
 	return result
 }
 
+// FindResource function
 func (c *Config) FindResource(name string) bool {
 	var count int64
 
@@ -78,6 +82,7 @@ func (c *Config) FindResource(name string) bool {
 	return false
 }
 
+// CountResource function
 func (c *Config) CountResource(rtype string) int {
 	var count int64
 
@@ -90,6 +95,7 @@ func (c *Config) CountResource(rtype string) int {
 	return int(count)
 }
 
+// AddResourceToCollection function
 func (c *Config) AddResourceToCollection(collection, resource string) {
 	col := Collection{}
 	res := Resource{}
@@ -100,6 +106,7 @@ func (c *Config) AddResourceToCollection(collection, resource string) {
 	c.DB.Model(&col).Association("Resources").Append(&res)
 }
 
+// RemoveResourceFromCollection function
 func (c *Config) RemoveResourceFromCollection(collection, resource string) {
 	col := Collection{}
 	res := Resource{}

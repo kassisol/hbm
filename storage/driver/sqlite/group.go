@@ -4,10 +4,12 @@ import (
 	"fmt"
 )
 
+// AddGroup function
 func (c *Config) AddGroup(name string) {
 	c.DB.Create(&Group{Name: name})
 }
 
+// RemoveGroup function
 func (c *Config) RemoveGroup(name string) error {
 	if c.groupUsedInPolicy(name) {
 		return fmt.Errorf("group \"%s\" cannot be removed. It is being used by a policy", name)
@@ -18,6 +20,7 @@ func (c *Config) RemoveGroup(name string) error {
 	return nil
 }
 
+// ListGroups function
 func (c *Config) ListGroups(filter map[string]string) map[string][]string {
 	result := make(map[string][]string)
 
@@ -46,6 +49,7 @@ func (c *Config) ListGroups(filter map[string]string) map[string][]string {
 	return result
 }
 
+// FindGroup function
 func (c *Config) FindGroup(name string) bool {
 	var count int64
 
@@ -58,6 +62,7 @@ func (c *Config) FindGroup(name string) bool {
 	return false
 }
 
+// CountGroup function
 func (c *Config) CountGroup() int {
 	var count int64
 

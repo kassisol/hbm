@@ -13,6 +13,7 @@ import (
 	"golang.org/x/net/context"
 )
 
+// NewInfoCommand new info command
 func NewInfoCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "info",
@@ -57,6 +58,7 @@ func runInfo(cmd *cobra.Command, args []string) {
 	fmt.Println("Docker AuthZ Plugin Enabled:", PluginEnabled())
 }
 
+// PluginEnabled checks whether the authorization plugin is enabled
 func PluginEnabled() bool {
 	cli, err := client.NewEnvClient()
 	if err != nil {

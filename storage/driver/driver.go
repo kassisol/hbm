@@ -1,5 +1,6 @@
 package driver
 
+// Storager structure
 type Storager interface {
 	AddConfig(name string)
 	RemoveConfig(name string) error
@@ -40,7 +41,7 @@ type Storager interface {
 	FindPolicy(name string) bool
 	CountPolicy() int
 
-	ValidatePolicy(user, res_type, res_value, option string) bool
+	ValidatePolicy(user, rType, rValue, option string) bool
 
 	End()
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/juliengk/go-utils"
 )
 
+// IsValidPolicyFilterKeys Is this a valid policy filter key map
 func IsValidPolicyFilterKeys(filters map[string]string) error {
 	validKeys := []string{
 		"user",
@@ -15,7 +16,7 @@ func IsValidPolicyFilterKeys(filters map[string]string) error {
 		"collection",
 	}
 
-	for k, _ := range filters {
+	for k := range filters {
 		if !utils.StringInSlice(k, validKeys, false) {
 			return fmt.Errorf("%s is not a valid filter key", k)
 		}
