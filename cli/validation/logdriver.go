@@ -1,5 +1,6 @@
 package validation
 
+// IsValidLogDriver is this a valid log driver?
 func IsValidLogDriver(name string) bool {
 	drivers := []string{
 		"none",

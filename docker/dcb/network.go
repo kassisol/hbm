@@ -11,6 +11,7 @@ import (
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
 )
 
+// NetworkList function
 func NetworkList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("network")
 	cmd.Add("ls")
@@ -31,7 +32,7 @@ func NetworkList(req authorization.Request, urlPath string, re *regexp.Regexp) s
 			for k, val := range v {
 				r = append(r, k)
 
-				for ka, _ := range val {
+				for ka := range val {
 					r = append(r, ka)
 				}
 			}
@@ -43,6 +44,7 @@ func NetworkList(req authorization.Request, urlPath string, re *regexp.Regexp) s
 	return cmd.String()
 }
 
+// NetworkInspect function
 func NetworkInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("network")
 	cmd.Add("inspect")
@@ -52,6 +54,7 @@ func NetworkInspect(req authorization.Request, urlPath string, re *regexp.Regexp
 	return cmd.String()
 }
 
+// NetworkCreate function
 func NetworkCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("network")
 	cmd.Add("create")
@@ -131,6 +134,7 @@ func NetworkCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	return cmd.String()
 }
 
+// NetworkConnect function
 func NetworkConnect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("network")
 	cmd.Add("connect")
@@ -176,6 +180,7 @@ func NetworkConnect(req authorization.Request, urlPath string, re *regexp.Regexp
 	return cmd.String()
 }
 
+// NetworkDisconnect function
 func NetworkDisconnect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("network")
 	cmd.Add("disconnect")
@@ -203,6 +208,7 @@ func NetworkDisconnect(req authorization.Request, urlPath string, re *regexp.Reg
 	return cmd.String()
 }
 
+// NetworkRemove function
 func NetworkRemove(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("network")
 	cmd.Add("rm")

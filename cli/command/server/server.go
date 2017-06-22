@@ -21,6 +21,7 @@ import (
 
 var serverConfig string
 
+// NewServerCommand new server command
 func NewServerCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "server",

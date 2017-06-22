@@ -19,7 +19,8 @@ import (
 	"github.com/kassisol/hbm/version"
 )
 
-func AllowContainerCreate(req authorization.Request, config *types.Config) *types.AllowResult {
+// ContainerCreate called from plugin
+func ContainerCreate(req authorization.Request, config *types.Config) *types.AllowResult {
 	type ContainerCreateConfig struct {
 		container.Config
 		HostConfig container.HostConfig
@@ -160,6 +161,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 	return &types.AllowResult{Allow: true}
 }
 
+// GetPortBindingString returns the port binding string from the nat.PortBinding structure
 func GetPortBindingString(pb *nat.PortBinding) string {
 	result := pb.HostPort
 
@@ -170,6 +172,7 @@ func GetPortBindingString(pb *nat.PortBinding) string {
 	return result
 }
 
+// AllowVolume checks whether the volume is allowed according to server policy
 func AllowVolume(vol string, config *types.Config) bool {
 	defer utils.RecoverFunc()
 
@@ -225,6 +228,7 @@ func AllowVolume(vol string, config *types.Config) bool {
 	return false
 }
 
+// AllowMount checks whether the mount point is allowed according to server policy
 func AllowMount(vol string) bool {
 	result := false
 

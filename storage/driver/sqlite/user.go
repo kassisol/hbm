@@ -4,10 +4,12 @@ import (
 	"fmt"
 )
 
+// AddUser function
 func (c *Config) AddUser(name string) {
 	c.DB.Create(&User{Name: name})
 }
 
+// RemoveUser function
 func (c *Config) RemoveUser(name string) error {
 	if c.memberOfGroup(name) {
 		return fmt.Errorf("user \"%s\" cannot be removed. It is being used by a group", name)
@@ -18,6 +20,7 @@ func (c *Config) RemoveUser(name string) error {
 	return nil
 }
 
+// ListUsers function
 func (c *Config) ListUsers(filter map[string]string) map[string][]string {
 	result := make(map[string][]string)
 
@@ -46,6 +49,7 @@ func (c *Config) ListUsers(filter map[string]string) map[string][]string {
 	return result
 }
 
+// FindUser function
 func (c *Config) FindUser(name string) bool {
 	var count int64
 
@@ -58,6 +62,7 @@ func (c *Config) FindUser(name string) bool {
 	return false
 }
 
+// CountUser function
 func (c *Config) CountUser() int {
 	var count int64
 
@@ -66,6 +71,7 @@ func (c *Config) CountUser() int {
 	return int(count)
 }
 
+// AddUserToGroup function
 func (c *Config) AddUserToGroup(group, user string) {
 	g := Group{}
 	u := User{}
@@ -76,6 +82,7 @@ func (c *Config) AddUserToGroup(group, user string) {
 	c.DB.Model(&g).Association("Users").Append(&u)
 }
 
+// RemoveUserFromGroup function
 func (c *Config) RemoveUserFromGroup(group, user string) {
 	g := Group{}
 	u := User{}

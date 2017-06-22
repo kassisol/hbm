@@ -7,17 +7,19 @@ import (
 	"github.com/kassisol/hbm/storage/driver"
 
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	_ "github.com/jinzhu/gorm/dialects/sqlite" // Justifying comment
 )
 
 func init() {
 	storage.RegisterDriver("sqlite", New)
 }
 
+// Config structure
 type Config struct {
 	DB *gorm.DB
 }
 
+// New function
 func New(config string) (driver.Storager, error) {
 	debug := false
 
@@ -35,6 +37,7 @@ func New(config string) (driver.Storager, error) {
 	return &Config{DB: db}, nil
 }
 
+// End function
 func (c *Config) End() {
 	c.DB.Close()
 }

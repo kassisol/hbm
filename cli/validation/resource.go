@@ -6,8 +6,10 @@ import (
 	"github.com/juliengk/go-utils"
 )
 
+// ResourceTypes map
 type ResourceTypes map[string]string
 
+// NewResourceTypes new resource type map
 func NewResourceTypes() ResourceTypes {
 	return map[string]string{
 		"action":    "Action",
@@ -24,8 +26,9 @@ func NewResourceTypes() ResourceTypes {
 	}
 }
 
+// IsValidResourceType is this a valid resource type?
 func (rt ResourceTypes) IsValidResourceType(name string) error {
-	for t, _ := range rt {
+	for t := range rt {
 		if t == name {
 			return nil
 		}
@@ -34,6 +37,7 @@ func (rt ResourceTypes) IsValidResourceType(name string) error {
 	return fmt.Errorf("%s is not a valid resource type", name)
 }
 
+// IsValidResourceOptionKeys is this valid resource option keys?
 func IsValidResourceOptionKeys(options map[string]string) error {
 	validKeys := []string{
 		"recursive",
@@ -44,7 +48,7 @@ func IsValidResourceOptionKeys(options map[string]string) error {
 		return fmt.Errorf("Invalid option")
 	}
 
-	for k, _ := range options {
+	for k := range options {
 		if !utils.StringInSlice(k, validKeys, false) {
 			return fmt.Errorf("%s is not a valid option key", k)
 			//fmt.Printf("Conflicting options --type %s and --recursive\n", resourceAddType)

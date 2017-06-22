@@ -11,10 +11,12 @@ import (
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
 )
 
+// Anyroute function
 func Anyroute(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	return ""
 }
 
+// Auth function
 func Auth(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("login")
 
@@ -37,22 +39,26 @@ func Auth(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	return cmd.String()
 }
 
+// Info function
 func Info(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("info")
 
 	return cmd.String()
 }
 
+// Version function
 func Version(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("version")
 
 	return cmd.String()
 }
 
+// Ping function
 func Ping(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	return ""
 }
 
+// Commit function
 func Commit(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("commit")
 
@@ -80,6 +86,7 @@ func Commit(req authorization.Request, urlPath string, re *regexp.Regexp) string
 	return cmd.String()
 }
 
+// Events function
 func Events(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("events")
 

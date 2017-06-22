@@ -11,6 +11,7 @@ import (
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
 )
 
+// VolumeList function
 func VolumeList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("volume")
 	cmd.Add("ls")
@@ -31,7 +32,7 @@ func VolumeList(req authorization.Request, urlPath string, re *regexp.Regexp) st
 			for k, val := range v {
 				r = append(r, k)
 
-				for ka, _ := range val {
+				for ka := range val {
 					r = append(r, ka)
 				}
 			}
@@ -43,6 +44,7 @@ func VolumeList(req authorization.Request, urlPath string, re *regexp.Regexp) st
 	return cmd.String()
 }
 
+// VolumeCreate function
 func VolumeCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("volume")
 	cmd.Add("create")
@@ -78,6 +80,7 @@ func VolumeCreate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 	return cmd.String()
 }
 
+// VolumeInspect function
 func VolumeInspect(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("volume")
 	cmd.Add("inspect")
@@ -87,6 +90,7 @@ func VolumeInspect(req authorization.Request, urlPath string, re *regexp.Regexp)
 	return cmd.String()
 }
 
+// VolumeRemove function
 func VolumeRemove(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("volume")
 	cmd.Add("rm")
