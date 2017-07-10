@@ -22,8 +22,6 @@ func GetURIInfo(defaultVersion string, req authorization.Request) (URIInfo, erro
 		return URIInfo{}, err
 	}
 
-	fmt.Println(u.Path)
-
 	result := reURIWithVersion.FindStringSubmatch(u.Path)
 
 	if len(result) == 0 {
