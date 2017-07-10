@@ -461,10 +461,6 @@
 			"path": "gopkg.in/yaml.v2",
 			"revision": "a3f3340b5840cee44f372bddb5880fcbc419b46a",
 			"revisionTime": "2017-02-08T14:18:51Z"
-		},
-		{
-			"path": "vendor/github.com/juliengk/go-mount",
-			"revision": ""
 		}
 	],
 	"rootPath": "github.com/kassisol/hbm"
