@@ -39,6 +39,7 @@ ENV ARCH=${ARCH} \
 	HOST_ARCH=${HOST_ARCH}
 
 ENV DOCKER_URL=${DOCKER_URL_amd64} \
+	DOCKER_COMPOSE_VERSION=1.14.0 \
 	DAPPER_HOST_ARCH=${DAPPER_HOST_ARCH} \
 	GOPATH=/go \
 	GOARCH=$ARCH \
@@ -46,16 +47,22 @@ ENV DOCKER_URL=${DOCKER_URL_amd64} \
 
 ENV PATH=/go/bin:/usr/local/go/bin:$PATH
 
-# Install Go
-RUN curl -sfL https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz | tar -xzC /usr/local
-
 # Install Docker
 RUN curl -sfL ${DOCKER_URL} | tar -xzC /usr/local/src \
 	&& cp /usr/local/src/docker/docker* /usr/bin/
 
 # Install Docker Compose
-RUN wget https://github.com/docker/compose/releases/download/1.13.0/docker-compose-Linux-x86_64 -O /usr/bin/docker-compose \
+RUN wget https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-Linux-x86_64 -O /usr/bin/docker-compose \
 	&& chmod +x /usr/bin/docker-compose
+
+# Install Go
+RUN curl -sfL https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz | tar -xzC /usr/local
+
+# Install govendor
+RUN go get -u github.com/kardianos/govendor
+
+# Install Golint
+RUN go get -u github.com/golang/lint/golint
 
 # Install dotfiles
 RUN git clone https://github.com/juliengk/dot-files /root/Dotfiles \
@@ -64,12 +71,3 @@ RUN git clone https://github.com/juliengk/dot-files /root/Dotfiles \
 	&& chmod +x /root/bin/get-dotfiles.sh \
 	&& /root/bin/get-dotfiles.sh \
 	&& /root/bin/dotfiles -sync -force
-
-# Install govendor
-RUN go get -u github.com/kardianos/govendor
-
-# Install Golint
-RUN go get -u github.com/golang/lint/golint
-
-ENTRYPOINT ["./scripts/entry"]
-CMD ["ci"]
