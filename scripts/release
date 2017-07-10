@@ -31,5 +31,5 @@ upload_file "bin"
 upload_file "dist"
 
 if [ -f "dist/image" ]; then
-	docker push `cat dist/image`
+	docker image push `cat dist/image`
 fi

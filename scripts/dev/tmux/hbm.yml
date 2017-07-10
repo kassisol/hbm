@@ -4,6 +4,6 @@ windows:
     layout: main-vertical
     panes:
       - ./.dapper -f Dockerfile.dev -m bind -s
-      - while [ -z "$IMAGE_ID" ]; do IMAGE_ID=`docker ps -f "name=hbm_dev" -q`; done && docker exec -ti $IMAGE_ID bash -l
-      - while [ -z "$IMAGE_ID" ]; do IMAGE_ID=`docker ps -f "name=hbm_dev" -q`; done && docker exec -ti $IMAGE_ID bash -l
-      - while [ -z "$IMAGE_ID" ]; do IMAGE_ID=`docker ps -f "name=hbm_dev" -q`; done && docker exec -ti $IMAGE_ID bash -l
+      - while [ -z "$IMAGE_ID" ]; do IMAGE_ID=`docker container ls -f "name=hbm_dev" -q`; done && docker container exec -ti $IMAGE_ID bash -l
+      - while [ -z "$IMAGE_ID" ]; do IMAGE_ID=`docker container ls -f "name=hbm_dev" -q`; done && docker container exec -ti $IMAGE_ID bash -l
+      - while [ -z "$IMAGE_ID" ]; do IMAGE_ID=`docker container ls -f "name=hbm_dev" -q`; done && docker container exec -ti $IMAGE_ID bash -l
