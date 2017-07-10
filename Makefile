@@ -18,7 +18,7 @@ TMUX := $(shell command -v tmux 2> /dev/null)
 
 .tmass:
 	@echo Downloading tmass
-	@curl -sL https://github.com/juliengk/tmass/releases/download/0.2.0/tmass -o .tmass.tmp
+	@curl -sL https://github.com/juliengk/tmass/releases/download/0.3.0/tmass -o .tmass.tmp
 	@@chmod +x .tmass.tmp
 	@./.tmass.tmp version
 	@mv .tmass.tmp .tmass
