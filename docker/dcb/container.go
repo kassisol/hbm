@@ -32,7 +32,7 @@ func ContainerList(req authorization.Request, urlPath string, re *regexp.Regexp)
 
 		// Filters
 		if _, ok := cmd.Params["filters"]; ok {
-			var v map[string][]string
+			var v map[string]map[string]bool
 
 			err := json.Unmarshal([]byte(cmd.Params["filters"][0]), &v)
 			if err != nil {
@@ -40,8 +40,8 @@ func ContainerList(req authorization.Request, urlPath string, re *regexp.Regexp)
 			}
 
 			for k, val := range v {
-				for _, f := range val {
-					cmd.Add(fmt.Sprintf("--filter \"%s=%s\"", k, f))
+				for ka, _ := range val {
+					cmd.Add(fmt.Sprintf("--filter \"%s=%s\"", k, ka))
 				}
 			}
 		}

@@ -64,7 +64,7 @@ func Events(req authorization.Request, urlPath string, re *regexp.Regexp) string
 
 		// Filters
 		if _, ok := cmd.Params["filters"]; ok {
-			var v map[string][]string
+			var v map[string]map[string]bool
 
 			err := json.Unmarshal([]byte(cmd.Params["filters"][0]), &v)
 			if err != nil {

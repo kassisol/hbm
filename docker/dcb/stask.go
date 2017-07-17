@@ -24,17 +24,11 @@ func TaskList(req authorization.Request, urlPath string, re *regexp.Regexp) stri
 				panic(err)
 			}
 
-			var r []string
-
 			for k, val := range v {
-				r = append(r, k)
-
 				for ka, _ := range val {
-					r = append(r, ka)
+					cmd.Add(fmt.Sprintf("--filter \"%s=%s\"", k, ka))
 				}
 			}
-
-			cmd.Add(fmt.Sprintf("--filter \"%s=%s\"", r[0], r[1]))
 		}
 
 		if v, ok := cmd.Params["filter"]; ok {
