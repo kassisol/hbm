@@ -72,8 +72,8 @@ func Events(req authorization.Request, urlPath string, re *regexp.Regexp) string
 			}
 
 			for k, val := range v {
-				for _, f := range val {
-					cmd.Add(fmt.Sprintf("--filter \"%s=%s\"", k, f))
+				for ka, _ := range val {
+					cmd.Add(fmt.Sprintf("--filter \"%s=%s\"", k, ka))
 				}
 			}
 		}
