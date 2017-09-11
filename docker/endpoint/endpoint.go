@@ -117,6 +117,12 @@ func GetUris() *uri.URIs {
 	uris.Register("GET", `^/events`, allow.AllowTrue, dcb.Events, "events", "events", "Monitor Docker’s events")
 	uris.Register("GET", `^/system/df`, allow.AllowTrue, dcb.SystemDF, "system_df", "system df", "Get data usage information")
 
+	uris.Register("GET", `^/configs`, allow.AllowTrue, dcb.ConfigList, "config_list", "config ls", "List configs")
+	uris.Register("POST", `^/configs/create`, allow.AllowTrue, dcb.ConfigCreate, "config_create", "config create", "Create a config")
+	uris.Register("GET", `^/configs/(.+)`, allow.AllowTrue, dcb.ConfigInspect, "config_inspect", "config inspect", "Inspect a config")
+	uris.Register("DELETE", `^/configs/(.+)`, allow.AllowTrue, dcb.ConfigRemove, "config_remove", "config rm", "Delete a config")
+	uris.Register("POST", `^/configs/(.+)/update`, allow.AllowTrue, dcb.ConfigUpdate, "config_update", "config update", "Update a config")
+
 	uris.Register("GET", `^/tasks/(.+)/logs`, allow.AllowTrue, dcb.TaskLogs, "task_logs", "task logs", "Get task logs")
 
 	uris.Register("OPTIONS", `^/(.*)`, allow.AllowTrue, dcb.Anyroute, "anyroute_options", "", "Anyroute OPTIONS")
