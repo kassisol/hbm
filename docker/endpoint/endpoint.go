@@ -123,6 +123,8 @@ func GetUris() *uri.URIs {
 	uris.Register("DELETE", `^/configs/(.+)`, allow.AllowTrue, dcb.ConfigRemove, "config_remove", "config rm", "Delete a config")
 	uris.Register("POST", `^/configs/(.+)/update`, allow.AllowTrue, dcb.ConfigUpdate, "config_update", "config update", "Update a config")
 
+	uris.Register("GET", `^/distribution/(.+)/json`, allow.AllowTrue, dcb.DistributionInfo, "distribution_info", "", "Get image information from the registry")
+
 	uris.Register("GET", `^/tasks/(.+)/logs`, allow.AllowTrue, dcb.TaskLogs, "task_logs", "task logs", "Get task logs")
 
 	uris.Register("OPTIONS", `^/(.*)`, allow.AllowTrue, dcb.Anyroute, "anyroute_options", "", "Anyroute OPTIONS")
