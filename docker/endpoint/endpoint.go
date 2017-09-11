@@ -114,7 +114,7 @@ func GetUris() *uri.URIs {
 	uris.Register("GET", `^/info`, allow.AllowTrue, dcb.Info, "info", "info", "Display system-wide information")
 	uris.Register("GET", `^/version`, allow.AllowTrue, dcb.Version, "version", "version", "Show the Docker version information")
 	uris.Register("GET", `^/_ping`, allow.AllowTrue, dcb.Ping, "ping", "*ping*", "Ping the docker server")
-	uris.Register("GET", `^/events`, allow.AllowTrue, dcb.Events, "events", "events", "Monitor Docker’s events")
+	uris.Register("GET", `^/events`, allow.AllowTrue, dcb.Events, "events", "events", "Monitor Docker's events")
 	uris.Register("GET", `^/system/df`, allow.AllowTrue, dcb.SystemDF, "system_df", "system df", "Get data usage information")
 
 	uris.Register("GET", `^/configs`, allow.AllowTrue, dcb.ConfigList, "config_list", "config ls", "List configs")
