@@ -1,8 +1,6 @@
 package dcb
 
 import (
-	"encoding/json"
-	"fmt"
 	"regexp"
 
 	"github.com/docker/go-plugins-helpers/authorization"

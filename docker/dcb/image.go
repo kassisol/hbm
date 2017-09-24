@@ -1,7 +1,6 @@
 package dcb
 
 import (
-	"encoding/json"
 	"fmt"
 	"regexp"
 
