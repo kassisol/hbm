@@ -25,27 +25,11 @@ func ContainerList(req authorization.Request, urlPath string, re *regexp.Regexp)
 
 	cmd.GetParams(req.RequestURI)
 
-	if len(cmd.Params) > 0 {
-		cmd.GetParamAndAdd("all", "-a", true)
-		cmd.GetParamAndAdd("limit", "-n", false)
-		cmd.GetParamAndAdd("size", "-s", true)
+	cmd.GetParamAndAdd("all", "-a", true)
+	cmd.GetParamAndAdd("limit", "-n", false)
+	cmd.GetParamAndAdd("size", "-s", true)
 
-		// Filters
-		if _, ok := cmd.Params["filters"]; ok {
-			var v map[string]map[string]bool
-
-			err := json.Unmarshal([]byte(cmd.Params["filters"][0]), &v)
-			if err != nil {
-				panic(err)
-			}
-
-			for k, val := range v {
-				for ka, _ := range val {
-					cmd.Add(fmt.Sprintf("--filter \"%s=%s\"", k, ka))
-				}
-			}
-		}
-	}
+	cmd.AddFilters()
 
 	return cmd.String()
 }

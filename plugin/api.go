@@ -34,31 +34,26 @@ func NewApi(version, appPath string) (*Api, error) {
 func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 	l, _ := log.NewDriver("standard", nil)
 
+	// Authentication
+	username := req.User
+	if len(username) == 0 {
+		username = "root"
+	}
+
+	// Authorization
+	// Check URI
 	uriinfo, err := uri.GetURIInfo(SupportedVersion, req)
 	if err != nil {
-		// Log event
-		l.Warning(err)
-
 		return &types.AllowResult{Allow: false, Error: err.Error()}
 	}
 
-	user := req.User
-	if user == "" {
-		user = "root"
-	}
-
-	config := types.Config{AppPath: a.AppPath, Username: user}
-
 	u, err := a.Uris.GetURI(req.RequestMethod, uriinfo.Path)
 	if err != nil {
-		msg := fmt.Sprintf("%s is not implemented", uriinfo.Path)
-
-		// Log event
-		l.Warning(msg)
-
-		return &types.AllowResult{Allow: false, Error: msg}
+		return &types.AllowResult{Allow: false, Error: err.Error()}
 	}
 
+	// Validate Docker command is allowed
+	config := types.Config{AppPath: a.AppPath, Username: username}
 	r := allow.AllowTrue(req, &config)
 
 	s, err := storage.NewDriver("sqlite", a.AppPath)
@@ -72,20 +67,20 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 	defer s.End()
 
 	if s.FindConfig("authorization") {
-		// Validate Docker command is allowed
 		r = allow.AllowAction(&config, u.Action, u.CmdName)
 		if r.Allow {
 			r = u.AllowFunc(req, &config)
 		}
 	}
 
+	// Accounting
 	// Build Docker command from data sent to Docker daemon
 	lmsg := u.DCBFunc(req, uriinfo.Path, u.Re)
 
 	// Log event to syslog
 	if len(lmsg) > 0 {
 		l.WithFields(driver.Fields{
-			"user":    user,
+			"user":    username,
 			"allowed": r.Allow,
 		}).Info(lmsg)
 	}
