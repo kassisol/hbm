@@ -1,6 +1,7 @@
 package cmdbuilder
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/url"
 	"strings"
@@ -26,16 +27,37 @@ func (c *Config) Add(t string) {
 	c.Cmd = append(c.Cmd, t)
 }
 
-func (c *Config) GetParamAndAdd(k, p string, b bool) {
-	if b {
-		if v, ok := c.Params[k]; ok {
-			if v[0] == "1" || v[0] == "True" || v[0] == "true" {
-				c.Add(p)
+func (c *Config) AddFilters() {
+	if len(c.Params) > 0 {
+		if _, ok := c.Params["filters"]; ok {
+			var v map[string]map[string]bool
+
+			err := json.Unmarshal([]byte(c.Params["filters"][0]), &v)
+			if err != nil {
+				panic(err)
+			}
+
+			for k, val := range v {
+				for ka, _ := range val {
+					c.Add(fmt.Sprintf("--filter \"%s=%s\"", k, ka))
+				}
 			}
 		}
-	} else {
-		if v, ok := c.Params[k]; ok {
-			c.Add(fmt.Sprintf("%s=%s", p, v[0]))
+	}
+}
+
+func (c *Config) GetParamAndAdd(k, p string, b bool) {
+	if len(c.Params) > 0 {
+		if b {
+			if v, ok := c.Params[k]; ok {
+				if v[0] == "1" || v[0] == "True" || v[0] == "true" {
+					c.Add(p)
+				}
+			}
+		} else {
+			if v, ok := c.Params[k]; ok {
+				c.Add(fmt.Sprintf("%s=%s", p, v[0]))
+			}
 		}
 	}
 }
