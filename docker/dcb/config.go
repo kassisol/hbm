@@ -26,21 +26,21 @@ func ConfigCreate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 	cmd := cmdbuilder.New("config")
 	cmd.Add("create")
 
-	s := &swarm.Secret{}
+	c := &swarm.Config{}
 
 	if req.RequestBody != nil {
-		if err := json.NewDecoder(bytes.NewReader(req.RequestBody)).Decode(s); err != nil {
+		if err := json.NewDecoder(bytes.NewReader(req.RequestBody)).Decode(c); err != nil {
 			panic(err)
 		}
 	}
 
-	if len(s.Spec.Labels) > 0 {
-		for k, v := range s.Spec.Labels {
+	if len(c.Spec.Labels) > 0 {
+		for k, v := range c.Spec.Labels {
 			cmd.Add(fmt.Sprintf("--label=\"%s=%s\"", k, v))
 		}
 	}
 
-	cmd.Add(s.Spec.Name)
+	cmd.Add(c.Spec.Name)
 
 	return cmd.String()
 }
@@ -67,21 +67,21 @@ func ConfigUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 	cmd := cmdbuilder.New("config")
 	cmd.Add("update")
 
-	s := &swarm.Secret{}
+	c := &swarm.Config{}
 
 	if req.RequestBody != nil {
-		if err := json.NewDecoder(bytes.NewReader(req.RequestBody)).Decode(s); err != nil {
+		if err := json.NewDecoder(bytes.NewReader(req.RequestBody)).Decode(c); err != nil {
 			panic(err)
 		}
 	}
 
-	if len(s.Spec.Labels) > 0 {
-		for k, v := range s.Spec.Labels {
+	if len(c.Spec.Labels) > 0 {
+		for k, v := range c.Spec.Labels {
 			cmd.Add(fmt.Sprintf("--label=\"%s=%s\"", k, v))
 		}
 	}
 
-	cmd.Add(s.Spec.Name)
+	cmd.Add(c.Spec.Name)
 
 	return cmd.String()
 }
