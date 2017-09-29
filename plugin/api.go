@@ -79,10 +79,16 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 
 	// Log event to syslog
 	if len(lmsg) > 0 {
-		l.WithFields(driver.Fields{
+		fields := driver.Fields{
 			"user":    username,
 			"allowed": r.Allow,
-		}).Info(lmsg)
+		}
+
+		if !r.Allow {
+			fields["msg"] = r.Msg
+		}
+
+		l.WithFields(fields).Info(lmsg)
 	}
 
 	// If Docker command is not allowed, return
