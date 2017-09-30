@@ -1,4 +1,4 @@
-FROM debian:jessie-slim
+FROM debian:stable-slim
 
 COPY scripts/dev/go.sh /etc/profile.d/go.sh
 
@@ -30,7 +30,7 @@ ARG ARCH=${HOST_ARCH}
 
 ARG APP_REPO=kassisol
 
-ARG DOCKER_VERSION=17.06.2
+ARG DOCKER_VERSION=17.09.0
 
 ARG DOCKER_URL_amd64=https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}-ce.tgz
 
