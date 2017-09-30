@@ -2,10 +2,12 @@ package plugin
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/juliengk/go-log"
 	"github.com/juliengk/go-log/driver"
+	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/allow"
 	"github.com/kassisol/hbm/allow/types"
 	"github.com/kassisol/hbm/docker/endpoint"
@@ -14,21 +16,25 @@ import (
 	"github.com/kassisol/hbm/version"
 )
 
-var SupportedVersion = "v1.30"
+var SupportedDockerAPIVersions = []string{
+	"v1.30",
+	"v1.32",
+}
 
 type Api struct {
+	URIInfo *uri.URIInfo
 	Uris    *uri.URIs
 	AppPath string
 }
 
-func NewApi(version, appPath string) (*Api, error) {
-	if version != SupportedVersion {
-		return &Api{}, fmt.Errorf("This version of HBM does not support Docker API version %s. Supported version is %s", version, SupportedVersion)
+func NewApi(uriinfo *uri.URIInfo, appPath string) (*Api, error) {
+	if !utils.StringInSlice(uriinfo.Version, SupportedDockerAPIVersions, false) {
+		return &Api{}, fmt.Errorf("This version of HBM does not support Docker API version %s. Supported version are %s.", uriinfo.Version, strings.Join(SupportedDockerAPIVersions, ", "))
 	}
 
 	uris := endpoint.GetUris()
 
-	return &Api{Uris: uris, AppPath: appPath}, nil
+	return &Api{URIInfo: uriinfo, Uris: uris, AppPath: appPath}, nil
 }
 
 func (a *Api) Allow(req authorization.Request) *types.AllowResult {
@@ -41,13 +47,7 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 	}
 
 	// Authorization
-	// Check URI
-	uriinfo, err := uri.GetURIInfo(SupportedVersion, req)
-	if err != nil {
-		return &types.AllowResult{Allow: false, Error: err.Error()}
-	}
-
-	u, err := a.Uris.GetURI(req.RequestMethod, uriinfo.Path)
+	u, err := a.Uris.GetURI(req.RequestMethod, a.URIInfo.Path)
 	if err != nil {
 		return &types.AllowResult{Allow: false, Error: err.Error()}
 	}
@@ -75,7 +75,7 @@ func (a *Api) Allow(req authorization.Request) *types.AllowResult {
 
 	// Accounting
 	// Build Docker command from data sent to Docker daemon
-	lmsg := u.DCBFunc(req, uriinfo.Path, u.Re)
+	lmsg := u.DCBFunc(req, a.URIInfo.Path, u.Re)
 
 	// Log event to syslog
 	if len(lmsg) > 0 {

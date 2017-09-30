@@ -113,7 +113,6 @@ func GetUris() *uri.URIs {
 	uris.Register("POST", `^/auth`, allow.AllowTrue, dcb.Auth, "auth", "login", "Log in to a Docker registry")
 	uris.Register("GET", `^/info`, allow.AllowTrue, dcb.Info, "info", "info", "Display system-wide information")
 	uris.Register("GET", `^/version`, allow.AllowTrue, dcb.Version, "version", "version", "Show the Docker version information")
-	uris.Register("GET", `^/_ping`, allow.AllowTrue, dcb.Ping, "ping", "*ping*", "Ping the docker server")
 	uris.Register("GET", `^/events`, allow.AllowTrue, dcb.Events, "events", "events", "Monitor Docker's events")
 	uris.Register("GET", `^/system/df`, allow.AllowTrue, dcb.SystemDF, "system_df", "system df", "Get data usage information")
 
@@ -123,11 +122,7 @@ func GetUris() *uri.URIs {
 	uris.Register("DELETE", `^/configs/(.+)`, allow.AllowTrue, dcb.ConfigRemove, "config_remove", "config rm", "Delete a config")
 	uris.Register("POST", `^/configs/(.+)/update`, allow.AllowTrue, dcb.ConfigUpdate, "config_update", "config update", "Update a config")
 
-	uris.Register("GET", `^/distribution/(.+)/json`, allow.AllowTrue, dcb.DistributionInfo, "distribution_info", "", "Get image information from the registry")
-
 	uris.Register("GET", `^/tasks/(.+)/logs`, allow.AllowTrue, dcb.TaskLogs, "task_logs", "task logs", "Get task logs")
-
-	uris.Register("OPTIONS", `^/(.*)`, allow.AllowTrue, dcb.Anyroute, "anyroute_options", "", "Anyroute OPTIONS")
 
 	return uris
 }

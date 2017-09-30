@@ -1,25 +1,50 @@
 package plugin
 
 import (
+	"regexp"
+
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/uri"
 )
 
 type plugin struct {
-	appPath string
+	appPath       string
+	skipEndpoints []*regexp.Regexp
+}
+
+func stringInRegexpSlice(s string, regexps []*regexp.Regexp) bool {
+	for _, re := range regexps {
+		if re.MatchString(s) {
+			return true
+		}
+	}
+
+	return false
 }
 
 func NewPlugin(appPath string) (*plugin, error) {
-	return &plugin{appPath: appPath}, nil
+	p := plugin{
+		appPath: appPath,
+		skipEndpoints: []*regexp.Regexp{
+			regexp.MustCompile(`^/_ping`),
+			regexp.MustCompile(`^/distribution/(.+)/json`),
+		},
+	}
+
+	return &p, nil
 }
 
 func (p *plugin) AuthZReq(req authorization.Request) authorization.Response {
-	uriinfo, err := uri.GetURIInfo(SupportedVersion, req)
+	uriinfo, err := uri.GetURIInfo(req)
 	if err != nil {
 		return authorization.Response{Err: err.Error()}
 	}
 
-	a, err := NewApi(uriinfo.Version, p.appPath)
+	if req.RequestMethod == "OPTIONS" || stringInRegexpSlice(uriinfo.Path, p.skipEndpoints) {
+		return authorization.Response{Allow: true}
+	}
+
+	a, err := NewApi(&uriinfo, p.appPath)
 	if err != nil {
 		return authorization.Response{Err: err.Error()}
 	}

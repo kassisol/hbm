@@ -3,10 +3,12 @@ package system
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
+	"github.com/kassisol/hbm/plugin"
 	"github.com/kassisol/hbm/storage"
 	"github.com/kassisol/hbm/version"
 	"github.com/moby/moby/client"
@@ -55,6 +57,7 @@ func runInfo(cmd *cobra.Command, args []string) {
 	fmt.Println("Logging Driver: standard")
 	fmt.Println("Harbormaster Root Dir:", command.AppPath)
 	fmt.Println("Docker AuthZ Plugin Enabled:", PluginEnabled())
+	fmt.Println("Docker API Version Supported:", strings.Join(plugin.SupportedDockerAPIVersions, ", "))
 }
 
 func PluginEnabled() bool {
