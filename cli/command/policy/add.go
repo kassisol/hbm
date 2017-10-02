@@ -26,7 +26,7 @@ func newAddCommand() *cobra.Command {
 
 	flags := cmd.Flags()
 	flags.StringVarP(&policyAddGroup, "group", "g", "", "Set group")
-	flags.StringVarP(&policyAddCollection, "collection", "", "", "Set collection")
+	flags.StringVarP(&policyAddCollection, "collection", "c", "", "Set collection")
 
 	return cmd
 }
