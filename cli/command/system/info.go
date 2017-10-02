@@ -3,6 +3,7 @@ package system
 import (
 	"context"
 	"fmt"
+	"os"
 	"strings"
 
 	log "github.com/Sirupsen/logrus"
@@ -56,11 +57,15 @@ func runInfo(cmd *cobra.Command, args []string) {
 	fmt.Println("Storage Driver: sqlite")
 	fmt.Println("Logging Driver: standard")
 	fmt.Println("Harbormaster Root Dir:", command.AppPath)
-	fmt.Println("Docker AuthZ Plugin Enabled:", PluginEnabled())
+	fmt.Println("Docker AuthZ Plugin Enabled:", pluginEnabled())
 	fmt.Println("Docker API Version Supported:", strings.Join(plugin.SupportedDockerAPIVersions, ", "))
 }
 
-func PluginEnabled() bool {
+func pluginEnabled() bool {
+	apiVersion := plugin.SupportedDockerAPIVersions[0]
+	apiVersion = apiVersion[1:len(apiVersion)]
+	os.Setenv("DOCKER_API_VERSION", apiVersion)
+
 	cli, err := client.NewEnvClient()
 	if err != nil {
 		return false
