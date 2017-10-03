@@ -8,7 +8,7 @@ import (
 
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
-	"github.com/moby/moby/api/types/swarm"
+	"github.com/docker/docker/api/types/swarm"
 )
 
 func ConfigList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
@@ -26,7 +26,7 @@ func ConfigCreate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 	cmd := cmdbuilder.New("config")
 	cmd.Add("create")
 
-	c := &swarm.Config{}
+	c := &swarm.ConfigSpec{}
 
 	if req.RequestBody != nil {
 		if err := json.NewDecoder(bytes.NewReader(req.RequestBody)).Decode(c); err != nil {
@@ -34,13 +34,13 @@ func ConfigCreate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 		}
 	}
 
-	if len(c.Spec.Labels) > 0 {
-		for k, v := range c.Spec.Labels {
+	if len(c.Annotations.Labels) > 0 {
+		for k, v := range c.Annotations.Labels {
 			cmd.Add(fmt.Sprintf("--label=\"%s=%s\"", k, v))
 		}
 	}
 
-	cmd.Add(c.Spec.Name)
+	cmd.Add(c.Annotations.Name)
 
 	return cmd.String()
 }
@@ -67,7 +67,7 @@ func ConfigUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 	cmd := cmdbuilder.New("config")
 	cmd.Add("update")
 
-	c := &swarm.Config{}
+	c := &swarm.ConfigSpec{}
 
 	if req.RequestBody != nil {
 		if err := json.NewDecoder(bytes.NewReader(req.RequestBody)).Decode(c); err != nil {
@@ -75,13 +75,13 @@ func ConfigUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 		}
 	}
 
-	if len(c.Spec.Labels) > 0 {
-		for k, v := range c.Spec.Labels {
+	if len(c.Annotations.Labels) > 0 {
+		for k, v := range c.Annotations.Labels {
 			cmd.Add(fmt.Sprintf("--label=\"%s=%s\"", k, v))
 		}
 	}
 
-	cmd.Add(c.Spec.Name)
+	cmd.Add(c.Annotations.Name)
 
 	return cmd.String()
 }
