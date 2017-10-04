@@ -6,13 +6,13 @@ import (
 	"os"
 	"strings"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
+	"github.com/docker/docker/client"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/plugin"
 	"github.com/kassisol/hbm/storage"
 	"github.com/kassisol/hbm/version"
-	"github.com/moby/moby/client"
 	"github.com/spf13/cobra"
 )
 

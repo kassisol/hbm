@@ -23,12 +23,17 @@ This library is designed to be integrated in your program.
 ```go
   p := MyAuthZPlugin{}
   h := authorization.NewHandler(p)
-  h.ServeUnix("root", "test_plugin")
+  u, _ := user.Lookup("root")
+  gid, _ := strconv.Atoi(u.Gid)
+  h.ServeUnix("test_plugin", gid)
 ```
 
 ## Full example plugins
 
-- https://github.com/runcom/docker-novolume-plugin
+- https://github.com/projectatomic/docker-novolume-plugin
+- https://github.com/cpdevws/img-authz-plugin
+- https://github.com/casbin/casbin-authz-plugin
+- https://github.com/kassisol/hbm
 
 ## License
 

@@ -7,10 +7,10 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/api/types/network"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
-	"github.com/moby/moby/api/types/container"
-	"github.com/moby/moby/api/types/network"
 )
 
 type ContainerCreateConfig struct {

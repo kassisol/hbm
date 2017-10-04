@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/docker/docker/api/types"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
-	"github.com/moby/moby/api/types"
 )
 
 func ContainerExecCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {

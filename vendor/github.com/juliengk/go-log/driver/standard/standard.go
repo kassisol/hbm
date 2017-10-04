@@ -4,7 +4,7 @@ import (
 	"github.com/juliengk/go-log"
 	"github.com/juliengk/go-log/driver"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 func init() {

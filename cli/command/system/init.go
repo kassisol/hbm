@@ -1,7 +1,7 @@
 package system
 
 import (
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/juliengk/go-utils/filedir"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/storage"

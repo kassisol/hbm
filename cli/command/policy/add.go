@@ -3,7 +3,7 @@ package policy
 import (
 	"os"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/validation"
 	"github.com/kassisol/hbm/cli/command"

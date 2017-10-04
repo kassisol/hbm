@@ -94,7 +94,7 @@ func runStart(cmd *cobra.Command, args []string) {
 		}).Info("HBM server")
 
 		l.Info("Listening on socket file")
-		l.Fatal(h.ServeUnix("root", "hbm"))
+		l.Fatal(h.ServeUnix("hbm", 0))
 	}()
 
 	s := <-ch
