@@ -44,7 +44,7 @@ func runInfo(cmd *cobra.Command, args []string) {
 	fmt.Println("Collections:", s.CountCollection())
 	fmt.Println(" Resources:", s.CountResource("all"))
 	fmt.Println("  Actions:", s.CountResource("action"))
-	fmt.Println("  Config:", s.CountResource("config"))
+	fmt.Println("  Configs:", s.CountResource("config"))
 	fmt.Println("  Capabilities:", s.CountResource("cap"))
 	fmt.Println("  Devices:", s.CountResource("device"))
 	fmt.Println("  DNS Servers:", s.CountResource("dns"))
