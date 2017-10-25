@@ -64,20 +64,24 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	}
 
 	if svc.TaskTemplate.Resources != nil {
-		if svc.TaskTemplate.Resources.Limits.NanoCPUs > 0 {
-			cmd.Add(fmt.Sprintf("--limit-cpu=%s", svc.TaskTemplate.Resources.Limits.NanoCPUs))
+		if svc.TaskTemplate.Resources.Limits != nil {
+			if svc.TaskTemplate.Resources.Limits.NanoCPUs > 0 {
+				cmd.Add(fmt.Sprintf("--limit-cpu=%s", svc.TaskTemplate.Resources.Limits.NanoCPUs))
+			}
+
+			if svc.TaskTemplate.Resources.Limits.MemoryBytes > 0 {
+				cmd.Add(fmt.Sprintf("--limit-memory=%s", svc.TaskTemplate.Resources.Limits.MemoryBytes))
+			}
 		}
 
-		if svc.TaskTemplate.Resources.Limits.MemoryBytes > 0 {
-			cmd.Add(fmt.Sprintf("--limit-memory=%s", svc.TaskTemplate.Resources.Limits.MemoryBytes))
-		}
+		if svc.TaskTemplate.Resources.Reservations != nil {
+			if svc.TaskTemplate.Resources.Reservations.NanoCPUs > 0 {
+				cmd.Add(fmt.Sprintf("--reserve-cpu=%s", svc.TaskTemplate.Resources.Reservations.NanoCPUs))
+			}
 
-		if svc.TaskTemplate.Resources.Reservations.NanoCPUs > 0 {
-			cmd.Add(fmt.Sprintf("--reserve-cpu=%s", svc.TaskTemplate.Resources.Reservations.NanoCPUs))
-		}
-
-		if svc.TaskTemplate.Resources.Reservations.MemoryBytes > 0 {
-			cmd.Add(fmt.Sprintf("--reserve-memory=%s", svc.TaskTemplate.Resources.Reservations.MemoryBytes))
+			if svc.TaskTemplate.Resources.Reservations.MemoryBytes > 0 {
+				cmd.Add(fmt.Sprintf("--reserve-memory=%s", svc.TaskTemplate.Resources.Reservations.MemoryBytes))
+			}
 		}
 	}
 
@@ -321,20 +325,24 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	}
 
 	if svc.TaskTemplate.Resources != nil {
-		if svc.TaskTemplate.Resources.Limits.NanoCPUs > 0 {
-			cmd.Add(fmt.Sprintf("--limit-cpu=%s", svc.TaskTemplate.Resources.Limits.NanoCPUs))
+		if svc.TaskTemplate.Resources.Limits != nil {
+			if svc.TaskTemplate.Resources.Limits.NanoCPUs > 0 {
+				cmd.Add(fmt.Sprintf("--limit-cpu=%s", svc.TaskTemplate.Resources.Limits.NanoCPUs))
+			}
+
+			if svc.TaskTemplate.Resources.Limits.MemoryBytes > 0 {
+				cmd.Add(fmt.Sprintf("--limit-memory=%s", svc.TaskTemplate.Resources.Limits.MemoryBytes))
+			}
 		}
 
-		if svc.TaskTemplate.Resources.Limits.MemoryBytes > 0 {
-			cmd.Add(fmt.Sprintf("--limit-memory=%s", svc.TaskTemplate.Resources.Limits.MemoryBytes))
-		}
+		if svc.TaskTemplate.Resources.Reservations != nil {
+			if svc.TaskTemplate.Resources.Reservations.NanoCPUs > 0 {
+				cmd.Add(fmt.Sprintf("--reserve-cpu=%s", svc.TaskTemplate.Resources.Reservations.NanoCPUs))
+			}
 
-		if svc.TaskTemplate.Resources.Reservations.NanoCPUs > 0 {
-			cmd.Add(fmt.Sprintf("--reserve-cpu=%s", svc.TaskTemplate.Resources.Reservations.NanoCPUs))
-		}
-
-		if svc.TaskTemplate.Resources.Reservations.MemoryBytes > 0 {
-			cmd.Add(fmt.Sprintf("--reserve-memory=%s", svc.TaskTemplate.Resources.Reservations.MemoryBytes))
+			if svc.TaskTemplate.Resources.Reservations.MemoryBytes > 0 {
+				cmd.Add(fmt.Sprintf("--reserve-memory=%s", svc.TaskTemplate.Resources.Reservations.MemoryBytes))
+			}
 		}
 	}
 
