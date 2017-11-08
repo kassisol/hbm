@@ -1,13 +1,9 @@
 package plugin
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/juliengk/go-log"
 	"github.com/juliengk/go-log/driver"
-	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/allow"
 	"github.com/kassisol/hbm/allow/types"
 	"github.com/kassisol/hbm/docker/endpoint"
@@ -16,11 +12,6 @@ import (
 	"github.com/kassisol/hbm/version"
 )
 
-var SupportedDockerAPIVersions = []string{
-	"v1.30",
-	"v1.32",
-}
-
 type Api struct {
 	URIInfo *uri.URIInfo
 	Uris    *uri.URIs
@@ -28,17 +19,29 @@ type Api struct {
 }
 
 func NewApi(uriinfo *uri.URIInfo, appPath string) (*Api, error) {
-	if !utils.StringInSlice(uriinfo.Version, SupportedDockerAPIVersions, false) {
-		return &Api{}, fmt.Errorf("This version of HBM does not support Docker API version %s. Supported version are %s.", uriinfo.Version, strings.Join(SupportedDockerAPIVersions, ", "))
-	}
-
 	uris := endpoint.GetUris()
 
 	return &Api{URIInfo: uriinfo, Uris: uris, AppPath: appPath}, nil
 }
 
-func (a *Api) Allow(req authorization.Request) *types.AllowResult {
+func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 	l, _ := log.NewDriver("standard", nil)
+
+	defer func() {
+		if r := recover(); r != nil {
+			l.Warn("Recovered panic: ", r)
+
+			allow := true
+			err := "an error occurred; contact your system administrator"
+
+			result := types.AllowResult{Allow: allow}
+			if !allow {
+				result.Error = err
+			}
+
+			ar = &result
+		}
+	}()
 
 	// Authentication
 	username := req.User
