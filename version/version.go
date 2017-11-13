@@ -10,9 +10,9 @@ import (
 
 var (
 	Version   string
-	GitCommit string
-	GitState  string
-	BuildDate string
+	GitCommit string = "HEAD"
+	GitState  string = "dirty"
+	BuildDate string = "0"
 )
 
 var versionTemplate = `Version:     {{.Version}}
