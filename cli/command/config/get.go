@@ -11,18 +11,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func newFindCommand() *cobra.Command {
+func newGetCommand() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "find [key]",
-		Short: "Verify if feature is enabled",
-		Long:  findDescription,
-		Run:   runFind,
+		Use:     "get [key]",
+		Aliases: []string{"find"},
+		Short:   "Get config option value",
+		Long:    getDescription,
+		Run:     runGet,
 	}
 
 	return cmd
 }
 
-func runFind(cmd *cobra.Command, args []string) {
+func runGet(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
 	s, err := storage.NewDriver("sqlite", command.AppPath)
@@ -36,12 +37,12 @@ func runFind(cmd *cobra.Command, args []string) {
 		os.Exit(-1)
 	}
 
-	result := s.FindConfig(args[0])
+	result := s.GetConfig(args[0])
 
 	fmt.Println(result)
 }
 
-var findDescription = `
-Verify if feature is enabled
+var getDescription = `
+Get config option value
 
 `

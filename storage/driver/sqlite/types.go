@@ -11,7 +11,8 @@ type Model struct {
 
 type AppConfig struct {
 	Model
-	Key string
+	Key   string `gorm:"unique;"`
+	Value bool
 }
 
 type User struct {

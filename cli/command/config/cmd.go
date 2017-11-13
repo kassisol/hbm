@@ -7,7 +7,7 @@ import (
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "config",
-		Short: "Manage HBM features",
+		Short: "Manage HBM configs",
 		Long:  configDescription,
 		Run: func(cmd *cobra.Command, args []string) {
 			cmd.Usage()
@@ -15,17 +15,16 @@ func NewCommand() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		newAddCommand(),
-		newFindCommand(),
+		newGetCommand(),
+		newSetCommand(),
 		newListCommand(),
-		newRemoveCommand(),
 	)
 
 	return cmd
 }
 
 var configDescription = `
-The **hbm config** command has subcommands for managing hbm features.
+The **hbm config** command has subcommands for managing hbm configs.
 
 To see help for a subcommand, use:
 

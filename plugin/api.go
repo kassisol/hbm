@@ -27,11 +27,21 @@ func NewApi(uriinfo *uri.URIInfo, appPath string) (*Api, error) {
 func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 	l, _ := log.NewDriver("standard", nil)
 
+	s, err := storage.NewDriver("sqlite", a.AppPath)
+	if err != nil {
+		l.WithFields(driver.Fields{
+			"storagedriver": "sqlite",
+			"logdriver":     "standard",
+			"version":       version.Version,
+		}).Fatal(err)
+	}
+	defer s.End()
+
 	defer func() {
 		if r := recover(); r != nil {
 			l.Warn("Recovered panic: ", r)
 
-			allow := true
+			allow := s.GetConfig("default-allow-action-error")
 			err := "an error occurred; contact your system administrator"
 
 			result := types.AllowResult{Allow: allow}
@@ -59,17 +69,7 @@ func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 	config := types.Config{AppPath: a.AppPath, Username: username}
 	r := allow.AllowTrue(req, &config)
 
-	s, err := storage.NewDriver("sqlite", a.AppPath)
-	if err != nil {
-		l.WithFields(driver.Fields{
-			"storagedriver": "sqlite",
-			"logdriver":     "standard",
-			"version":       version.Version,
-		}).Fatal(err)
-	}
-	defer s.End()
-
-	if s.FindConfig("authorization") {
+	if s.GetConfig("authorization") {
 		r = allow.AllowAction(&config, u.Action, u.CmdName)
 		if r.Allow {
 			r = u.AllowFunc(req, &config)

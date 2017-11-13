@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/docker/docker/client"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/storage"
 	"github.com/kassisol/hbm/version"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -34,7 +34,8 @@ func runInfo(cmd *cobra.Command, args []string) {
 	defer s.End()
 
 	fmt.Println("Features Enabled:")
-	fmt.Println(" Authorization:", s.FindConfig("authorization"))
+	fmt.Println(" Authorization:", s.GetConfig("authorization"))
+	fmt.Println(" Default Allow Action On Error:", s.GetConfig("default-allow-action-error"))
 	fmt.Println("Policies:", s.CountPolicy())
 	fmt.Println("Groups:", s.CountGroup())
 	fmt.Println(" Users:", s.CountUser())

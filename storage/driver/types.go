@@ -1,5 +1,10 @@
 package driver
 
+type ConfigResult struct {
+	Key   string
+	Value bool
+}
+
 type ResourceResult struct {
 	Name   string
 	Type   string

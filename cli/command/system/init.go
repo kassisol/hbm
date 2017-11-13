@@ -1,10 +1,10 @@
 package system
 
 import (
-	log "github.com/sirupsen/logrus"
 	"github.com/juliengk/go-utils/filedir"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/storage"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -28,7 +28,10 @@ func runInit(cmd *cobra.Command, args []string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	s.End()
+	defer s.End()
+
+	s.SetConfig("authorization", false)
+	s.SetConfig("default-allow-action-error", false)
 }
 
 var initDescription = `
