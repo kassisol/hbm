@@ -11,7 +11,10 @@ RUN apt-get update \
 		git \
 		iproute2 \
 		iptables \
+		iputils-ping \
 		less \
+		procps \
+		sqlite3 \
 		vim \
 		wget \
 	&& mkdir /root/.ssh
