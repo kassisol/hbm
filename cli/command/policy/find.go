@@ -2,7 +2,6 @@ package policy
 
 import (
 	"fmt"
-	"os"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/juliengk/go-utils"
@@ -16,6 +15,7 @@ func newFindCommand() *cobra.Command {
 		Use:   "find [name]",
 		Short: "Verify if policy exists",
 		Long:  "Verify if policy exists",
+		Args:  cobra.ExactArgs(1),
 		Run:   runFind,
 	}
 
@@ -30,11 +30,6 @@ func runFind(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 	defer s.End()
-
-	if len(args) < 1 || len(args) > 1 {
-		cmd.Usage()
-		os.Exit(-1)
-	}
 
 	result := s.FindPolicy(args[0])
 

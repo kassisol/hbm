@@ -47,9 +47,7 @@ func main() {
 	}
 
 	cmd := newHbmCommand()
-	if err := cmd.Execute(); err != nil {
-		l.Error(err)
-	}
+	cmd.Execute()
 }
 
 var usageTemplate = `{{ .Short | trim }}

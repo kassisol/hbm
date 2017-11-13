@@ -1,8 +1,6 @@
 package policy
 
 import (
-	"os"
-
 	log "github.com/sirupsen/logrus"
 	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/validation"
@@ -21,6 +19,7 @@ func newAddCommand() *cobra.Command {
 		Use:   "add [name]",
 		Short: "Add policy",
 		Long:  addDescription,
+		Args:  cobra.ExactArgs(1),
 		Run:   runAdd,
 	}
 
@@ -39,11 +38,6 @@ func runAdd(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 	defer s.End()
-
-	if len(args) < 1 || len(args) > 1 {
-		cmd.Usage()
-		os.Exit(-1)
-	}
 
 	if err = validation.IsValidName(args[0]); err != nil {
 		log.Fatal(err)

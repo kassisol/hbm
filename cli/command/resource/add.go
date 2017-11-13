@@ -1,8 +1,6 @@
 package resource
 
 import (
-	"os"
-
 	log "github.com/sirupsen/logrus"
 	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/json"
@@ -27,6 +25,7 @@ func newAddCommand() *cobra.Command {
 		Use:   "add [name]",
 		Short: "Add resource to the whitelist",
 		Long:  addDescription,
+		Args:  cobra.ExactArgs(1),
 		Run:   runAdd,
 	}
 
@@ -48,11 +47,6 @@ func runAdd(cmd *cobra.Command, args []string) {
 	defer s.End()
 
 	// Inputs validation
-	if len(args) < 1 || len(args) > 1 {
-		cmd.Usage()
-		os.Exit(-1)
-	}
-
 	options := utils.ConvertSliceToMap("=", resourceAddOption)
 	if len(options) > 0 {
 		if err := clivalidation.IsValidResourceOptionKeys(options); err != nil {

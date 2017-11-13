@@ -18,6 +18,7 @@ func NewInfoCommand() *cobra.Command {
 		Use:   "info",
 		Short: "Display information about HBM",
 		Long:  infoDescription,
+		Args:  cobra.NoArgs,
 		Run:   runInfo,
 	}
 

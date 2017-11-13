@@ -26,6 +26,7 @@ func NewServerCommand() *cobra.Command {
 		Use:   "server",
 		Short: "Launch the HBM server",
 		Long:  serverDescription,
+		Args:  cobra.NoArgs,
 		Run:   runStart,
 	}
 

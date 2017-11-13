@@ -13,6 +13,7 @@ func NewInitCommand() *cobra.Command {
 		Use:   "init",
 		Short: "Initialize config",
 		Long:  initDescription,
+		Args:  cobra.NoArgs,
 		Run:   runInit,
 	}
 

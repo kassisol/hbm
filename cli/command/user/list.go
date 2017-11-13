@@ -21,6 +21,7 @@ func newListCommand() *cobra.Command {
 		Aliases: []string{"list"},
 		Short:   "List whitelisted users",
 		Long:    listDescription,
+		Args:    cobra.NoArgs,
 		Run:     runList,
 	}
 

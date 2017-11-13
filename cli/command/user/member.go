@@ -1,8 +1,6 @@
 package user
 
 import (
-	"os"
-
 	log "github.com/sirupsen/logrus"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
@@ -20,6 +18,7 @@ func newMemberCommand() *cobra.Command {
 		Use:   "member [group] [user]",
 		Short: "Manage user membership to group",
 		Long:  memberDescription,
+		Args:  cobra.ExactArgs(2),
 		Run:   runMember,
 	}
 
@@ -38,11 +37,6 @@ func runMember(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 	defer s.End()
-
-	if len(args) < 2 || len(args) > 2 {
-		cmd.Usage()
-		os.Exit(-1)
-	}
 
 	if !s.FindGroup(args[0]) {
 		log.Fatalf("%s does not exist", args[0])

@@ -1,7 +1,6 @@
 package config
 
 import (
-	"os"
 	"strconv"
 
 	"github.com/juliengk/go-utils"
@@ -17,6 +16,7 @@ func newSetCommand() *cobra.Command {
 		Use:   "set [key] [value]",
 		Short: "Set HBM config option",
 		Long:  setDescription,
+		Args:  cobra.ExactArgs(2),
 		Run:   runSet,
 	}
 
@@ -31,11 +31,6 @@ func runSet(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 	defer s.End()
-
-	if len(args) < 2 || len(args) > 2 {
-		cmd.Usage()
-		os.Exit(-1)
-	}
 
 	configs := config.New()
 	if err := configs.IsValid(args[0]); err != nil {

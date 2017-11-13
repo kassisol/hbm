@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-	"os"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/juliengk/go-utils"
@@ -17,6 +16,7 @@ func newGetCommand() *cobra.Command {
 		Aliases: []string{"find"},
 		Short:   "Get config option value",
 		Long:    getDescription,
+		Args:    cobra.ExactArgs(1),
 		Run:     runGet,
 	}
 
@@ -31,11 +31,6 @@ func runGet(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 	defer s.End()
-
-	if len(args) < 1 || len(args) > 1 {
-		cmd.Usage()
-		os.Exit(-1)
-	}
 
 	result := s.GetConfig(args[0])
 

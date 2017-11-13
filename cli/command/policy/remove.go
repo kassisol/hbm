@@ -1,8 +1,6 @@
 package policy
 
 import (
-	"os"
-
 	log "github.com/sirupsen/logrus"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
@@ -16,6 +14,7 @@ func newRemoveCommand() *cobra.Command {
 		Aliases: []string{"remove"},
 		Short:   "Remove policy",
 		Long:    removeDescription,
+		Args:    cobra.ExactArgs(1),
 		Run:     runRemove,
 	}
 
@@ -30,11 +29,6 @@ func runRemove(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 	defer s.End()
-
-	if len(args) < 1 || len(args) > 1 {
-		cmd.Usage()
-		os.Exit(-1)
-	}
 
 	if !s.FindPolicy(args[0]) {
 		log.Fatalf("%s does not exist", args[0])

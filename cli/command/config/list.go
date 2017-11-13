@@ -20,6 +20,7 @@ func newListCommand() *cobra.Command {
 		Aliases: []string{"list"},
 		Short:   "List HBM configs",
 		Long:    listDescription,
+		Args:    cobra.NoArgs,
 		Run:     runList,
 	}
 
