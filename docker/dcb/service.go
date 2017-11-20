@@ -7,9 +7,9 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/docker/docker/api/types/swarm"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
-	"github.com/docker/docker/api/types/swarm"
 )
 
 func ServiceList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
@@ -179,9 +179,9 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 
 	if svc.Mode.Replicated != nil {
 		/*
-		if svc.Mode.Replicated.Replicas != nil {
-			cmd.Add("--mode replicated")
-		}
+			if svc.Mode.Replicated.Replicas != nil {
+				cmd.Add("--mode replicated")
+			}
 
 		*/
 		if svc.Mode.Replicated.Replicas != nil {

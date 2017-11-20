@@ -1,11 +1,11 @@
 package group
 
 import (
-	log "github.com/sirupsen/logrus"
 	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/validation"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/storage"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 

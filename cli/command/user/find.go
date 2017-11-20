@@ -3,10 +3,10 @@ package user
 import (
 	"fmt"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/storage"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
