@@ -17,6 +17,8 @@ By default Harbormaster plugin prevents from executing commands with certains pa
   * any volumes mounted with parameter `-v`
   * any logging with parameters "--log-driver" and "--log-opt"
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/kassisol/hbm)](https://goreportcard.com/report/github.com/kassisol/hbm)
+
 ## Versions
 
 Supported Docker versions with HBM.
