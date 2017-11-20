@@ -38,7 +38,7 @@ func (c *Config) AddFilters() {
 			}
 
 			for k, val := range v {
-				for ka, _ := range val {
+				for ka := range val {
 					c.Add(fmt.Sprintf("--filter \"%s=%s\"", k, ka))
 				}
 			}

@@ -25,7 +25,7 @@ func NewResourceTypes() ResourceTypes {
 }
 
 func (rt ResourceTypes) IsValidResourceType(name string) error {
-	for t, _ := range rt {
+	for t := range rt {
 		if t == name {
 			return nil
 		}
@@ -44,7 +44,7 @@ func IsValidResourceOptionKeys(options map[string]string) error {
 		return fmt.Errorf("Invalid option")
 	}
 
-	for k, _ := range options {
+	for k := range options {
 		if !utils.StringInSlice(k, validKeys, false) {
 			return fmt.Errorf("%s is not a valid option key", k)
 			//fmt.Printf("Conflicting options --type %s and --recursive\n", resourceAddType)
