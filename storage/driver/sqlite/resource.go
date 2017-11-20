@@ -50,15 +50,15 @@ func (c *Config) ListResources(filter map[string]string) map[driver.ResourceResu
 	defer rows.Close()
 
 	for rows.Next() {
-		var res_name string
-		var res_type string
-		var res_value string
-		var res_option string
+		var resName string
+		var resType string
+		var resValue string
+		var resOption string
 		var collection string
 
-		rows.Scan(&res_name, &res_type, &res_value, &res_option, &collection)
+		rows.Scan(&resName, &resType, &resValue, &resOption, &collection)
 
-		rr := driver.ResourceResult{Name: res_name, Type: res_type, Value: res_value, Option: res_option}
+		rr := driver.ResourceResult{Name: resName, Type: resType, Value: resValue, Option: resOption}
 
 		result[rr] = append(result[rr], collection)
 	}
