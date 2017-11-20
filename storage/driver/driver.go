@@ -39,7 +39,7 @@ type Storager interface {
 	FindPolicy(name string) bool
 	CountPolicy() int
 
-	ValidatePolicy(user, res_type, res_value, option string) bool
+	ValidatePolicy(user, resType, resValue, option string) bool
 
 	End()
 }
