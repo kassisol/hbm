@@ -46,37 +46,37 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 	defer s.End()
 
 	if cc.HostConfig.Privileged {
-		if !s.ValidatePolicy(config.Username, "config", "container_create_privileged", "") {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_param_privileged", "") {
 			return &types.AllowResult{Allow: false, Msg: "--privileged param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.IpcMode == "host" {
-		if !s.ValidatePolicy(config.Username, "config", "container_create_ipc_host", "") {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_param_ipc_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--ipc=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.NetworkMode == "host" {
-		if !s.ValidatePolicy(config.Username, "config", "container_create_net_host", "") {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_param_net_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--net=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.PidMode == "host" {
-		if !s.ValidatePolicy(config.Username, "config", "container_create_pid_host", "") {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_param_pid_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--pid=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.UsernsMode == "host" {
-		if !s.ValidatePolicy(config.Username, "config", "container_create_userns_host", "") {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_param_userns_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--userns=\"host\" param is not allowed"}
 		}
 	}
 
 	if cc.HostConfig.UTSMode == "host" {
-		if !s.ValidatePolicy(config.Username, "config", "container_create_uts_host", "") {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_param_uts_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--uts=\"host\" param is not allowed"}
 		}
 	}
@@ -106,7 +106,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 	}
 
 	if cc.HostConfig.PublishAllPorts {
-		if !s.ValidatePolicy(config.Username, "config", "container_publish_all", "") {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_param_publish_all", "") {
 			return &types.AllowResult{Allow: false, Msg: "--publish-all param is not allowed"}
 		}
 	}
