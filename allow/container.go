@@ -87,6 +87,12 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		}
 	}
 
+	if len(cc.HostConfig.Sysctls) > 0 {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_param_sysctl", "") {
+			return &types.AllowResult{Allow: false, Msg: "--sysctl param is not allowed"}
+		}
+	}
+
 	if len(cc.HostConfig.CapAdd) > 0 {
 		for _, c := range cc.HostConfig.CapAdd {
 			if !s.ValidatePolicy(config.Username, "cap", c, "") {
