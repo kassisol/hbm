@@ -5,6 +5,7 @@ import (
 
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
+	"github.com/kassisol/hbm/config"
 	"github.com/kassisol/hbm/storage"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -31,6 +32,11 @@ func runGet(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 	defer s.End()
+
+	conf := config.New()
+	if err := conf.IsValid(args[0]); err != nil {
+		log.Fatal(err)
+	}
 
 	result := s.GetConfig(args[0])
 
