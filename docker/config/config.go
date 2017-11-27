@@ -18,6 +18,7 @@ func New() Configs {
 	config = append(config, Config{Action: "container_create_param_uts_host", Description: "--uts=\"host\" param"})
 	config = append(config, Config{Action: "container_create_param_user_root", Description: "--user=\"root\" param"})
 	config = append(config, Config{Action: "container_create_param_publish_all", Description: "--publish-all param"})
+	config = append(config, Config{Action: "container_create_param_security_opt", Description: "--security-opt param"})
 
 	config = append(config, Config{Action: "image_create_official", Description: "Pull of Official image"})
 

@@ -81,6 +81,12 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		}
 	}
 
+	if len(cc.HostConfig.SecurityOpt) > 0 {
+		if !s.ValidatePolicy(config.Username, "config", "container_create_param_security_opt", "") {
+			return &types.AllowResult{Allow: false, Msg: "--security-opt param is not allowed"}
+		}
+	}
+
 	if len(cc.HostConfig.CapAdd) > 0 {
 		for _, c := range cc.HostConfig.CapAdd {
 			if !s.ValidatePolicy(config.Username, "cap", c, "") {
