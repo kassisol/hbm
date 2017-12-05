@@ -1,6 +1,8 @@
 package plugin
 
 import (
+	"runtime/debug"
+
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/juliengk/go-log"
 	"github.com/juliengk/go-log/driver"
@@ -40,6 +42,7 @@ func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 	defer func() {
 		if r := recover(); r != nil {
 			l.Warn("Recovered panic: ", r)
+			l.Warnf("%s", debug.Stack())
 
 			allow := s.GetConfig("default-allow-action-error")
 			err := "an error occurred; contact your system administrator"
