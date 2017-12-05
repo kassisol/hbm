@@ -29,7 +29,7 @@ Supported Docker versions with HBM.
 | 0.3.x       | 17.05.x        | 1.29       |
 | 0.5.x       | 17.06.x        | 1.30       |
 | 0.5.x       | 17.09.x        | 1.32       |
-| 0.6.x       | >= 1.12.x      | >= 1.24    |
+| >= 0.6.0    | >= 1.12.x      | >= 1.24    |
 
 ## Getting Started & Documentation
 
