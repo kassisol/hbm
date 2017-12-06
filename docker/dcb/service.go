@@ -242,7 +242,7 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	}
 
 	if _, ok := req.RequestHeaders["X-Registry-Auth"]; ok {
-		cmd.Add("--with-registry-auth=XXXXXXXXXXXX")
+		cmd.Add("--with-registry-auth")
 	}
 
 	if svc.TaskTemplate.ContainerSpec != nil {
@@ -358,50 +358,52 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 		}
 	}
 
-	if len(svc.TaskTemplate.ContainerSpec.Mounts) > 0 {
-		for _, mount := range svc.TaskTemplate.ContainerSpec.Mounts {
-			str := []string{}
+	if svc.TaskTemplate.ContainerSpec != nil {
+		if len(svc.TaskTemplate.ContainerSpec.Mounts) > 0 {
+			for _, mount := range svc.TaskTemplate.ContainerSpec.Mounts {
+				str := []string{}
 
-			if mount.Type == "bind" {
-				str = append(str, "type=bind")
-			}
-
-			if len(mount.Source) > 0 {
-				str = append(str, fmt.Sprintf("source=%s", mount.Source))
-			}
-
-			if len(mount.Target) > 0 {
-				if mount.ReadOnly {
-					str = append(str, fmt.Sprintf("destination=%s:ro", mount.Target))
-				} else {
-					str = append(str, fmt.Sprintf("destination=%s", mount.Target))
+				if mount.Type == "bind" {
+					str = append(str, "type=bind")
 				}
-			}
 
-			if len(mount.BindOptions.Propagation) > 0 {
-				str = append(str, fmt.Sprintf("bind-propagation=%s", mount.BindOptions.Propagation))
-			}
-
-			if !mount.VolumeOptions.NoCopy {
-				str = append(str, "volume-nocopy=false")
-			}
-
-			if len(mount.VolumeOptions.Labels) > 0 {
-				for k, v := range mount.VolumeOptions.Labels {
-					str = append(str, fmt.Sprintf("volume-label=\"%s=%s\"", k, v))
+				if len(mount.Source) > 0 {
+					str = append(str, fmt.Sprintf("source=%s", mount.Source))
 				}
-			}
 
-			if len(mount.VolumeOptions.DriverConfig.Name) > 0 {
-				str = append(str, fmt.Sprintf("volume-driver=%s", mount.VolumeOptions.DriverConfig.Name))
-			}
-			if len(mount.VolumeOptions.DriverConfig.Options) > 0 {
-				for k, v := range mount.VolumeOptions.DriverConfig.Options {
-					str = append(str, fmt.Sprintf("volume-opt=\"%s=%s\"", k, v))
+				if len(mount.Target) > 0 {
+					if mount.ReadOnly {
+						str = append(str, fmt.Sprintf("destination=%s:ro", mount.Target))
+					} else {
+						str = append(str, fmt.Sprintf("destination=%s", mount.Target))
+					}
 				}
-			}
 
-			cmd.Add(strings.Join(str, ","))
+				if len(mount.BindOptions.Propagation) > 0 {
+					str = append(str, fmt.Sprintf("bind-propagation=%s", mount.BindOptions.Propagation))
+				}
+
+				if !mount.VolumeOptions.NoCopy {
+					str = append(str, "volume-nocopy=false")
+				}
+
+				if len(mount.VolumeOptions.Labels) > 0 {
+					for k, v := range mount.VolumeOptions.Labels {
+						str = append(str, fmt.Sprintf("volume-label=\"%s=%s\"", k, v))
+					}
+				}
+
+				if len(mount.VolumeOptions.DriverConfig.Name) > 0 {
+					str = append(str, fmt.Sprintf("volume-driver=%s", mount.VolumeOptions.DriverConfig.Name))
+				}
+				if len(mount.VolumeOptions.DriverConfig.Options) > 0 {
+					for k, v := range mount.VolumeOptions.DriverConfig.Options {
+						str = append(str, fmt.Sprintf("volume-opt=\"%s=%s\"", k, v))
+					}
+				}
+
+				cmd.Add(strings.Join(str, ","))
+			}
 		}
 	}
 
@@ -481,7 +483,7 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	}
 
 	if _, ok := req.RequestHeaders["X-Registry-Auth"]; ok {
-		cmd.Add("--with-registry-auth=XXXXXXXXXXXX")
+		cmd.Add("--with-registry-auth")
 	}
 
 	if svc.TaskTemplate.ContainerSpec != nil {
