@@ -18,6 +18,7 @@ By default Harbormaster plugin prevents from executing commands with certains pa
   * any logging with parameters "--log-driver" and "--log-opt"
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/kassisol/hbm)](https://goreportcard.com/report/github.com/kassisol/hbm)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkassisol%2Fhbm.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkassisol%2Fhbm?ref=badge_shield)
 
 ## Versions
 
@@ -40,3 +41,7 @@ All documentation is available on the [Harbormaster website](http://harbormaster
 ### Issues
 
 If you have any problems with or questions about this application, please contact us through a [GitHub](https://github.com/kassisol/hbm/issues) issue.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkassisol%2Fhbm.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkassisol%2Fhbm?ref=badge_large)
