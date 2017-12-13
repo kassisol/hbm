@@ -118,30 +118,36 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 					}
 				}
 
-				if len(mount.BindOptions.Propagation) > 0 {
-					str = append(str, fmt.Sprintf("bind-propagation=%s", mount.BindOptions.Propagation))
-				}
-
-				if !mount.VolumeOptions.NoCopy {
-					str = append(str, "volume-nocopy=false")
-				}
-
-				if len(mount.VolumeOptions.Labels) > 0 {
-					for k, v := range mount.VolumeOptions.Labels {
-						str = append(str, fmt.Sprintf("volume-label=\"%s=%s\"", k, v))
+				if mount.BindOptions != nil {
+					if len(mount.BindOptions.Propagation) > 0 {
+						str = append(str, fmt.Sprintf("bind-propagation=%s", mount.BindOptions.Propagation))
 					}
 				}
 
-				if len(mount.VolumeOptions.DriverConfig.Name) > 0 {
-					str = append(str, fmt.Sprintf("volume-driver=%s", mount.VolumeOptions.DriverConfig.Name))
-				}
-				if len(mount.VolumeOptions.DriverConfig.Options) > 0 {
-					for k, v := range mount.VolumeOptions.DriverConfig.Options {
-						str = append(str, fmt.Sprintf("volume-opt=\"%s=%s\"", k, v))
+				if mount.VolumeOptions != nil {
+					if !mount.VolumeOptions.NoCopy {
+						str = append(str, "volume-nocopy=false")
 					}
-				}
 
-				cmd.Add(strings.Join(str, ","))
+					if len(mount.VolumeOptions.Labels) > 0 {
+						for k, v := range mount.VolumeOptions.Labels {
+							str = append(str, fmt.Sprintf("volume-label=\"%s=%s\"", k, v))
+						}
+					}
+
+					if len(mount.VolumeOptions.DriverConfig.Name) > 0 {
+						str = append(str, fmt.Sprintf("volume-driver=%s", mount.VolumeOptions.DriverConfig.Name))
+					}
+					if mount.VolumeOptions.DriverConfig != nil {
+						if len(mount.VolumeOptions.DriverConfig.Options) > 0 {
+							for k, v := range mount.VolumeOptions.DriverConfig.Options {
+								str = append(str, fmt.Sprintf("volume-opt=\"%s=%s\"", k, v))
+							}
+						}
+					}
+
+					cmd.Add(strings.Join(str, ","))
+				}
 			}
 		}
 	}
@@ -379,30 +385,36 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 					}
 				}
 
-				if len(mount.BindOptions.Propagation) > 0 {
-					str = append(str, fmt.Sprintf("bind-propagation=%s", mount.BindOptions.Propagation))
-				}
-
-				if !mount.VolumeOptions.NoCopy {
-					str = append(str, "volume-nocopy=false")
-				}
-
-				if len(mount.VolumeOptions.Labels) > 0 {
-					for k, v := range mount.VolumeOptions.Labels {
-						str = append(str, fmt.Sprintf("volume-label=\"%s=%s\"", k, v))
+				if mount.BindOptions != nil {
+					if len(mount.BindOptions.Propagation) > 0 {
+						str = append(str, fmt.Sprintf("bind-propagation=%s", mount.BindOptions.Propagation))
 					}
 				}
 
-				if len(mount.VolumeOptions.DriverConfig.Name) > 0 {
-					str = append(str, fmt.Sprintf("volume-driver=%s", mount.VolumeOptions.DriverConfig.Name))
-				}
-				if len(mount.VolumeOptions.DriverConfig.Options) > 0 {
-					for k, v := range mount.VolumeOptions.DriverConfig.Options {
-						str = append(str, fmt.Sprintf("volume-opt=\"%s=%s\"", k, v))
+				if mount.VolumeOptions != nil {
+					if !mount.VolumeOptions.NoCopy {
+						str = append(str, "volume-nocopy=false")
 					}
-				}
 
-				cmd.Add(strings.Join(str, ","))
+					if len(mount.VolumeOptions.Labels) > 0 {
+						for k, v := range mount.VolumeOptions.Labels {
+							str = append(str, fmt.Sprintf("volume-label=\"%s=%s\"", k, v))
+						}
+					}
+
+					if len(mount.VolumeOptions.DriverConfig.Name) > 0 {
+						str = append(str, fmt.Sprintf("volume-driver=%s", mount.VolumeOptions.DriverConfig.Name))
+					}
+					if mount.VolumeOptions.DriverConfig != nil {
+						if len(mount.VolumeOptions.DriverConfig.Options) > 0 {
+							for k, v := range mount.VolumeOptions.DriverConfig.Options {
+								str = append(str, fmt.Sprintf("volume-opt=\"%s=%s\"", k, v))
+							}
+						}
+					}
+
+					cmd.Add(strings.Join(str, ","))
+				}
 			}
 		}
 	}
