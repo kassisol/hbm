@@ -13,7 +13,7 @@ import (
 	"github.com/juliengk/go-mount"
 	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/json"
-	"github.com/kassisol/hbm/allow/types"
+	"github.com/kassisol/hbm/docker/allow/types"
 	"github.com/kassisol/hbm/storage"
 	"github.com/kassisol/hbm/storage/driver"
 	"github.com/kassisol/hbm/version"

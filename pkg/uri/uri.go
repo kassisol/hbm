@@ -4,7 +4,7 @@ import (
 	"regexp"
 
 	"github.com/docker/go-plugins-helpers/authorization"
-	"github.com/kassisol/hbm/allow/types"
+	"github.com/kassisol/hbm/docker/allow/types"
 )
 
 type URI struct {

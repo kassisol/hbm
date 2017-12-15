@@ -1,7 +1,7 @@
 package endpoint
 
 import (
-	"github.com/kassisol/hbm/allow"
+	"github.com/kassisol/hbm/docker/allow"
 	"github.com/kassisol/hbm/docker/dcb"
 	"github.com/kassisol/hbm/pkg/uri"
 )
