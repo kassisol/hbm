@@ -1,6 +1,21 @@
-package validation
+package capability
 
-func IsValidCapability(name string) bool {
+import (
+	"fmt"
+
+	"github.com/kassisol/hbm/docker/resource"
+	"github.com/kassisol/hbm/docker/resource/driver"
+)
+
+type Config struct {
+	Capabilities []string
+}
+
+func init() {
+	resource.RegisterDriver("capability", New)
+}
+
+func New() (driver.Resourcer, error) {
 	capabilities := []string{
 		"CAP_AUDIT_CONTROL",
 		"CAP_AUDIT_WRITE",
@@ -41,11 +56,23 @@ func IsValidCapability(name string) bool {
 		"CAP_WAKE_ALARM",
 	}
 
-	for _, capability := range capabilities {
-		if capability == name {
-			return true
+	return &Config{Capabilities: capabilities}, nil
+}
+
+func (c *Config) List() interface{} {
+	return c.Capabilities
+}
+
+func (c *Config) Valid(value string) error {
+	for _, capability := range c.Capabilities {
+		if capability == value {
+			return nil
 		}
 	}
 
-	return false
+	return fmt.Errorf("Capability '%s' is not valid", value)
+}
+
+func (c *Config) ValidOptions(options map[string]string) error {
+	return nil
 }

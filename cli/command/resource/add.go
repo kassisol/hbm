@@ -1,13 +1,13 @@
 package resource
 
 import (
+	"fmt"
+
 	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/json"
 	"github.com/juliengk/go-utils/validation"
 	"github.com/kassisol/hbm/cli/command"
-	clivalidation "github.com/kassisol/hbm/cli/validation"
-	"github.com/kassisol/hbm/docker/config"
-	"github.com/kassisol/hbm/docker/endpoint"
+	resourcepkg "github.com/kassisol/hbm/docker/resource"
 	"github.com/kassisol/hbm/storage"
 	"github.com/kassisol/hbm/storage/driver"
 	log "github.com/sirupsen/logrus"
@@ -30,7 +30,7 @@ func newAddCommand() *cobra.Command {
 	}
 
 	flags := cmd.Flags()
-	flags.StringVarP(&resourceAddType, "type", "t", "action", "Set resource type (action|cap|config|device|dns|image|logdriver|logopt|port|registry|volume)")
+	flags.StringVarP(&resourceAddType, "type", "t", "action", fmt.Sprintf("Set resource type (%s)", resourcepkg.SupportedDrivers("|")))
 	flags.StringVarP(&resourceAddValue, "value", "v", "", "Set resource value")
 	flags.StringSliceVarP(&resourceAddOption, "option", "o", []string{}, "Specify options")
 
@@ -46,47 +46,6 @@ func runAdd(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
-	// Inputs validation
-	options := utils.ConvertSliceToMap("=", resourceAddOption)
-	if len(options) > 0 {
-		if err := clivalidation.IsValidResourceOptionKeys(options); err != nil {
-			log.Fatal(err)
-		}
-	}
-
-	rt := clivalidation.NewResourceTypes()
-	if err = rt.IsValidResourceType(resourceAddType); err != nil {
-		log.Fatal(err)
-	}
-
-	if resourceAddType == "action" {
-		uris := endpoint.GetUris()
-
-		if !uris.ActionExists(resourceAddValue) {
-			log.Fatalf("%s is not a valid action", resourceAddValue)
-		}
-	}
-
-	if resourceAddType == "cap" {
-		if !clivalidation.IsValidCapability(resourceAddValue) {
-			log.Fatalf("%s is not a valid cap", resourceAddValue)
-		}
-	}
-
-	if resourceAddType == "config" {
-		configs := config.New()
-
-		if !configs.ActionExists(resourceAddValue) {
-			log.Fatalf("%s is not a valid config", resourceAddValue)
-		}
-	}
-
-	if resourceAddType == "logdriver" {
-		if !clivalidation.IsValidLogDriver(resourceAddValue) {
-			log.Fatalf("%s is not a valid logdriver", resourceAddValue)
-		}
-	}
-
 	if err = validation.IsValidName(args[0]); err != nil {
 		log.Fatal(err)
 	}
@@ -95,7 +54,20 @@ func runAdd(cmd *cobra.Command, args []string) {
 		log.Fatalf("%s already exists", args[0])
 	}
 
-	// Add to DB
+	res, err := resourcepkg.NewDriver(resourceAddType)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err = res.Valid(resourceAddValue); err != nil {
+		log.Fatal(err)
+	}
+
+	options := utils.ConvertSliceToMap("=", resourceAddOption)
+	if err = res.ValidOptions(options); err != nil {
+		log.Fatal(err)
+	}
+
 	opts := ""
 	if resourceAddType == "volume" {
 		vo := driver.VolumeOptions{}
@@ -109,6 +81,7 @@ func runAdd(cmd *cobra.Command, args []string) {
 		opts = jsonR.String()
 	}
 
+	// Add to DB
 	s.AddResource(args[0], resourceAddType, resourceAddValue, opts)
 }
 
