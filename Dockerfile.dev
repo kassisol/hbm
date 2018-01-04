@@ -52,7 +52,8 @@ ENV PATH=/go/bin:/usr/local/go/bin:$PATH
 
 # Install Docker
 RUN curl -sfL ${DOCKER_URL} | tar -xzC /usr/local/src \
-	&& cp /usr/local/src/docker/docker* /usr/bin/
+	&& cp /usr/local/src/docker/docker* /usr/bin/ \
+	&& mkdir -p /etc/docker/plugins
 
 # Install Docker Compose
 RUN wget https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-Linux-x86_64 -O /usr/bin/docker-compose \
