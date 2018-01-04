@@ -53,17 +53,21 @@ func (c *Config) Add(name, rType, rValue string, rOptions []string) error {
 		return fmt.Errorf("%s already exists", name)
 	}
 
-	res, err := resourcepkg.NewDriver(rType)
-	if err != nil {
-		return err
-	}
+	if rType != "all" {
+		res, err := resourcepkg.NewDriver(rType)
+		if err != nil {
+			return err
+		}
 
-	if err = res.Valid(rValue); err != nil {
-		return err
-	}
+		if rValue != "all" {
+			if err = res.Valid(rValue); err != nil {
+				return err
+			}
+		}
 
-	if err = res.ValidOptions(options); err != nil {
-		return err
+		if err = res.ValidOptions(options); err != nil {
+			return err
+		}
 	}
 
 	opts := ""

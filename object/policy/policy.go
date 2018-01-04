@@ -103,6 +103,55 @@ func (c *Config) Validate(user, rType, rValue, rOptions string) bool {
 	var filters []map[string]string
 
 	filters = append(filters, map[string]string{
+		"user":             "all",
+		"resource-type":    "all",
+		"resource-value":   "all",
+		"resource-options": "all",
+	})
+
+	filters = append(filters, map[string]string{
+		"user":             "all",
+		"resource-type":    "all",
+		"resource-value":   "all",
+		"resource-options": "",
+	})
+
+	filters = append(filters, map[string]string{
+		"user":             "all",
+		"resource-type":    rType,
+		"resource-value":   "all",
+		"resource-options": "all",
+	})
+
+	filters = append(filters, map[string]string{
+		"user":             "all",
+		"resource-type":    rType,
+		"resource-value":   "all",
+		"resource-options": "",
+	})
+
+	filters = append(filters, map[string]string{
+		"user":             "all",
+		"resource-type":    rType,
+		"resource-value":   rValue,
+		"resource-options": rOptions,
+	})
+
+	filters = append(filters, map[string]string{
+		"user":             user,
+		"resource-type":    rType,
+		"resource-value":   "all",
+		"resource-options": "all",
+	})
+
+	filters = append(filters, map[string]string{
+		"user":             user,
+		"resource-type":    rType,
+		"resource-value":   "all",
+		"resource-options": "",
+	})
+
+	filters = append(filters, map[string]string{
 		"user":             user,
 		"resource-type":    rType,
 		"resource-value":   rValue,
@@ -112,6 +161,7 @@ func (c *Config) Validate(user, rType, rValue, rOptions string) bool {
 	for _, filter := range filters {
 		result, err := c.List(filter)
 		if err != nil {
+			fmt.Println(err)
 			return false
 		}
 
