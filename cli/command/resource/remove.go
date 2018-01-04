@@ -3,7 +3,7 @@ package resource
 import (
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
-	"github.com/kassisol/hbm/storage"
+	resourceobj "github.com/kassisol/hbm/object/resource"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -24,17 +24,13 @@ func newRemoveCommand() *cobra.Command {
 func runRemove(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	s, err := storage.NewDriver("sqlite", command.AppPath)
+	r, err := resourceobj.New("sqlite", command.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer s.End()
+	defer r.End()
 
-	if !s.FindResource(args[0]) {
-		log.Fatalf("%s does not exist", args[0])
-	}
-
-	if err = s.RemoveResource(args[0]); err != nil {
+	if err := r.Remove(args[0]); err != nil {
 		log.Fatal(err)
 	}
 }

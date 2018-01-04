@@ -1,4 +1,4 @@
-package validation
+package policy
 
 import (
 	"fmt"
@@ -6,12 +6,13 @@ import (
 	"github.com/juliengk/go-utils"
 )
 
-func IsValidPolicyFilterKeys(filters map[string]string) error {
+func isValidFilterKeys(filters map[string]string) error {
 	validKeys := []string{
 		"user",
 		"group",
 		"resource-type",
 		"resource-value",
+		"resource-options",
 		"collection",
 	}
 

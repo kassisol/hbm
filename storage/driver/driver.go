@@ -1,8 +1,12 @@
 package driver
 
+import (
+	"github.com/kassisol/hbm/object/types"
+)
+
 type Storager interface {
 	SetConfig(name string, value bool)
-	ListConfigs(filter map[string]string) []ConfigResult
+	ListConfigs(filter map[string]string) []types.Config
 	GetConfig(name string) bool
 
 	AddUser(name string)
@@ -21,7 +25,7 @@ type Storager interface {
 
 	AddResource(name, rtype, value, options string)
 	RemoveResource(name string) error
-	ListResources(filter map[string]string) map[ResourceResult][]string
+	ListResources(filter map[string]string) map[types.Resource][]string
 	FindResource(name string) bool
 	CountResource(rtype string) int
 	AddResourceToCollection(col, res string)
@@ -35,11 +39,9 @@ type Storager interface {
 
 	AddPolicy(name, group, collection string)
 	RemovePolicy(name string)
-	ListPolicies(filter map[string]string) []PolicyResult
+	ListPolicies(filter map[string]string) []types.Policy
 	FindPolicy(name string) bool
 	CountPolicy() int
-
-	ValidatePolicy(user, resType, resValue, option string) bool
 
 	End()
 }

@@ -3,7 +3,7 @@ package sqlite
 import (
 	"fmt"
 
-	"github.com/kassisol/hbm/storage/driver"
+	"github.com/kassisol/hbm/object/types"
 )
 
 func (c *Config) AddResource(name, rtype, value, options string) {
@@ -25,8 +25,8 @@ func (c *Config) RemoveResource(name string) error {
 	return nil
 }
 
-func (c *Config) ListResources(filter map[string]string) map[driver.ResourceResult][]string {
-	result := make(map[driver.ResourceResult][]string)
+func (c *Config) ListResources(filter map[string]string) map[types.Resource][]string {
+	result := make(map[types.Resource][]string)
 
 	sql := c.DB.Table("resources").Select("resources.name, resources.type, resources.value, resources.option, collections.name").Joins("LEFT JOIN collection_resources ON collection_resources.resource_id = resources.id").Joins("LEFT JOIN collections ON collections.id = collection_resources.collection_id")
 
@@ -58,7 +58,7 @@ func (c *Config) ListResources(filter map[string]string) map[driver.ResourceResu
 
 		rows.Scan(&resName, &resType, &resValue, &resOption, &collection)
 
-		rr := driver.ResourceResult{Name: resName, Type: resType, Value: resValue, Option: resOption}
+		rr := types.Resource{Name: resName, Type: resType, Value: resValue, Option: resOption}
 
 		result[rr] = append(result[rr], collection)
 	}

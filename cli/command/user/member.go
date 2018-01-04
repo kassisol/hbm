@@ -3,7 +3,7 @@ package user
 import (
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
-	"github.com/kassisol/hbm/storage"
+	userobj "github.com/kassisol/hbm/object/user"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -32,25 +32,21 @@ func newMemberCommand() *cobra.Command {
 func runMember(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	s, err := storage.NewDriver("sqlite", command.AppPath)
+	u, err := userobj.New("sqlite", command.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer s.End()
-
-	if !s.FindGroup(args[0]) {
-		log.Fatalf("%s does not exist", args[0])
-	}
-
-	if !s.FindUser(args[1]) {
-		log.Fatalf("%s does not exist", args[1])
-	}
+	defer u.End()
 
 	if userMemberAdd {
-		s.AddUserToGroup(args[0], args[1])
+		if err := u.AddToGroup(args[1], args[0]); err != nil {
+			log.Fatal(err)
+		}
 	}
 	if userMemberRemove {
-		s.RemoveUserFromGroup(args[0], args[1])
+		if err := u.RemoveFromGroup(args[1], args[0]); err != nil {
+			log.Fatal(err)
+		}
 	}
 }
 

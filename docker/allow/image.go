@@ -10,7 +10,7 @@ import (
 	"github.com/juliengk/go-log/driver"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/docker/allow/types"
-	"github.com/kassisol/hbm/storage"
+	policyobj "github.com/kassisol/hbm/object/policy"
 	"github.com/kassisol/hbm/version"
 )
 
@@ -34,7 +34,7 @@ func AllowImage(img string, config *types.Config) bool {
 
 	l, _ := log.NewDriver("standard", nil)
 
-	s, err := storage.NewDriver("sqlite", config.AppPath)
+	p, err := policyobj.New("sqlite", config.AppPath)
 	if err != nil {
 		l.WithFields(driver.Fields{
 			"storagedriver": "sqlite",
@@ -42,21 +42,21 @@ func AllowImage(img string, config *types.Config) bool {
 			"version":       version.Version,
 		}).Fatal(err)
 	}
-	defer s.End()
+	defer p.End()
 
 	i := image.NewImage(img)
 
 	if i.Official {
-		if s.ValidatePolicy(config.Username, "config", "image_create_official", "") {
+		if p.Validate(config.Username, "config", "image_create_official", "") {
 			return true
 		}
 	}
 
-	if s.ValidatePolicy(config.Username, "registry", i.Registry, "") {
+	if p.Validate(config.Username, "registry", i.Registry, "") {
 		return true
 	}
 
-	if s.ValidatePolicy(config.Username, "image", i.String(), "") {
+	if p.Validate(config.Username, "image", i.String(), "") {
 		return true
 	}
 

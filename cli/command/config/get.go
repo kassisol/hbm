@@ -5,8 +5,7 @@ import (
 
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
-	"github.com/kassisol/hbm/config"
-	"github.com/kassisol/hbm/storage"
+	configobj "github.com/kassisol/hbm/object/config"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -27,18 +26,16 @@ func newGetCommand() *cobra.Command {
 func runGet(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	s, err := storage.NewDriver("sqlite", command.AppPath)
+	c, err := configobj.New("sqlite", command.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer s.End()
+	defer c.End()
 
-	conf := config.New()
-	if err := conf.IsValid(args[0]); err != nil {
+	result, err := c.Get(args[0])
+	if err !=nil {
 		log.Fatal(err)
 	}
-
-	result := s.GetConfig(args[0])
 
 	fmt.Println(result)
 }

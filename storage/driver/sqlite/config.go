@@ -1,7 +1,7 @@
 package sqlite
 
 import (
-	"github.com/kassisol/hbm/storage/driver"
+	"github.com/kassisol/hbm/object/types"
 )
 
 func (c *Config) SetConfig(name string, value bool) {
@@ -24,10 +24,10 @@ func (c *Config) SetConfig(name string, value bool) {
 	}
 }
 
-func (c *Config) ListConfigs(filter map[string]string) []driver.ConfigResult {
+func (c *Config) ListConfigs(filter map[string]string) []types.Config {
 	var configs []AppConfig
 
-	result := []driver.ConfigResult{}
+	result := []types.Config{}
 
 	sql := c.DB
 
@@ -42,7 +42,7 @@ func (c *Config) ListConfigs(filter map[string]string) []driver.ConfigResult {
 	sql.Find(&configs)
 
 	for _, config := range configs {
-		result = append(result, driver.ConfigResult{Key: config.Key, Value: config.Value})
+		result = append(result, types.Config{Key: config.Key, Value: config.Value})
 	}
 
 	return result

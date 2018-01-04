@@ -5,7 +5,7 @@ import (
 
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
-	"github.com/kassisol/hbm/storage"
+	groupobj "github.com/kassisol/hbm/object/group"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -25,15 +25,13 @@ func newFindCommand() *cobra.Command {
 func runFind(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	s, err := storage.NewDriver("sqlite", command.AppPath)
+	g, err := groupobj.New("sqlite", command.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer s.End()
+	defer g.End()
 
-	result := s.FindGroup(args[0])
-
-	fmt.Println(result)
+	fmt.Println(g.Find(args[0]))
 }
 
 var findDescription = `

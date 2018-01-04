@@ -1,18 +1,18 @@
-package driver
+package types
 
-type ConfigResult struct {
+type Config struct {
 	Key   string
 	Value bool
 }
 
-type ResourceResult struct {
+type Resource struct {
 	Name   string
 	Type   string
 	Value  string
 	Option string
 }
 
-type PolicyResult struct {
+type Policy struct {
 	Name       string
 	Group      string
 	Collection string

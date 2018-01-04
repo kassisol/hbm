@@ -9,8 +9,8 @@ import (
 	"github.com/kassisol/hbm/docker/allow"
 	"github.com/kassisol/hbm/docker/allow/types"
 	"github.com/kassisol/hbm/docker/endpoint"
+	configobj "github.com/kassisol/hbm/object/config"
 	"github.com/kassisol/hbm/pkg/uri"
-	"github.com/kassisol/hbm/storage"
 	"github.com/kassisol/hbm/version"
 )
 
@@ -29,7 +29,7 @@ func NewApi(uriinfo *uri.URIInfo, appPath string) (*Api, error) {
 func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 	l, _ := log.NewDriver("standard", nil)
 
-	s, err := storage.NewDriver("sqlite", a.AppPath)
+	s, err := configobj.New("sqlite", a.AppPath)
 	if err != nil {
 		l.WithFields(driver.Fields{
 			"storagedriver": "sqlite",
@@ -44,7 +44,7 @@ func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 			l.Warn("Recovered panic: ", r)
 			l.Warnf("%s", debug.Stack())
 
-			allow := s.GetConfig("default-allow-action-error")
+			allow, _ := s.Get("default-allow-action-error")
 			err := "an error occurred; contact your system administrator"
 
 			result := types.AllowResult{Allow: allow}
@@ -72,7 +72,8 @@ func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 	config := types.Config{AppPath: a.AppPath, Username: username}
 	r := allow.AllowTrue(req, &config)
 
-	if s.GetConfig("authorization") {
+	aR, _ := s.Get("authorization")
+	if aR {
 		r = allow.AllowAction(&config, u.Action, u.CmdName)
 		if r.Allow {
 			r = u.AllowFunc(req, &config)

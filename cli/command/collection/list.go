@@ -8,7 +8,7 @@ import (
 
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
-	"github.com/kassisol/hbm/storage"
+	collectionobj "github.com/kassisol/hbm/object/collection"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -34,15 +34,18 @@ func newListCommand() *cobra.Command {
 func runList(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	s, err := storage.NewDriver("sqlite", command.AppPath)
+	c, err := collectionobj.New("sqlite", command.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer s.End()
+	defer c.End()
 
 	filters := utils.ConvertSliceToMap("=", collectionListFilter)
 
-	collections := s.ListCollections(filters)
+	collections, err := c.List(filters)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	if len(collections) > 0 {
 		w := tabwriter.NewWriter(os.Stdout, 20, 1, 2, ' ', 0)

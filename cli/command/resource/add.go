@@ -4,12 +4,9 @@ import (
 	"fmt"
 
 	"github.com/juliengk/go-utils"
-	"github.com/juliengk/go-utils/json"
-	"github.com/juliengk/go-utils/validation"
 	"github.com/kassisol/hbm/cli/command"
 	resourcepkg "github.com/kassisol/hbm/docker/resource"
-	"github.com/kassisol/hbm/storage"
-	"github.com/kassisol/hbm/storage/driver"
+	resourceobj "github.com/kassisol/hbm/object/resource"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -40,49 +37,15 @@ func newAddCommand() *cobra.Command {
 func runAdd(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	s, err := storage.NewDriver("sqlite", command.AppPath)
+	r, err := resourceobj.New("sqlite", command.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer s.End()
+	defer r.End()
 
-	if err = validation.IsValidName(args[0]); err != nil {
+	if err := r.Add(args[0], resourceAddType, resourceAddValue, resourceAddOption); err != nil {
 		log.Fatal(err)
 	}
-
-	if s.FindResource(args[0]) {
-		log.Fatalf("%s already exists", args[0])
-	}
-
-	res, err := resourcepkg.NewDriver(resourceAddType)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	if err = res.Valid(resourceAddValue); err != nil {
-		log.Fatal(err)
-	}
-
-	options := utils.ConvertSliceToMap("=", resourceAddOption)
-	if err = res.ValidOptions(options); err != nil {
-		log.Fatal(err)
-	}
-
-	opts := ""
-	if resourceAddType == "volume" {
-		vo := driver.VolumeOptions{}
-		if _, ok := options["recursive"]; ok {
-			vo.Recursive = true
-		}
-		if _, ok := options["nosuid"]; ok {
-			vo.NoSuid = true
-		}
-		jsonR := json.Encode(vo)
-		opts = jsonR.String()
-	}
-
-	// Add to DB
-	s.AddResource(args[0], resourceAddType, resourceAddValue, opts)
 }
 
 var addDescription = `

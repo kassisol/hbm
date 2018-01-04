@@ -2,9 +2,8 @@ package group
 
 import (
 	"github.com/juliengk/go-utils"
-	"github.com/juliengk/go-utils/validation"
 	"github.com/kassisol/hbm/cli/command"
-	"github.com/kassisol/hbm/storage"
+	groupobj "github.com/kassisol/hbm/object/group"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -24,21 +23,15 @@ func newAddCommand() *cobra.Command {
 func runAdd(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	s, err := storage.NewDriver("sqlite", command.AppPath)
+	g, err := groupobj.New("sqlite", command.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer s.End()
+	defer g.End()
 
-	if err = validation.IsValidGroupname(args[0]); err != nil {
+	if err := g.Add(args[0]); err != nil {
 		log.Fatal(err)
 	}
-
-	if s.FindGroup(args[0]) {
-		log.Fatalf("%s already exists", args[0])
-	}
-
-	s.AddGroup(args[0])
 }
 
 var addDescription = `

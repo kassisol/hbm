@@ -1,7 +1,7 @@
 package sqlite
 
 import (
-	"github.com/kassisol/hbm/storage/driver"
+	"github.com/kassisol/hbm/object/types"
 )
 
 func (c *Config) AddPolicy(name, group, collection string) {
@@ -18,8 +18,8 @@ func (c *Config) RemovePolicy(name string) {
 	c.DB.Where("name = ?", name).Delete(Policy{})
 }
 
-func (c *Config) ListPolicies(filter map[string]string) []driver.PolicyResult {
-	var policies []driver.PolicyResult
+func (c *Config) ListPolicies(filter map[string]string) []types.Policy {
+	var policies []types.Policy
 
 	sql := c.DB.Table("policies").Select("policies.name, groups.name, collections.name").Joins("JOIN groups ON groups.id = policies.group_id").Joins("JOIN collections ON collections.id = policies.collection_id")
 
@@ -33,6 +33,9 @@ func (c *Config) ListPolicies(filter map[string]string) []driver.PolicyResult {
 	rv, rvok := filter["resource-value"]
 	if rtok && rvok {
 		sql = sql.Joins("JOIN collection_resources ON collection_resources.collection_id = collections.id").Joins("JOIN resources ON resources.id = collection_resources.resource_id").Where("resources.type = ? AND resources.value = ?", rt, rv)
+	}
+	if v, ok := filter["resource-options"]; ok {
+		sql = sql.Where("resources.option = ?", v)
 	}
 	if v, ok := filter["collection"]; ok {
 		sql = sql.Where("collections.name = ?", v)
@@ -48,7 +51,7 @@ func (c *Config) ListPolicies(filter map[string]string) []driver.PolicyResult {
 
 		rows.Scan(&policy, &group, &collection)
 
-		policies = append(policies, driver.PolicyResult{Name: policy, Group: group, Collection: collection})
+		policies = append(policies, types.Policy{Name: policy, Group: group, Collection: collection})
 	}
 
 	return policies
@@ -72,20 +75,4 @@ func (c *Config) CountPolicy() int {
 	c.DB.Model(&Policy{}).Count(&count)
 
 	return int(count)
-}
-
-func (c *Config) ValidatePolicy(user, resType, resValue, option string) bool {
-	rows, _ := c.DB.Raw("SELECT COUNT(*) FROM users, resources, groups, collections, group_users, collection_resources, policies WHERE policies.group_id = groups.id AND policies.collection_id = collections.id AND group_users.group_id = groups.id AND group_users.user_id = users.id AND collection_resources.collection_id = collections.id AND collection_resources.resource_id = resources.id AND users.name = ? AND resources.type = ? AND resources.value = ? AND resources.option = ?", user, resType, resValue, option).Rows()
-	defer rows.Close()
-
-	for rows.Next() {
-		var count int
-
-		rows.Scan(&count)
-		if count >= 1 {
-			return true
-		}
-	}
-
-	return false
 }

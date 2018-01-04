@@ -7,8 +7,7 @@ import (
 
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
-	"github.com/kassisol/hbm/cli/validation"
-	"github.com/kassisol/hbm/storage"
+	policyobj "github.com/kassisol/hbm/object/policy"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -34,19 +33,18 @@ func newListCommand() *cobra.Command {
 func runList(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	s, err := storage.NewDriver("sqlite", command.AppPath)
+	p, err := policyobj.New("sqlite", command.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer s.End()
+	defer p.End()
 
 	filters := utils.ConvertSliceToMap("=", policyListFilter)
 
-	if err = validation.IsValidPolicyFilterKeys(filters); err != nil {
+	policies, err := p.List(filters)
+	if err != nil {
 		log.Fatal(err)
 	}
-
-	policies := s.ListPolicies(filters)
 
 	if len(policies) > 0 {
 		w := tabwriter.NewWriter(os.Stdout, 20, 1, 2, ' ', 0)

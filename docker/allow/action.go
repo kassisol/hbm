@@ -7,7 +7,7 @@ import (
 	"github.com/juliengk/go-log/driver"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/docker/allow/types"
-	"github.com/kassisol/hbm/storage"
+	policyobj "github.com/kassisol/hbm/object/policy"
 	"github.com/kassisol/hbm/version"
 )
 
@@ -16,7 +16,7 @@ func AllowAction(config *types.Config, action, cmd string) *types.AllowResult {
 
 	l, _ := log.NewDriver("standard", nil)
 
-	s, err := storage.NewDriver("sqlite", config.AppPath)
+	p, err := policyobj.New("sqlite", config.AppPath)
 	if err != nil {
 		l.WithFields(driver.Fields{
 			"storagedriver": "sqlite",
@@ -24,9 +24,9 @@ func AllowAction(config *types.Config, action, cmd string) *types.AllowResult {
 			"version":       version.Version,
 		}).Fatal(err)
 	}
-	defer s.End()
+	defer p.End()
 
-	if !s.ValidatePolicy(config.Username, "action", action, "") {
+	if !p.Validate(config.Username, "action", action, "") {
 		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("%s is not allowed", cmd)}
 	}
 

@@ -3,7 +3,7 @@ package policy
 import (
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
-	"github.com/kassisol/hbm/storage"
+	policyobj "github.com/kassisol/hbm/object/policy"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -24,17 +24,15 @@ func newRemoveCommand() *cobra.Command {
 func runRemove(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	s, err := storage.NewDriver("sqlite", command.AppPath)
+	p, err := policyobj.New("sqlite", command.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer s.End()
+	defer p.End()
 
-	if !s.FindPolicy(args[0]) {
-		log.Fatalf("%s does not exist", args[0])
+	if err := p.Remove(args[0]); err != nil {
+		log.Fatal(err)
 	}
-
-	s.RemovePolicy(args[0])
 }
 
 var removeDescription = `
