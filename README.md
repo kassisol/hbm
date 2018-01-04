@@ -1,4 +1,7 @@
 # HBM (Harbormaster)
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/kassisol/hbm)](https://goreportcard.com/report/github.com/kassisol/hbm)
+
 Harbormaster is a basic extendable Docker Engine [access authorization plugin](https://docs.docker.com/engine/extend/plugins_authorization/) that runs on directly on the host.
 
 By default Harbormaster plugin prevents from executing commands with certains parameters.
@@ -16,8 +19,6 @@ By default Harbormaster plugin prevents from executing commands with certains pa
   * any ports added with parameter `--port=`
   * any volumes mounted with parameter `-v`
   * any logging with parameters "--log-driver" and "--log-opt"
-
-[![Go Report Card](https://goreportcard.com/badge/github.com/kassisol/hbm)](https://goreportcard.com/report/github.com/kassisol/hbm)
 
 ## Versions
 
