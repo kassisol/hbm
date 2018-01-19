@@ -37,6 +37,10 @@ func (c *Config) List() interface{} {
 }
 
 func (c *Config) Valid(value string) error {
+	if value == "*" {
+		return nil
+	}
+
 	for _, logdriver := range c.Drivers {
 		if logdriver == value {
 			return nil

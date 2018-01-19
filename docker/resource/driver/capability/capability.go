@@ -64,6 +64,10 @@ func (c *Config) List() interface{} {
 }
 
 func (c *Config) Valid(value string) error {
+	if value == "*" {
+		return nil
+	}
+
 	for _, capability := range c.Capabilities {
 		if capability == value {
 			return nil
