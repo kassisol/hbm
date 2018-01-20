@@ -95,7 +95,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 
 	if len(cc.HostConfig.CapAdd) > 0 {
 		for _, c := range cc.HostConfig.CapAdd {
-			if !p.Validate(config.Username, "cap", c, "") {
+			if !p.Validate(config.Username, "capability", c, "") {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Capability %s is not allowed", c)}
 			}
 		}
