@@ -1,7 +1,6 @@
 package port
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/juliengk/go-utils/validation"
@@ -25,6 +24,10 @@ func (c *Config) List() interface{} {
 }
 
 func (c *Config) Valid(value string) error {
+	if value == "*" {
+		return nil
+	}
+
 	port, err := strconv.Atoi(value)
 	if err != nil {
 		return err

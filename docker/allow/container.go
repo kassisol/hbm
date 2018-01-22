@@ -93,7 +93,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		}
 	}
 
-	if len(cc.HostConfig.CapAdd) > 0 {
+	if len(cc.HostConfig.CapAdd) > 0 && !p.Validate(config.Username, "cap", "*", "") {
 		for _, c := range cc.HostConfig.CapAdd {
 			if !p.Validate(config.Username, "cap", c, "") {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Capability %s is not allowed", c)}
@@ -101,7 +101,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		}
 	}
 
-	if len(cc.HostConfig.Devices) > 0 {
+	if len(cc.HostConfig.Devices) > 0 && !p.Validate(config.Username, "device", "*", "") {
 		for _, dev := range cc.HostConfig.Devices {
 			if !p.Validate(config.Username, "device", dev.PathOnHost, "") {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Device %s is not allowed to be exported", dev.PathOnHost)}
@@ -109,7 +109,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		}
 	}
 
-	if len(cc.HostConfig.DNS) > 0 {
+	if len(cc.HostConfig.DNS) > 0 && !p.Validate(config.Username, "dns", "*", "") {
 		for _, dns := range cc.HostConfig.DNS {
 			if !p.Validate(config.Username, "dns", dns, "") {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("DNS server %s is not allowed", dns)}
@@ -123,7 +123,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		}
 	}
 
-	if len(cc.HostConfig.PortBindings) > 0 {
+	if len(cc.HostConfig.PortBindings) > 0 && !p.Validate(config.Username, "port", "*", "") {
 		for _, pbs := range cc.HostConfig.PortBindings {
 			for _, pb := range pbs {
 				spb := GetPortBindingString(&pb)
@@ -135,7 +135,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		}
 	}
 
-	if len(cc.HostConfig.Binds) > 0 {
+	if len(cc.HostConfig.Binds) > 0 && !p.Validate(config.Username, "volume", "*", "") {
 		p.End()
 
 		for _, b := range cc.HostConfig.Binds {
@@ -147,13 +147,13 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 		}
 	}
 
-	if len(cc.HostConfig.LogConfig.Type) > 0 {
+	if len(cc.HostConfig.LogConfig.Type) > 0 && !p.Validate(config.Username, "logdriver", "*", "") {
 		if !p.Validate(config.Username, "logdriver", cc.HostConfig.LogConfig.Type, "") {
 			return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log driver %s is not allowed", cc.HostConfig.LogConfig.Type)}
 		}
 	}
 
-	if len(cc.HostConfig.LogConfig.Config) > 0 {
+	if len(cc.HostConfig.LogConfig.Config) > 0 && !p.Validate(config.Username, "logopt", "*", "") {
 		for k, v := range cc.HostConfig.LogConfig.Config {
 			los := fmt.Sprintf("%s=%s", k, v)
 
