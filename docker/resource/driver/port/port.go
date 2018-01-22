@@ -1,7 +1,6 @@
 package port
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/juliengk/go-utils/validation"

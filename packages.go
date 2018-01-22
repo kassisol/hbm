@@ -12,6 +12,7 @@ import (
 	_ "github.com/kassisol/hbm/docker/resource/driver/image"
 	_ "github.com/kassisol/hbm/docker/resource/driver/logdriver"
 	_ "github.com/kassisol/hbm/docker/resource/driver/logopt"
+	_ "github.com/kassisol/hbm/docker/resource/driver/port"
 	_ "github.com/kassisol/hbm/docker/resource/driver/registry"
 	_ "github.com/kassisol/hbm/docker/resource/driver/volume"
 )
