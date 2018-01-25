@@ -38,27 +38,27 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	if svc.TaskTemplate.Placement != nil {
 		if len(svc.TaskTemplate.Placement.Constraints) > 0 {
 			for _, constraint := range svc.TaskTemplate.Placement.Constraints {
-				cmd.Add(fmt.Sprintf("--constraint=%s", constraint))
+				cmd.Add(fmt.Sprintf("--constraint %s", constraint))
 			}
 		}
 	}
 
 	if len(svc.Annotations.Labels) > 0 {
 		for k, v := range svc.Annotations.Labels {
-			cmd.Add(fmt.Sprintf("--label=\"%s=%s\"", k, v))
+			cmd.Add(fmt.Sprintf("--label \"%s=%s\"", k, v))
 		}
 	}
 
 	if svc.TaskTemplate.ContainerSpec != nil {
 		if len(svc.TaskTemplate.ContainerSpec.Env) > 0 {
 			for _, env := range svc.TaskTemplate.ContainerSpec.Env {
-				cmd.Add(fmt.Sprintf("--env=%s", env))
+				cmd.Add(fmt.Sprintf("--env %s", env))
 			}
 		}
 
 		if len(svc.TaskTemplate.ContainerSpec.Labels) > 0 {
 			for k, v := range svc.TaskTemplate.ContainerSpec.Labels {
-				cmd.Add(fmt.Sprintf("--container-label=\"%s=%s\"", k, v))
+				cmd.Add(fmt.Sprintf("--container-label \"%s=%s\"", k, v))
 			}
 		}
 	}
@@ -66,28 +66,28 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	if svc.TaskTemplate.Resources != nil {
 		if svc.TaskTemplate.Resources.Limits != nil {
 			if svc.TaskTemplate.Resources.Limits.NanoCPUs > 0 {
-				cmd.Add(fmt.Sprintf("--limit-cpu=%s", svc.TaskTemplate.Resources.Limits.NanoCPUs))
+				cmd.Add(fmt.Sprintf("--limit-cpu %s", svc.TaskTemplate.Resources.Limits.NanoCPUs))
 			}
 
 			if svc.TaskTemplate.Resources.Limits.MemoryBytes > 0 {
-				cmd.Add(fmt.Sprintf("--limit-memory=%s", svc.TaskTemplate.Resources.Limits.MemoryBytes))
+				cmd.Add(fmt.Sprintf("--limit-memory %s", svc.TaskTemplate.Resources.Limits.MemoryBytes))
 			}
 		}
 
 		if svc.TaskTemplate.Resources.Reservations != nil {
 			if svc.TaskTemplate.Resources.Reservations.NanoCPUs > 0 {
-				cmd.Add(fmt.Sprintf("--reserve-cpu=%s", svc.TaskTemplate.Resources.Reservations.NanoCPUs))
+				cmd.Add(fmt.Sprintf("--reserve-cpu %s", svc.TaskTemplate.Resources.Reservations.NanoCPUs))
 			}
 
 			if svc.TaskTemplate.Resources.Reservations.MemoryBytes > 0 {
-				cmd.Add(fmt.Sprintf("--reserve-memory=%s", svc.TaskTemplate.Resources.Reservations.MemoryBytes))
+				cmd.Add(fmt.Sprintf("--reserve-memory %s", svc.TaskTemplate.Resources.Reservations.MemoryBytes))
 			}
 		}
 	}
 
 	if svc.TaskTemplate.LogDriver != nil {
 		if len(svc.TaskTemplate.LogDriver.Name) > 0 {
-			cmd.Add(fmt.Sprintf("--log-driver=%s", svc.TaskTemplate.LogDriver.Name))
+			cmd.Add(fmt.Sprintf("--log-driver %s", svc.TaskTemplate.LogDriver.Name))
 		}
 
 		if len(svc.TaskTemplate.LogDriver.Options) > 0 {
@@ -153,7 +153,7 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	}
 
 	if len(svc.Annotations.Name) > 0 {
-		cmd.Add(fmt.Sprintf("--name=%s", svc.Annotations.Name))
+		cmd.Add(fmt.Sprintf("--name %s", svc.Annotations.Name))
 	}
 
 	if len(svc.Networks) > 0 {
@@ -168,7 +168,7 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 
 	if svc.EndpointSpec != nil {
 		if len(svc.EndpointSpec.Mode) > 0 {
-			cmd.Add(fmt.Sprintf("--endpoint-mode=%s", svc.EndpointSpec.Mode))
+			cmd.Add(fmt.Sprintf("--endpoint-mode %s", svc.EndpointSpec.Mode))
 		}
 
 		if len(svc.EndpointSpec.Ports) > 0 {
@@ -191,7 +191,7 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 
 		*/
 		if svc.Mode.Replicated.Replicas != nil {
-			cmd.Add(fmt.Sprintf("--replicas=%d", *svc.Mode.Replicated.Replicas))
+			cmd.Add(fmt.Sprintf("--replicas %d", *svc.Mode.Replicated.Replicas))
 		}
 	}
 
@@ -201,49 +201,49 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 
 	if svc.TaskTemplate.RestartPolicy != nil {
 		if len(svc.TaskTemplate.RestartPolicy.Condition) > 0 {
-			cmd.Add(fmt.Sprintf("--restart-condition=%s", svc.TaskTemplate.RestartPolicy.Condition))
+			cmd.Add(fmt.Sprintf("--restart-condition %s", svc.TaskTemplate.RestartPolicy.Condition))
 		}
 
 		if *svc.TaskTemplate.RestartPolicy.Delay > 0 {
-			cmd.Add(fmt.Sprintf("--restart-delay=%s", svc.TaskTemplate.RestartPolicy.Delay))
+			cmd.Add(fmt.Sprintf("--restart-delay %s", svc.TaskTemplate.RestartPolicy.Delay))
 		}
 
 		if *svc.TaskTemplate.RestartPolicy.MaxAttempts > 0 {
-			cmd.Add(fmt.Sprintf("--restart-max-attempts=%s", svc.TaskTemplate.RestartPolicy.MaxAttempts))
+			cmd.Add(fmt.Sprintf("--restart-max-attempts %s", svc.TaskTemplate.RestartPolicy.MaxAttempts))
 		}
 
 		if *svc.TaskTemplate.RestartPolicy.Window > 0 {
-			cmd.Add(fmt.Sprintf("--restart-window=%s", svc.TaskTemplate.RestartPolicy.Window))
+			cmd.Add(fmt.Sprintf("--restart-window %s", svc.TaskTemplate.RestartPolicy.Window))
 		}
 	}
 
 	if svc.TaskTemplate.ContainerSpec != nil {
 		if svc.TaskTemplate.ContainerSpec.StopGracePeriod != nil {
-			cmd.Add(fmt.Sprintf("--stop-grace-period=%s", svc.TaskTemplate.ContainerSpec.StopGracePeriod))
+			cmd.Add(fmt.Sprintf("--stop-grace-period %s", svc.TaskTemplate.ContainerSpec.StopGracePeriod))
 		}
 	}
 
 	if svc.UpdateConfig != nil {
 		if svc.UpdateConfig.Delay > 0 {
-			cmd.Add(fmt.Sprintf("--update-delay=%s", svc.UpdateConfig.Delay))
+			cmd.Add(fmt.Sprintf("--update-delay %s", svc.UpdateConfig.Delay))
 		}
 
 		if len(svc.UpdateConfig.FailureAction) > 0 {
-			cmd.Add(fmt.Sprintf("--update-failure-action=%s", svc.UpdateConfig.FailureAction))
+			cmd.Add(fmt.Sprintf("--update-failure-action %s", svc.UpdateConfig.FailureAction))
 		}
 
 		if svc.UpdateConfig.Parallelism > 0 {
-			cmd.Add(fmt.Sprintf("--update-parallelism=%s", svc.UpdateConfig.Parallelism))
+			cmd.Add(fmt.Sprintf("--update-parallelism %s", svc.UpdateConfig.Parallelism))
 		}
 	}
 
 	if svc.TaskTemplate.ContainerSpec != nil {
 		if len(svc.TaskTemplate.ContainerSpec.User) > 0 {
-			cmd.Add(fmt.Sprintf("--user=%s", svc.TaskTemplate.ContainerSpec.User))
+			cmd.Add(fmt.Sprintf("--user %s", svc.TaskTemplate.ContainerSpec.User))
 		}
 
 		if len(svc.TaskTemplate.ContainerSpec.Dir) > 0 {
-			cmd.Add(fmt.Sprintf("--workdir=%s", svc.TaskTemplate.ContainerSpec.Dir))
+			cmd.Add(fmt.Sprintf("--workdir %s", svc.TaskTemplate.ContainerSpec.Dir))
 		}
 	}
 
@@ -305,27 +305,27 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	if svc.TaskTemplate.Placement != nil {
 		if len(svc.TaskTemplate.Placement.Constraints) > 0 {
 			for _, constraint := range svc.TaskTemplate.Placement.Constraints {
-				cmd.Add(fmt.Sprintf("--constraint=%s", constraint))
+				cmd.Add(fmt.Sprintf("--constraint %s", constraint))
 			}
 		}
 	}
 
 	if len(svc.Annotations.Labels) > 0 {
 		for k, v := range svc.Annotations.Labels {
-			cmd.Add(fmt.Sprintf("--label=\"%s=%s\"", k, v))
+			cmd.Add(fmt.Sprintf("--label \"%s=%s\"", k, v))
 		}
 	}
 
 	if svc.TaskTemplate.ContainerSpec != nil {
 		if len(svc.TaskTemplate.ContainerSpec.Env) > 0 {
 			for _, env := range svc.TaskTemplate.ContainerSpec.Env {
-				cmd.Add(fmt.Sprintf("--env=%s", env))
+				cmd.Add(fmt.Sprintf("--env %s", env))
 			}
 		}
 
 		if len(svc.TaskTemplate.ContainerSpec.Labels) > 0 {
 			for k, v := range svc.TaskTemplate.ContainerSpec.Labels {
-				cmd.Add(fmt.Sprintf("--container-label=\"%s=%s\"", k, v))
+				cmd.Add(fmt.Sprintf("--container-label \"%s=%s\"", k, v))
 			}
 		}
 	}
@@ -333,28 +333,28 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	if svc.TaskTemplate.Resources != nil {
 		if svc.TaskTemplate.Resources.Limits != nil {
 			if svc.TaskTemplate.Resources.Limits.NanoCPUs > 0 {
-				cmd.Add(fmt.Sprintf("--limit-cpu=%s", svc.TaskTemplate.Resources.Limits.NanoCPUs))
+				cmd.Add(fmt.Sprintf("--limit-cpu %s", svc.TaskTemplate.Resources.Limits.NanoCPUs))
 			}
 
 			if svc.TaskTemplate.Resources.Limits.MemoryBytes > 0 {
-				cmd.Add(fmt.Sprintf("--limit-memory=%s", svc.TaskTemplate.Resources.Limits.MemoryBytes))
+				cmd.Add(fmt.Sprintf("--limit-memory %s", svc.TaskTemplate.Resources.Limits.MemoryBytes))
 			}
 		}
 
 		if svc.TaskTemplate.Resources.Reservations != nil {
 			if svc.TaskTemplate.Resources.Reservations.NanoCPUs > 0 {
-				cmd.Add(fmt.Sprintf("--reserve-cpu=%s", svc.TaskTemplate.Resources.Reservations.NanoCPUs))
+				cmd.Add(fmt.Sprintf("--reserve-cpu %s", svc.TaskTemplate.Resources.Reservations.NanoCPUs))
 			}
 
 			if svc.TaskTemplate.Resources.Reservations.MemoryBytes > 0 {
-				cmd.Add(fmt.Sprintf("--reserve-memory=%s", svc.TaskTemplate.Resources.Reservations.MemoryBytes))
+				cmd.Add(fmt.Sprintf("--reserve-memory %s", svc.TaskTemplate.Resources.Reservations.MemoryBytes))
 			}
 		}
 	}
 
 	if svc.TaskTemplate.LogDriver != nil {
 		if len(svc.TaskTemplate.LogDriver.Name) > 0 {
-			cmd.Add(fmt.Sprintf("--log-driver=%s", svc.TaskTemplate.LogDriver.Name))
+			cmd.Add(fmt.Sprintf("--log-driver %s", svc.TaskTemplate.LogDriver.Name))
 		}
 
 		if len(svc.TaskTemplate.LogDriver.Options) > 0 {
@@ -420,12 +420,12 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	}
 
 	if len(svc.Annotations.Name) > 0 {
-		cmd.Add(fmt.Sprintf("--name=%s", svc.Annotations.Name))
+		cmd.Add(fmt.Sprintf("--name %s", svc.Annotations.Name))
 	}
 
 	if svc.EndpointSpec != nil {
 		if len(svc.EndpointSpec.Mode) > 0 {
-			cmd.Add(fmt.Sprintf("--endpoint-mode=%s", svc.EndpointSpec.Mode))
+			cmd.Add(fmt.Sprintf("--endpoint-mode %s", svc.EndpointSpec.Mode))
 		}
 
 		if len(svc.EndpointSpec.Ports) > 0 {
@@ -442,55 +442,55 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 
 	if svc.Mode.Replicated != nil {
 		if svc.Mode.Replicated.Replicas != nil {
-			cmd.Add(fmt.Sprintf("--replicas=%d", *svc.Mode.Replicated.Replicas))
+			cmd.Add(fmt.Sprintf("--replicas %d", *svc.Mode.Replicated.Replicas))
 		}
 	}
 
 	if svc.TaskTemplate.RestartPolicy != nil {
 		if len(svc.TaskTemplate.RestartPolicy.Condition) > 0 {
-			cmd.Add(fmt.Sprintf("--restart-condition=%s", svc.TaskTemplate.RestartPolicy.Condition))
+			cmd.Add(fmt.Sprintf("--restart-condition %s", svc.TaskTemplate.RestartPolicy.Condition))
 		}
 
 		if *svc.TaskTemplate.RestartPolicy.Delay > 0 {
-			cmd.Add(fmt.Sprintf("--restart-delay=%s", svc.TaskTemplate.RestartPolicy.Delay))
+			cmd.Add(fmt.Sprintf("--restart-delay %s", svc.TaskTemplate.RestartPolicy.Delay))
 		}
 
 		if *svc.TaskTemplate.RestartPolicy.MaxAttempts > 0 {
-			cmd.Add(fmt.Sprintf("--restart-max-attempts=%s", svc.TaskTemplate.RestartPolicy.MaxAttempts))
+			cmd.Add(fmt.Sprintf("--restart-max-attempts %s", svc.TaskTemplate.RestartPolicy.MaxAttempts))
 		}
 
 		if *svc.TaskTemplate.RestartPolicy.Window > 0 {
-			cmd.Add(fmt.Sprintf("--restart-window=%s", svc.TaskTemplate.RestartPolicy.Window))
+			cmd.Add(fmt.Sprintf("--restart-window %s", svc.TaskTemplate.RestartPolicy.Window))
 		}
 	}
 
 	if svc.TaskTemplate.ContainerSpec != nil {
 		if svc.TaskTemplate.ContainerSpec.StopGracePeriod != nil {
-			cmd.Add(fmt.Sprintf("--stop-grace-period=%s", svc.TaskTemplate.ContainerSpec.StopGracePeriod))
+			cmd.Add(fmt.Sprintf("--stop-grace-period %s", svc.TaskTemplate.ContainerSpec.StopGracePeriod))
 		}
 	}
 
 	if svc.UpdateConfig != nil {
 		if svc.UpdateConfig.Delay > 0 {
-			cmd.Add(fmt.Sprintf("--update-delay=%s", svc.UpdateConfig.Delay))
+			cmd.Add(fmt.Sprintf("--update-delay %s", svc.UpdateConfig.Delay))
 		}
 
 		if len(svc.UpdateConfig.FailureAction) > 0 {
-			cmd.Add(fmt.Sprintf("--update-failure-action=%s", svc.UpdateConfig.FailureAction))
+			cmd.Add(fmt.Sprintf("--update-failure-action %s", svc.UpdateConfig.FailureAction))
 		}
 
 		if svc.UpdateConfig.Parallelism > 0 {
-			cmd.Add(fmt.Sprintf("--update-parallelism=%s", svc.UpdateConfig.Parallelism))
+			cmd.Add(fmt.Sprintf("--update-parallelism %s", svc.UpdateConfig.Parallelism))
 		}
 	}
 
 	if svc.TaskTemplate.ContainerSpec != nil {
 		if len(svc.TaskTemplate.ContainerSpec.User) > 0 {
-			cmd.Add(fmt.Sprintf("--user=%s", svc.TaskTemplate.ContainerSpec.User))
+			cmd.Add(fmt.Sprintf("--user %s", svc.TaskTemplate.ContainerSpec.User))
 		}
 
 		if len(svc.TaskTemplate.ContainerSpec.Dir) > 0 {
-			cmd.Add(fmt.Sprintf("--workdir=%s", svc.TaskTemplate.ContainerSpec.Dir))
+			cmd.Add(fmt.Sprintf("--workdir %s", svc.TaskTemplate.ContainerSpec.Dir))
 		}
 	}
 

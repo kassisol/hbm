@@ -36,7 +36,7 @@ func SecretCreate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 
 	if len(s.Annotations.Labels) > 0 {
 		for k, v := range s.Annotations.Labels {
-			cmd.Add(fmt.Sprintf("--label=\"%s=%s\"", k, v))
+			cmd.Add(fmt.Sprintf("--label \"%s=%s\"", k, v))
 		}
 	}
 
@@ -77,7 +77,7 @@ func SecretUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 
 	if len(s.Annotations.Labels) > 0 {
 		for k, v := range s.Annotations.Labels {
-			cmd.Add(fmt.Sprintf("--label=\"%s=%s\"", k, v))
+			cmd.Add(fmt.Sprintf("--label \"%s=%s\"", k, v))
 		}
 	}
 

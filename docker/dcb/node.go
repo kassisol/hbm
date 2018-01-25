@@ -60,7 +60,7 @@ func NodeUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) st
 
 	if len(ns.Labels) > 0 {
 		for k, v := range ns.Labels {
-			cmd.Add(fmt.Sprintf("--label=\"%s=%s\"", k, v))
+			cmd.Add(fmt.Sprintf("--label \"%s=%s\"", k, v))
 		}
 	}
 

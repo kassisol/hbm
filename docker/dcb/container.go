@@ -79,11 +79,11 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 	}
 
 	if len(cc.User) > 0 {
-		cmd.Add(fmt.Sprintf("--user=%s", cc.User))
+		cmd.Add(fmt.Sprintf("--user %s", cc.User))
 	}
 
 	if len(cc.WorkingDir) > 0 {
-		cmd.Add(fmt.Sprintf("--workdir=%s", cc.WorkingDir))
+		cmd.Add(fmt.Sprintf("--workdir %s", cc.WorkingDir))
 	}
 
 	if len(cc.Hostname) > 0 {
@@ -91,7 +91,7 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 	}
 
 	if len(cc.StopSignal) > 0 {
-		cmd.Add(fmt.Sprintf("--stop-signal=%s", cc.StopSignal))
+		cmd.Add(fmt.Sprintf("--stop-signal %s", cc.StopSignal))
 	}
 
 	if len(cc.HostConfig.Binds) > 0 {
@@ -111,72 +111,72 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 	}
 
 	if cc.HostConfig.MemoryReservation > 0 {
-		cmd.Add(fmt.Sprintf("--memory-reservation=%s", cc.HostConfig.MemoryReservation))
+		cmd.Add(fmt.Sprintf("--memory-reservation %s", cc.HostConfig.MemoryReservation))
 	}
 
 	if cc.HostConfig.MemorySwap > 0 {
-		cmd.Add(fmt.Sprintf("--memory-swap=%s", cc.HostConfig.MemorySwap))
+		cmd.Add(fmt.Sprintf("--memory-swap %s", cc.HostConfig.MemorySwap))
 	}
 
 	if cc.HostConfig.MemorySwappiness != nil {
 		if *cc.HostConfig.MemorySwappiness > 0 {
-			cmd.Add(fmt.Sprintf("--memory-swappiness=%s", *cc.HostConfig.MemorySwappiness))
+			cmd.Add(fmt.Sprintf("--memory-swappiness %s", *cc.HostConfig.MemorySwappiness))
 		}
 	}
 
 	if cc.HostConfig.KernelMemory > 0 {
-		cmd.Add(fmt.Sprintf("--kernel-memory=%s", cc.HostConfig.KernelMemory))
+		cmd.Add(fmt.Sprintf("--kernel-memory %s", cc.HostConfig.KernelMemory))
 	}
 
 	if cc.HostConfig.CPUShares > 0 {
-		cmd.Add(fmt.Sprintf("--cpu-shares=%s", cc.HostConfig.CPUShares))
+		cmd.Add(fmt.Sprintf("--cpu-shares %s", cc.HostConfig.CPUShares))
 	}
 
 	if cc.HostConfig.CPUPeriod > 0 {
-		cmd.Add(fmt.Sprintf("--cpu-period=%s", cc.HostConfig.CPUPeriod))
+		cmd.Add(fmt.Sprintf("--cpu-period %s", cc.HostConfig.CPUPeriod))
 	}
 
 	if cc.HostConfig.CPUQuota > 0 {
-		cmd.Add(fmt.Sprintf("--cpu-quota=%s", cc.HostConfig.CPUQuota))
+		cmd.Add(fmt.Sprintf("--cpu-quota %s", cc.HostConfig.CPUQuota))
 	}
 
 	if len(cc.HostConfig.CpusetCpus) > 0 {
-		cmd.Add(fmt.Sprintf("--cpuset-cpus=%s", cc.HostConfig.CpusetCpus))
+		cmd.Add(fmt.Sprintf("--cpuset-cpus %s", cc.HostConfig.CpusetCpus))
 	}
 
 	if len(cc.HostConfig.CpusetMems) > 0 {
-		cmd.Add(fmt.Sprintf("--cpuset-mems=%s", cc.HostConfig.CpusetMems))
+		cmd.Add(fmt.Sprintf("--cpuset-mems %s", cc.HostConfig.CpusetMems))
 	}
 
 	if cc.HostConfig.BlkioWeight > 0 {
-		cmd.Add(fmt.Sprintf("--blkio-weight=%s", cc.HostConfig.BlkioWeight))
+		cmd.Add(fmt.Sprintf("--blkio-weight %s", cc.HostConfig.BlkioWeight))
 	}
 
 	if len(cc.HostConfig.BlkioWeightDevice) > 0 {
-		cmd.Add(fmt.Sprintf("--blkio-weight-device=%s", cc.HostConfig.BlkioWeightDevice))
+		cmd.Add(fmt.Sprintf("--blkio-weight-device %s", cc.HostConfig.BlkioWeightDevice))
 	}
 
 	if len(cc.HostConfig.BlkioDeviceReadBps) > 0 {
 		for _, drb := range cc.HostConfig.BlkioDeviceReadBps {
-			cmd.Add(fmt.Sprintf("--device-read-bps=%s:%s", drb.Path, drb.Rate))
+			cmd.Add(fmt.Sprintf("--device-read-bps %s:%s", drb.Path, drb.Rate))
 		}
 	}
 
 	if len(cc.HostConfig.BlkioDeviceWriteBps) > 0 {
 		for _, dwb := range cc.HostConfig.BlkioDeviceWriteBps {
-			cmd.Add(fmt.Sprintf("--device-write-bps=%s:%s", dwb.Path, dwb.Rate))
+			cmd.Add(fmt.Sprintf("--device-write-bps %s:%s", dwb.Path, dwb.Rate))
 		}
 	}
 
 	if len(cc.HostConfig.BlkioDeviceReadIOps) > 0 {
 		for _, dri := range cc.HostConfig.BlkioDeviceReadIOps {
-			cmd.Add(fmt.Sprintf("--device-read-iops=%s:%s", dri.Path, dri.Rate))
+			cmd.Add(fmt.Sprintf("--device-read-iops %s:%s", dri.Path, dri.Rate))
 		}
 	}
 
 	if len(cc.HostConfig.BlkioDeviceWriteIOps) > 0 {
 		for _, dwi := range cc.HostConfig.BlkioDeviceReadIOps {
-			cmd.Add(fmt.Sprintf("--device-write-iops=%s:%s", dwi.Path, dwi.Rate))
+			cmd.Add(fmt.Sprintf("--device-write-iops %s:%s", dwi.Path, dwi.Rate))
 		}
 	}
 
@@ -187,11 +187,11 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 	}
 
 	if cc.HostConfig.OomScoreAdj > 0 {
-		cmd.Add(fmt.Sprintf("--oom-score-adj=%s", cc.HostConfig.OomScoreAdj))
+		cmd.Add(fmt.Sprintf("--oom-score-adj %s", cc.HostConfig.OomScoreAdj))
 	}
 
 	if cc.HostConfig.PidsLimit > 0 {
-		cmd.Add(fmt.Sprintf("--pids-limit=%s", cc.HostConfig.PidsLimit))
+		cmd.Add(fmt.Sprintf("--pids-limit %s", cc.HostConfig.PidsLimit))
 	}
 
 	if cc.HostConfig.Privileged {
@@ -267,51 +267,51 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 	}
 
 	if len(cc.HostConfig.RestartPolicy.Name) > 0 {
-		cmd.Add(fmt.Sprintf("--restart=%s", cc.HostConfig.RestartPolicy.Name))
+		cmd.Add(fmt.Sprintf("--restart %s", cc.HostConfig.RestartPolicy.Name))
 	}
 
 	if len(cc.HostConfig.UsernsMode) > 0 {
-		cmd.Add(fmt.Sprintf("--userns=%s", cc.HostConfig.UsernsMode))
+		cmd.Add(fmt.Sprintf("--userns %s", cc.HostConfig.UsernsMode))
 	}
 
 	if len(cc.HostConfig.NetworkMode) > 0 {
-		cmd.Add(fmt.Sprintf("--net=%s", cc.HostConfig.NetworkMode))
+		cmd.Add(fmt.Sprintf("--net %s", cc.HostConfig.NetworkMode))
 	}
 
 	if len(cc.HostConfig.Devices) > 0 {
 		for _, d := range cc.HostConfig.Devices {
-			cmd.Add(fmt.Sprintf("--device=%s", d))
+			cmd.Add(fmt.Sprintf("--device %s", d))
 		}
 	}
 
 	if len(cc.HostConfig.Ulimits) > 0 {
 		for _, u := range cc.HostConfig.Ulimits {
-			cmd.Add(fmt.Sprintf("--ulimit=%s", u))
+			cmd.Add(fmt.Sprintf("--ulimit %s", u))
 		}
 	}
 
 	if len(cc.HostConfig.SecurityOpt) > 0 {
 		for _, so := range cc.HostConfig.SecurityOpt {
-			cmd.Add(fmt.Sprintf("--security-opt=%s", so))
+			cmd.Add(fmt.Sprintf("--security-opt %s", so))
 		}
 	}
 
 	//LogConfig - Log configuration for the container, specified as a JSON object in the form { "Type": "<driver_name>", "Config": {"key1": "val1"}}. Available types: json-file, syslog, journald, gelf, fluentd, awslogs, splunk, etwlogs, none. json-file logging driver.
 
 	if len(cc.HostConfig.CgroupParent) > 0 {
-		cmd.Add(fmt.Sprintf("--cgroup-parent=%s", cc.HostConfig.CgroupParent))
+		cmd.Add(fmt.Sprintf("--cgroup-parent %s", cc.HostConfig.CgroupParent))
 	}
 
 	if len(cc.HostConfig.VolumeDriver) > 0 {
-		cmd.Add(fmt.Sprintf("--volume-driver=%s", cc.HostConfig.VolumeDriver))
+		cmd.Add(fmt.Sprintf("--volume-driver %s", cc.HostConfig.VolumeDriver))
 	}
 
 	if cc.HostConfig.ShmSize > 0 {
-		cmd.Add(fmt.Sprintf("--shm-size=%s", cc.HostConfig.ShmSize))
+		cmd.Add(fmt.Sprintf("--shm-size %s", cc.HostConfig.ShmSize))
 	}
 
 	if len(cc.Entrypoint) > 0 {
-		cmd.Add(fmt.Sprintf("--entrypoint=%s", cc.Entrypoint))
+		cmd.Add(fmt.Sprintf("--entrypoint %s", cc.Entrypoint))
 	}
 
 	cmd.GetParams(req.RequestURI)
@@ -493,27 +493,27 @@ func ContainerUpdate(req authorization.Request, urlPath string, re *regexp.Regex
 	}
 
 	if uc.BlkioWeight > 0 {
-		cmd.Add(fmt.Sprintf("--blkio-weight=%s", uc.BlkioWeight))
+		cmd.Add(fmt.Sprintf("--blkio-weight %s", uc.BlkioWeight))
 	}
 
 	if uc.CPUShares > 0 {
-		cmd.Add(fmt.Sprintf("--cpu-shares=%s", uc.CPUShares))
+		cmd.Add(fmt.Sprintf("--cpu-shares %s", uc.CPUShares))
 	}
 
 	if uc.CPUPeriod > 0 {
-		cmd.Add(fmt.Sprintf("--cpu-period=%s", uc.CPUPeriod))
+		cmd.Add(fmt.Sprintf("--cpu-period %s", uc.CPUPeriod))
 	}
 
 	if uc.CPUQuota > 0 {
-		cmd.Add(fmt.Sprintf("--cpu-quota=%s", uc.CPUQuota))
+		cmd.Add(fmt.Sprintf("--cpu-quota %s", uc.CPUQuota))
 	}
 
 	if len(uc.CpusetCpus) > 0 {
-		cmd.Add(fmt.Sprintf("--cpuset-cpus=%s", uc.CpusetCpus))
+		cmd.Add(fmt.Sprintf("--cpuset-cpus %s", uc.CpusetCpus))
 	}
 
 	if len(uc.CpusetMems) > 0 {
-		cmd.Add(fmt.Sprintf("--cpuset-mems=%s", uc.CpusetMems))
+		cmd.Add(fmt.Sprintf("--cpuset-mems %s", uc.CpusetMems))
 	}
 
 	if uc.Memory > 0 {
@@ -521,19 +521,19 @@ func ContainerUpdate(req authorization.Request, urlPath string, re *regexp.Regex
 	}
 
 	if uc.MemoryReservation > 0 {
-		cmd.Add(fmt.Sprintf("--memory-reservation=%s", uc.MemoryReservation))
+		cmd.Add(fmt.Sprintf("--memory-reservation %s", uc.MemoryReservation))
 	}
 
 	if uc.MemorySwap > 0 {
-		cmd.Add(fmt.Sprintf("--memory-swap=%s", uc.MemorySwap))
+		cmd.Add(fmt.Sprintf("--memory-swap %s", uc.MemorySwap))
 	}
 
 	if *uc.MemorySwappiness > 0 {
-		cmd.Add(fmt.Sprintf("--memory-swappiness=%s", uc.MemorySwappiness))
+		cmd.Add(fmt.Sprintf("--memory-swappiness %s", uc.MemorySwappiness))
 	}
 
 	if uc.KernelMemory > 0 {
-		cmd.Add(fmt.Sprintf("--kernel-memory=%s", uc.KernelMemory))
+		cmd.Add(fmt.Sprintf("--kernel-memory %s", uc.KernelMemory))
 	}
 
 	// TODO: Restart

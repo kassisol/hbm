@@ -36,7 +36,7 @@ func ConfigCreate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 
 	if len(c.Annotations.Labels) > 0 {
 		for k, v := range c.Annotations.Labels {
-			cmd.Add(fmt.Sprintf("--label=\"%s=%s\"", k, v))
+			cmd.Add(fmt.Sprintf("--label \"%s=%s\"", k, v))
 		}
 	}
 
@@ -77,7 +77,7 @@ func ConfigUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 
 	if len(c.Annotations.Labels) > 0 {
 		for k, v := range c.Annotations.Labels {
-			cmd.Add(fmt.Sprintf("--label=\"%s=%s\"", k, v))
+			cmd.Add(fmt.Sprintf("--label \"%s=%s\"", k, v))
 		}
 	}
 

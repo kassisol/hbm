@@ -58,7 +58,7 @@ func NetworkCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	// IPAM
 	if nc.IPAM != nil {
 		if len(nc.IPAM.Driver) > 0 {
-			cmd.Add(fmt.Sprintf("--ipam-driver=%s", nc.IPAM.Driver))
+			cmd.Add(fmt.Sprintf("--ipam-driver %s", nc.IPAM.Driver))
 		}
 
 		if len(nc.IPAM.Options) > 0 {
