@@ -73,8 +73,8 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 	}
 
 	if len(cc.Labels) > 0 {
-		for _, l := range cc.Labels {
-			cmd.Add(fmt.Sprintf("-l \"%s\"", l))
+		for k, v := range cc.Labels {
+			cmd.Add(fmt.Sprintf("-l \"%s=%s\"", k, v))
 		}
 	}
 
