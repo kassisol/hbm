@@ -68,13 +68,13 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 
 	if len(cc.Env) > 0 {
 		for _, e := range cc.Env {
-			cmd.Add(fmt.Sprintf("-e \"%s\"", e))
+			cmd.Add(fmt.Sprintf("--env \"%s\"", e))
 		}
 	}
 
 	if len(cc.Labels) > 0 {
 		for k, v := range cc.Labels {
-			cmd.Add(fmt.Sprintf("-l \"%s=%s\"", k, v))
+			cmd.Add(fmt.Sprintf("--label \"%s=%s\"", k, v))
 		}
 	}
 
