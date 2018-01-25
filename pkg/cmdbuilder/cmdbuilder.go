@@ -30,16 +30,36 @@ func (c *Config) Add(t string) {
 func (c *Config) AddFilters() {
 	if len(c.Params) > 0 {
 		if _, ok := c.Params["filters"]; ok {
-			var v map[string]map[string]bool
-
-			err := json.Unmarshal([]byte(c.Params["filters"][0]), &v)
-			if err != nil {
-				panic(err)
+			compose := false
+			if strings.Contains(c.Params["filters"][0], "[") {
+				compose = true
 			}
 
-			for k, val := range v {
-				for ka := range val {
-					c.Add(fmt.Sprintf("--filter \"%s=%s\"", k, ka))
+			if compose {
+				var v map[string][]string
+
+				err := json.Unmarshal([]byte(c.Params["filters"][0]), &v)
+				if err != nil {
+					panic(err)
+				}
+
+				for k, val := range v {
+					for _, ka := range val {
+						c.Add(fmt.Sprintf("--filter \"%s=%s\"", k, ka))
+					}
+				}
+			} else {
+				var v map[string]map[string]bool
+
+				err := json.Unmarshal([]byte(c.Params["filters"][0]), &v)
+				if err != nil {
+					panic(err)
+				}
+
+				for k, val := range v {
+					for ka := range val {
+						c.Add(fmt.Sprintf("--filter \"%s=%s\"", k, ka))
+					}
 				}
 			}
 		}
