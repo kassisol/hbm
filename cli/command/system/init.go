@@ -31,8 +31,12 @@ func runInit(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
-	s.SetConfig("authorization", false)
-	s.SetConfig("default-allow-action-error", false)
+	config := s.ListConfigs(map[string]string{"name": "authorization"})
+
+	if len(config) == 0 {
+		s.SetConfig("authorization", false)
+		s.SetConfig("default-allow-action-error", false)
+	}
 }
 
 var initDescription = `
