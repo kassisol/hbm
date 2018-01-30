@@ -31,7 +31,7 @@ func runInit(cmd *cobra.Command, args []string) {
 	}
 	defer s.End()
 
-	config := s.ListConfigs(map[string]string{"name": "authorization"})
+	config := s.ListConfigs(map[string]string{})
 
 	if len(config) == 0 {
 		s.SetConfig("authorization", false)
