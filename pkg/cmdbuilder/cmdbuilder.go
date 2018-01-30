@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/url"
+	"regexp"
 	"strings"
 )
 
@@ -30,15 +31,21 @@ func (c *Config) Add(t string) {
 func (c *Config) AddFilters() {
 	if len(c.Params) > 0 {
 		if _, ok := c.Params["filters"]; ok {
-			compose := false
-			if strings.Contains(c.Params["filters"][0], "[") {
-				compose = true
+			if len(c.Params["filters"]) == 0 {
+				return
+			}
+
+			filter := []byte(c.Params["filters"][0])
+
+			compose, err := regexp.Match(`^\{".+":\s*\[.+\]\}$`, filter)
+			if err != nil {
+				panic(err)
 			}
 
 			if compose {
 				var v map[string][]string
 
-				err := json.Unmarshal([]byte(c.Params["filters"][0]), &v)
+				err := json.Unmarshal(filter, &v)
 				if err != nil {
 					panic(err)
 				}
@@ -51,7 +58,7 @@ func (c *Config) AddFilters() {
 			} else {
 				var v map[string]map[string]bool
 
-				err := json.Unmarshal([]byte(c.Params["filters"][0]), &v)
+				err := json.Unmarshal(filter, &v)
 				if err != nil {
 					panic(err)
 				}
