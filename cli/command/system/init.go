@@ -4,9 +4,9 @@ import (
 	"github.com/juliengk/go-utils/filedir"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/docker/endpoint"
+	configobj "github.com/kassisol/hbm/object/config"
 	groupobj "github.com/kassisol/hbm/object/group"
 	resourceobj "github.com/kassisol/hbm/object/resource"
-	"github.com/kassisol/hbm/storage"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -33,17 +33,20 @@ func runInit(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 
-	s, err := storage.NewDriver("sqlite", command.AppPath)
+	s, err := configobj.New("sqlite", command.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer s.End()
 
-	config := s.ListConfigs(map[string]string{})
+	config, err := s.List(map[string]string{})
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	if len(config) == 0 {
-		s.SetConfig("authorization", false)
-		s.SetConfig("default-allow-action-error", false)
+		s.Set("authorization", "false")
+		s.Set("default-allow-action-error", "false")
 	}
 
 	g, err := groupobj.New("sqlite", command.AppPath)
