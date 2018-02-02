@@ -4,6 +4,7 @@ import (
 	"github.com/juliengk/go-utils/filedir"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/docker/endpoint"
+	groupobj "github.com/kassisol/hbm/object/group"
 	resourceobj "github.com/kassisol/hbm/object/resource"
 	"github.com/kassisol/hbm/storage"
 	log "github.com/sirupsen/logrus"
@@ -43,6 +44,20 @@ func runInit(cmd *cobra.Command, args []string) {
 	if len(config) == 0 {
 		s.SetConfig("authorization", false)
 		s.SetConfig("default-allow-action-error", false)
+	}
+
+	g, err := groupobj.New("sqlite", command.AppPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer g.End()
+
+	filters := map[string]string{
+		"name": "administrators",
+	}
+	groups, _ := g.List(filters)
+	if len(groups) == 0 {
+		g.Add("administrators")
 	}
 
 	if initAction {

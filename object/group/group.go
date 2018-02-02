@@ -51,6 +51,10 @@ func (c *Config) Add(name string) error {
 }
 
 func (c *Config) Remove(name string) error {
+	if name == "administrators" {
+		return fmt.Errorf("group \"administrators\" cannot be removed")
+	}
+
 	if !c.Storage.FindGroup(name) {
 		return fmt.Errorf("%s does not exist", name)
 	}

@@ -10,6 +10,7 @@ import (
 	"github.com/kassisol/hbm/docker/allow/types"
 	"github.com/kassisol/hbm/docker/endpoint"
 	configobj "github.com/kassisol/hbm/object/config"
+	groupobj "github.com/kassisol/hbm/object/group"
 	"github.com/kassisol/hbm/pkg/uri"
 	"github.com/kassisol/hbm/version"
 )
@@ -39,6 +40,16 @@ func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 	}
 	defer s.End()
 
+	g, err := groupobj.New("sqlite", a.AppPath)
+	if err != nil {
+		l.WithFields(driver.Fields{
+			"storagedriver": "sqlite",
+			"logdriver":     "standard",
+			"version":       version.Version,
+		}).Fatal(err)
+	}
+	defer g.End()
+
 	defer func() {
 		if r := recover(); r != nil {
 			l.Warn("Recovered panic: ", r)
@@ -63,6 +74,17 @@ func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 	}
 
 	// Authorization
+	isAdmin := false
+
+	filters := map[string]string{
+		"name": "administrators",
+		"elem": username,
+	}
+	groups, _ := g.List(filters)
+	if len(groups) > 0 {
+		isAdmin = true
+	}
+
 	u, err := a.Uris.GetURI(req.RequestMethod, a.URIInfo.Path)
 	if err != nil {
 		return &types.AllowResult{Allow: false, Error: err.Error()}
@@ -72,11 +94,13 @@ func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 	config := types.Config{AppPath: a.AppPath, Username: username}
 	r := allow.AllowTrue(req, &config)
 
-	aR, _ := s.Get("authorization")
-	if aR {
-		r = allow.AllowAction(&config, u.Action, u.CmdName)
-		if r.Allow {
-			r = u.AllowFunc(req, &config)
+	if !isAdmin {
+		aR, _ := s.Get("authorization")
+		if aR {
+			r = allow.AllowAction(&config, u.Action, u.CmdName)
+			if r.Allow {
+				r = u.AllowFunc(req, &config)
+			}
 		}
 	}
 
@@ -88,6 +112,7 @@ func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 	if len(lmsg) > 0 {
 		fields := driver.Fields{
 			"user":    username,
+			"admin":   isAdmin,
 			"allowed": r.Allow,
 		}
 
