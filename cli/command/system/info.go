@@ -7,7 +7,12 @@ import (
 	"github.com/docker/docker/client"
 	"github.com/juliengk/go-utils"
 	"github.com/kassisol/hbm/cli/command"
-	"github.com/kassisol/hbm/storage"
+	collectionobj "github.com/kassisol/hbm/object/collection"
+	configobj "github.com/kassisol/hbm/object/config"
+	groupobj "github.com/kassisol/hbm/object/group"
+	policyobj "github.com/kassisol/hbm/object/policy"
+	resourceobj "github.com/kassisol/hbm/object/resource"
+	userobj "github.com/kassisol/hbm/object/user"
 	"github.com/kassisol/hbm/version"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -28,29 +33,62 @@ func NewInfoCommand() *cobra.Command {
 func runInfo(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	s, err := storage.NewDriver("sqlite", command.AppPath)
+	cfg, err := configobj.New("sqlite", command.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer s.End()
+	defer cfg.End()
+
+	p, err := policyobj.New("sqlite", command.AppPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer p.End()
+
+	g, err := groupobj.New("sqlite", command.AppPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer g.End()
+
+	u, err := userobj.New("sqlite", command.AppPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer u.End()
+
+	c, err := collectionobj.New("sqlite", command.AppPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer c.End()
+
+	r, err := resourceobj.New("sqlite", command.AppPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer r.End()
+
+	authz, _ := cfg.Get("authorization")
+	daae, _ := cfg.Get("default-allow-action-error")
 
 	fmt.Println("Features Enabled:")
-	fmt.Println(" Authorization:", s.GetConfig("authorization"))
-	fmt.Println(" Default Allow Action On Error:", s.GetConfig("default-allow-action-error"))
-	fmt.Println("Policies:", s.CountPolicy())
-	fmt.Println("Groups:", s.CountGroup())
-	fmt.Println(" Users:", s.CountUser())
-	fmt.Println("Collections:", s.CountCollection())
-	fmt.Println(" Resources:", s.CountResource("all"))
-	fmt.Println("  Actions:", s.CountResource("action"))
-	fmt.Println("  Configs:", s.CountResource("config"))
-	fmt.Println("  Capabilities:", s.CountResource("cap"))
-	fmt.Println("  Devices:", s.CountResource("device"))
-	fmt.Println("  DNS Servers:", s.CountResource("dns"))
-	fmt.Println("  Images:", s.CountResource("image"))
-	fmt.Println("  Ports:", s.CountResource("port"))
-	fmt.Println("  Registries:", s.CountResource("registry"))
-	fmt.Println("  Volumes:", s.CountResource("volume"))
+	fmt.Println(" Authorization:", authz)
+	fmt.Println(" Default Allow Action On Error:", daae)
+	fmt.Println("Policies:", p.Count())
+	fmt.Println("Groups:", g.Count())
+	fmt.Println(" Users:", u.Count())
+	fmt.Println("Collections:", c.Count())
+	fmt.Println(" Resources:", r.Count("all"))
+	fmt.Println("  Actions:", r.Count("action"))
+	fmt.Println("  Configs:", r.Count("config"))
+	fmt.Println("  Capabilities:", r.Count("cap"))
+	fmt.Println("  Devices:", r.Count("device"))
+	fmt.Println("  DNS Servers:", r.Count("dns"))
+	fmt.Println("  Images:", r.Count("image"))
+	fmt.Println("  Ports:", r.Count("port"))
+	fmt.Println("  Registries:", r.Count("registry"))
+	fmt.Println("  Volumes:", r.Count("volume"))
 
 	fmt.Println("Server Version:", version.Version)
 	fmt.Println("Storage Driver: sqlite")
