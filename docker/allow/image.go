@@ -52,8 +52,10 @@ func AllowImage(img string, config *types.Config) bool {
 		}
 	}
 
-	if p.Validate(config.Username, "registry", i.Registry, "") {
-		return true
+	if len(i.Registry) > 0 {
+		if p.Validate(config.Username, "registry", i.Registry, "") {
+			return true
+		}
 	}
 
 	if p.Validate(config.Username, "image", i.String(), "") {
