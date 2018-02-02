@@ -129,7 +129,7 @@ func AllowContainerCreate(req authorization.Request, config *types.Config) *type
 				spb := GetPortBindingString(&pb)
 
 				if !p.Validate(config.Username, "port", spb, "") {
-					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be pubished", spb)}
+					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be published", spb)}
 				}
 			}
 		}

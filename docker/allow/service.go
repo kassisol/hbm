@@ -40,7 +40,7 @@ func AllowServiceCreate(req authorization.Request, config *types.Config) *types.
 		if len(svc.Spec.EndpointSpec.Ports) > 0 {
 			for _, port := range svc.Spec.EndpointSpec.Ports {
 				if !p.Validate(config.Username, "port", string(port.PublishedPort), "") {
-					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be pubished", port.PublishedPort)}
+					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be published", port.PublishedPort)}
 				}
 			}
 		}
