@@ -100,7 +100,7 @@ func IsValidName(name string) error {
 }
 
 func IsValidPort(port int) error {
-	if port < 0 && port > 65535 {
+	if port < 0 || port > 65535 {
 		return NotValidPort
 	}
 
