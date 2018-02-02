@@ -57,6 +57,32 @@ func (c *Config) ListPolicies(filter map[string]string) []types.Policy {
 	return policies
 }
 
+func (c *Config) GetResourceValues(username, rType string) []types.Resource {
+	var result []types.Resource
+
+	sql := c.DB.Table("policies").Select("resources.name, resources.type, resources.value, resources.option").Joins("JOIN groups ON groups.id = policies.group_id").Joins("JOIN collections ON collections.id = policies.collection_id")
+
+	sql = sql.Joins("JOIN group_users ON group_users.group_id = groups.id").Joins("JOIN users ON users.id = group_users.user_id").Where("users.name = ?", username)
+
+	sql = sql.Joins("JOIN collection_resources ON collection_resources.collection_id = collections.id").Joins("JOIN resources ON resources.id = collection_resources.resource_id").Where("resources.type = ?", rType)
+
+	rows, _ := sql.Rows()
+	defer rows.Close()
+
+	for rows.Next() {
+		var rName string
+		var rType string
+		var rValue string
+		var rOption string
+
+		rows.Scan(&rName, &rType, &rValue, &rOption)
+
+		result = append(result, types.Resource{Name: rName, Type: rType, Value: rValue, Option: rOption})
+	}
+
+	return result
+}
+
 func (c *Config) FindPolicy(name string) bool {
 	var count int64
 

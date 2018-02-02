@@ -40,6 +40,7 @@ type Storager interface {
 	AddPolicy(name, group, collection string)
 	RemovePolicy(name string)
 	ListPolicies(filter map[string]string) []types.Policy
+	GetResourceValues(username, rType string) []types.Resource
 	FindPolicy(name string) bool
 	CountPolicy() int
 

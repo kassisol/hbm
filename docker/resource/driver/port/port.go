@@ -1,11 +1,12 @@
 package port
 
 import (
-	"strconv"
+	"fmt"
 
 	"github.com/juliengk/go-utils/validation"
 	"github.com/kassisol/hbm/docker/resource"
 	"github.com/kassisol/hbm/docker/resource/driver"
+	"github.com/kassisol/hbm/pkg/utils"
 )
 
 type Config struct {
@@ -24,12 +25,30 @@ func (c *Config) List() interface{} {
 }
 
 func (c *Config) Valid(value string) error {
-	port, err := strconv.Atoi(value)
+	var ports []int
+
+	startPort, endPort, err := utils.GetPortRangeFromString(value)
 	if err != nil {
 		return err
 	}
 
-	return validation.IsValidPort(port)
+	ports = append(ports, startPort)
+
+	if startPort != endPort {
+		if startPort > endPort {
+			return fmt.Errorf("Range of ports is not valid. Start port is greater than end port.")
+		}
+
+		ports = append(ports, endPort)
+	}
+
+	for _, p := range ports {
+		if err := validation.IsValidPort(p); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (c *Config) ValidOptions(options map[string]string) error {

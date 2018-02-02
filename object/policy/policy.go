@@ -161,13 +161,16 @@ func (c *Config) Validate(user, rType, rValue, rOptions string) bool {
 	for _, filter := range filters {
 		result, err := c.List(filter)
 		if err != nil {
-			fmt.Println(err)
 			return false
 		}
 
 		if len(result) > 0 {
 			return true
 		}
+	}
+
+	if rType == "port" {
+		return c.allowPort(user, rValue)
 	}
 
 	return false
