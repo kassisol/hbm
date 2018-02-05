@@ -25,33 +25,17 @@ To download a specific release version, use the following
 URL patterns:
 
 ```
-https://github.com/kassisol/hbm/archive/hbm-<version>.tar.gz
-```
-
-For example:
-
-```
-https://github.com/kassisol/hbm/archive/hbm-0.2.0.tar.gz
+https://github.com/kassisol/hbm/releases/download/x.x.x/hbm
 ```
 
 
 #### Install the Linux binaries
 
-After downloading, you extract the archive, which puts the binaries in a
-directory named `hbm` in your current location.
+After downloading, HBM requires this binary to be installed in your host's `$PATH`.
+For example, to install the binaries in `/usr/local/sbin`:
 
 ```bash
-# tar xvjf hbm-latest.tar.bz2
-
-hbm/
-hbm/hbm
-```
-
-HBM requires this binary to be installed in your host's `$PATH`.
-For example, to install the binaries in `/usr/sbin`:
-
-```bash
-$ mv hbm/hbm /usr/sbin/
+$ mv hbm /usr/local/sbin/
 ```
 
 > If you already have HBM installed on your host, make sure you

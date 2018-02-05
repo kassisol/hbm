@@ -21,7 +21,7 @@ Aliases:
   ls, list
 
 Flags:
-  -f, --filter value   Filter output based on conditions provided (default [])
+  -f, --filter value   Filter output based on conditions provided
 ```
 
 ## Filtering
@@ -34,8 +34,6 @@ The currently supported filters are:
 * name (policy's name)
 * user (username)
 * group (group's name)
-* host (hostname)
-* cluster (cluster's name)
 * resource-type (action|cap|config|device|dns|image|logdriver|logopt|port|registry|volume)
 * resource-value (resource's value)
 * collection (collection's name)
@@ -44,15 +42,15 @@ The currently supported filters are:
 
 ```bash
 # hbm policy ls
-NAME                GROUP               CLUSTER             COLLECTION
-policy1             group1              cluster1            collection1
-policy2             group2              cluster2            collection2
+NAME                GROUP               COLLECTION
+policy1             group1              collection1
+policy2             group2              collection2
 ```
 
 ```bash
 # hbm policy ls -f "user=user1"
-NAME                GROUP               CLUSTER             COLLECTION
-policy1             group1              cluster1            collection1
+NAME                GROUP               COLLECTION
+policy1             group1              collection1
 ```
 ## Related information
 

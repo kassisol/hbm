@@ -6,14 +6,14 @@ menu:
   main:
     parent: hbm_linux
     weight: -4
-title: Installation on CentOS
+title: Installation on Enterprise Linux
 ---
 
-# CentOS
+# EL
 ***
 
-HBM runs on CentOS 7.X. An installation on other binary compatible EL7
-distributions such as Scientific Linux might succeed, but Harbormaster does not test
+HBM runs on EL. An installation on other binary compatible EL7
+distributions such as CentOS, RHEL, Scientific Linux might succeed, but Harbormaster does not test
 or support HBM on these distributions.
 
 These instructions install HBM using release packages and installation
@@ -58,7 +58,7 @@ packages.
 4. Install the HBM package.
 
     ```bash
-    # yum localinstall hbm-0.2.0-x86_64-el7.rpm
+    # yum localinstall hbm-x.x.x-x86_64-el7.rpm
     ```
 
 5. Verify `hbm` is installed correctly by executing `hbm`, you should see help output similar to the following:
@@ -105,7 +105,7 @@ You can uninstall the HBM software with `yum`.
     ```bash
     # yum list installed | grep hbm
 
-    hbm.x86_64     0.2.0-1.el7.centos
+    hbm.x86_64     x.x.x-1.el7.centos
     ```
 
 2. Remove the package.

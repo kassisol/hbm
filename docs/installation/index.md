@@ -15,8 +15,8 @@ title: Install
 HBM is supported on Linux. Installation instructions are available for the following:
 
 ## On Linux
-* [CentOS](linux/centos.md)
-* [Red Hat Enterprise Linux](linux/rhel.md)
+* [EL7](linux/el.md)
+* [RancherOS](linux/rancheros.md)
 
 If your linux distribution is not listed above, don't give up yet. To try out HBM on a distribution that is not listed above, go here: [Installation from binaries](binaries.md).
 

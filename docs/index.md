@@ -15,18 +15,15 @@ title: HBM
 
 [**HBM**](http://harbormaster.io) is a basic extendable
 Docker Engine [access authorization plugin](https://docs.docker.com/engine/extend/plugins_authorization/)
-that runs on directly on the Docker host.
+that runs directly on the Docker host.
 
 ## Why HBM?
 
 By default Harbormaster plugin prevents from executing commands and certains parameters.
 
-*Commands*
-
-*Pull images*
-
-*Start containers*
-
+1. Docker commands
+2. Pull images
+3. Start containers with specific parameters
 * `--privileged`
 * `--ipc=host`
 * `--net=host`
@@ -35,10 +32,12 @@ By default Harbormaster plugin prevents from executing commands and certains par
 * `--uts=host`
 * any Linux capabilities with parameter `--cap-add=[]`
 * any devices added with parameter `--device=[]`
-* any dns servers added with parameter `--dns=`
-* any ports added with parameter `--port=`
+* any dns servers added with parameter `--dns`
+* any ports added with parameter `--port`
 * any volumes mounted with parameter `-v`
 * any logging with parameters `--log-driver` and `--log-opt`
+* `--sysctl`
+* `--security-opt`
 
 ## About this guide
 

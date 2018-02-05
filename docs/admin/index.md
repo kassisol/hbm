@@ -9,70 +9,77 @@ menu:
 title: Configuring and running HBM
 ---
 
-# Configuring and running HBM
-***
+# ?
 
-After successfully installing HBM, the `hbm` server runs with its default
-configuration.
+## Configuration
 
-In a production environment, system administrators typically configure the
-`hbm` server to start and stop according to an organization's requirements. In most
-cases, the system administrator configures a process manager such as `systemd`
-to manage the `hbm` daemon's start and stop.
+After successfully installing HBM, next is to initialize and start the HBM backend database. This is done with just a few commands. Please refer to the [command line reference](../reference/commandline/init.md).
 
-### Running the hbm server directly
+`hbm` server runs with its default configuration and log every Docker commands.
 
-The Harbormaster server can be run directly using the `hbm server` command. By default it listens on
-the Unix socket `unix:///var/run/hbm.sock`
+> The logging module cannot be disabled.
 
-```bash
-# hbm server
-INFO[0000] Server has completed initialization
-INFO[0000] HBM server        logdriver=standard storagedriver=sqlite version=0.2.0
-INFO[0000] Listening on socket file
+There are 2 options available:
+
+* `authorization`
+* `default-allow-action-error`
+
+See the [command line reference](../reference/commandline/config_set.md) to manage configuration.
+
+### Authorization
+
+That feature enable / disable verification of restricted Docker commands.
+
+### Default Allow Action Error
+
+On bug, that feature allows the Docker command to be authorized instead of panicing and blocking execution of commands.
+
+## Policy
+
+A policy determines which resources a user may run on specified hosts.
+The basic structure of a policy is constituated of group and collection. Let's break that down into its constituent parts:
 
 ```
-
-### Manually creating the systemd unit file
-
-When installing the binary without a package, you may want
-to integrate HBM with systemd. For this, simply install the service unit file
-from [the github repository](https://github.com/kassisol/hbm/tree/master/contrib/init/systemd)
-to `/etc/systemd/system`.
-
-## CentOS / Red Hat Enterprise Linux
-
-As of `7.x`, CentOS and RHEL use `systemd` as the process manager.
-
-After successfully installing HBM for [CentOS](../installation/linux/centos.md) / [Red Hat Enterprise Linux](../installation/linux/rhel.md), you can check the running status in this way:
-
-```bash
-# systemctl status hbm
+hbm policy add --group <group_name> --collection <collection_name> <policy_name>
 ```
 
-### Running HBM
+### Group spec
 
-You can start/stop/restart the `hbm` server using
+A group regroup users.
 
-```bash
-# systemctl start hbm
+If Docker Daemon is listening on Unix socket, the only user will be `root`. The only way for authz plugin to be aware of multiple users other than `root`, is to configure Docker Daemon with TLS enabled.
 
-# systemctl stop hbm
+A special group `administrators` is created at initialization to allow members of that group to by pass authorization verification.
 
-# systemctl restart hbm
-```
+> `administrators` group cannot be deleted.
 
-If you want HBM to start at boot, you should also:
+### Collection spec
 
-```bash
-# systemctl enable hbm
-```
+A collection regroup resources that can be of the following types:
 
-### Logs
+* action
+* cap
+* config
+* device
+* dns
+* image
+* logdriver
+* logopt
+* port
+* registry
+* volume
 
-systemd has its own logging system called the journal. The logs for the `hbm` server can
-be viewed using `journalctl -u hbm`
+For details about the resources' values, refer to the [command line reference](../reference/commandline/resource_add.md).
 
-```bash
-# journalctl -u hbm
-```
+It's possible to use the keyword `all` for users and resources type or value.
+
+| User     | Resource Type | Resource Value | Resource Options |
+|:---------|:--------------|:---------------|:-----------------|
+| all      | all           | all            | all              |
+| all      | all           | all            | `<empty>`        |
+| all      | `<rType>`     | all            | all              |
+| all      | `<rType>`     | all            | `<empty>`        |
+| all      | `<rType>`     | `<rValue>`     | `<rOptions>`     |
+| `<user>` | `<rType>`     | all            | all              |
+| `<user>` | `<rType>`     | all            | `<empty>`        |
+| `<user>` | `<rType>`     | `<rValue>`     | `<rOptions>`     |

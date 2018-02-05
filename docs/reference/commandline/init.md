@@ -16,6 +16,10 @@ Initialize config
 
 Usage:
   hbm init [flags]
+
+Flags:
+      --action   Initialize action resources
+  -h, --help     help for init
 ```
 
 ## Examples

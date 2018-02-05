@@ -18,18 +18,18 @@ Usage:
   hbm policy add [name] [flags]
 
 Flags:
-  -c, --cluster string      Set cluster
-      --collection string   Set collection
+  -c, --collection string   Set collection
   -g, --group string        Set group
+  -h, --help                help for add
 ```
 
 ## Examples
 
 ```bash
-# hbm policy add --group group1 --cluster cluster1 --collection collection1 policy1
+# hbm policy add --group group1 --collection collection1 policy1
 # hbm policy ls
-NAME                GROUP               CLUSTER             COLLECTION
-policy1             group1              cluster1            collection1
+NAME                GROUP               COLLECTION
+policy1             group1              collection1
 ```
 
 ## Related information

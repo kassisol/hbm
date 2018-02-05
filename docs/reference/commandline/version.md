@@ -12,7 +12,7 @@ title: version
 ***
 
 ```markdown
-All software has versions. This is HBM's
+Show the HBM version information
 
 Usage:
   hbm version [flags]
@@ -22,5 +22,9 @@ Usage:
 
 ```bash
 # hbm version
-HBM 0.2.0 -- HEAD
+Version:     0.8.0
+Git commit:  HEAD
+Built:       1970-01-01 00:00:00 +0000 UTC
+Go version:  go1.8.3
+OS/Arch:     linux/amd64
 ```

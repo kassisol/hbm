@@ -23,6 +23,6 @@ Usage:
 ```bash
 # hbm server
 INFO [0000] Server has completed initialization
-INFO [0000] HBM server         logdriver=standard storagedriver=sqlite version=0.2.0
-INFO [0000] Listening on socket file 
+INFO [0000] HBM server         logdriver=standard storagedriver=sqlite version=0.8.0
+INFO [0000] Listening on socket file
 ```

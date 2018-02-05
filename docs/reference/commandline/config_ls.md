@@ -12,25 +12,29 @@ title: config ls
 ***
 
 ```markdown
-List hbm enabled features
+List HBM configs
 
 Usage:
-hbm config ls [flags]
+  hbm config ls [flags]
 
 Aliases:
-  ls, list
+ls, list
+
+Flags:
+  -f, --filter strings   Filter output based on conditions provided
+  -h, --help             help for ls
 ```
 
 ## Examples
 
 ```bash
 # hbm config ls
-NAME
-authorization
+NAME                        VALUE
+authorization               false
+default-allow-action-error  false
 ```
 
 ## Related information
 
-* [config_enable](config_enable.md)
-* [config_find](config_find.md)
-* [config_disable](config_disable.md)
+* [config_get](config_get.md)
+* [config_set](config_set.md)

@@ -25,13 +25,13 @@ Aliases:
 
 ```bash
 # hbm policy ls
-NAME                GROUP               CLUSTER             COLLECTION
-policy1             group1              cluster1            collection1
-policy2             group2              cluster2            collection2
+NAME                GROUP               COLLECTION
+policy1             group1              collection1
+policy2             group2              collection2
 # hbm policy rm policy1
 # hbm policy ls
-NAME                GROUP               CLUSTER             COLLECTION
-policy2             group2              cluster2            collection2
+NAME                GROUP               COLLECTION
+policy2             group2              collection2
 ```
 
 ## Related information

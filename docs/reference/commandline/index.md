@@ -29,10 +29,9 @@ client. Each command has a reference page along with samples.
 
 | Command | Description                                                                |
 |:--------|:---------------------------------------------------------------------------|
-| [config disable](config_disable.md) | Disable hbm feature                            |
-| [config enable](config_enable.md) | Enable hbm feature                               |
-| [config find](config_find.md) | Verify if feature is enabled                         |
-| [config ls](config_ls.md) | List hbm enabled features                                |
+| [config get](config_get.md) | Get config option value                                |
+| [config ls](config_ls.md) | List HBM configs                                         |
+| [config set](config_set.md) | Set HBM config option                                  |
 
 ### User commands
 
