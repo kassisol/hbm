@@ -18,7 +18,8 @@ Usage:
   hbm init [flags]
 
 Flags:
-      --action   Initialize action resources
+      --action  Initialize action resources
+      --config  Initialize config resources
   -h, --help     help for init
 ```
 

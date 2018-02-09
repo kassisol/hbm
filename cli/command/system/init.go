@@ -1,9 +1,14 @@
 package system
 
 import (
+	"reflect"
+
+	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/filedir"
 	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/docker/endpoint"
+	resourcepkg "github.com/kassisol/hbm/docker/resource"
+	rconfigdrv "github.com/kassisol/hbm/docker/resource/driver/config"
 	configobj "github.com/kassisol/hbm/object/config"
 	groupobj "github.com/kassisol/hbm/object/group"
 	resourceobj "github.com/kassisol/hbm/object/resource"
@@ -11,7 +16,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var initAction bool
+var (
+	initAction bool
+	initConfig bool
+)
 
 func NewInitCommand() *cobra.Command {
 	cmd := &cobra.Command{
@@ -24,6 +32,7 @@ func NewInitCommand() *cobra.Command {
 
 	flags := cmd.Flags()
 	flags.BoolVarP(&initAction, "action", "", false, "Initialize action resources")
+	flags.BoolVarP(&initConfig, "config", "", false, "Initialize config resources")
 
 	return cmd
 }
@@ -63,16 +72,34 @@ func runInit(cmd *cobra.Command, args []string) {
 		g.Add("administrators")
 	}
 
-	if initAction {
-		r, err := resourceobj.New("sqlite", command.AppPath)
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer r.End()
+	r, err := resourceobj.New("sqlite", command.AppPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer r.End()
 
+	if initAction {
 		if r.Count("action") == 0 {
 			for _, u := range *endpoint.GetUris() {
 				if err := r.Add(u.Action, "action", u.Action, []string{}); err != nil {
+					log.Fatal(err)
+				}
+			}
+		}
+	}
+
+	if initConfig {
+		if r.Count("config") == 0 {
+			res, err := resourcepkg.NewDriver("config")
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			val := utils.GetReflectValue(reflect.Slice, res.List())
+			v := val.Interface().([]rconfigdrv.Action)
+
+			for _, c := range v {
+				if err := r.Add(c.Key, "config", c.Key, []string{}); err != nil {
 					log.Fatal(err)
 				}
 			}
