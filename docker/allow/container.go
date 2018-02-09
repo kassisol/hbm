@@ -19,7 +19,7 @@ import (
 	"github.com/kassisol/hbm/version"
 )
 
-func AllowContainerCreate(req authorization.Request, config *types.Config) *types.AllowResult {
+func ContainerCreate(req authorization.Request, config *types.Config) *types.AllowResult {
 	type ContainerCreateConfig struct {
 		container.Config
 		HostConfig container.HostConfig

@@ -14,7 +14,7 @@ import (
 	"github.com/kassisol/hbm/version"
 )
 
-func AllowImageCreate(req authorization.Request, config *types.Config) *types.AllowResult {
+func ImageCreate(req authorization.Request, config *types.Config) *types.AllowResult {
 	u, err := url.ParseRequestURI(req.RequestURI)
 	if err != nil {
 		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Could not parse URL query")}

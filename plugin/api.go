@@ -92,12 +92,12 @@ func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 
 	// Validate Docker command is allowed
 	config := types.Config{AppPath: a.AppPath, Username: username}
-	r := allow.AllowTrue(req, &config)
+	r := allow.True(req, &config)
 
 	if !isAdmin {
 		aR, _ := s.Get("authorization")
 		if aR {
-			r = allow.AllowAction(&config, u.Action, u.CmdName)
+			r = allow.Action(&config, u.Action, u.CmdName)
 			if r.Allow {
 				r = u.AllowFunc(req, &config)
 			}

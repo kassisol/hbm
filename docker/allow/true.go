@@ -5,6 +5,6 @@ import (
 	"github.com/kassisol/hbm/docker/allow/types"
 )
 
-func AllowTrue(req authorization.Request, config *types.Config) *types.AllowResult {
+func True(req authorization.Request, config *types.Config) *types.AllowResult {
 	return &types.AllowResult{Allow: true}
 }

@@ -11,7 +11,7 @@ import (
 	"github.com/kassisol/hbm/version"
 )
 
-func AllowAction(config *types.Config, action, cmd string) *types.AllowResult {
+func Action(config *types.Config, action, cmd string) *types.AllowResult {
 	defer utils.RecoverFunc()
 
 	l, _ := log.NewDriver("standard", nil)
