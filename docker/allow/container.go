@@ -169,6 +169,10 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 		}
 	}
 
+	if !AllowImage(cc.Image, config) {
+		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Image %s is not allowed", cc.Image)}
+	}
+
 	return &types.AllowResult{Allow: true}
 }
 

@@ -64,6 +64,10 @@ func ServiceCreate(req authorization.Request, config *types.Config) *types.Allow
 				return &types.AllowResult{Allow: false, Msg: "Running as user \"root\" is not allowed. Please use --user=\"someuser\" param."}
 			}
 		}
+
+		if !AllowImage(svc.TaskTemplate.ContainerSpec.Image, config) {
+			return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Image %s is not allowed", svc.TaskTemplate.ContainerSpec.Image)}
+		}
 	}
 
 	if svc.TaskTemplate.LogDriver != nil {
