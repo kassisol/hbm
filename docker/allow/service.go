@@ -15,7 +15,7 @@ import (
 )
 
 func ServiceCreate(req authorization.Request, config *types.Config) *types.AllowResult {
-	svc := &swarm.Service{}
+	svc := &swarm.ServiceSpec{}
 
 	err := json.Decode(req.RequestBody, svc)
 	if err != nil {
@@ -36,9 +36,9 @@ func ServiceCreate(req authorization.Request, config *types.Config) *types.Allow
 	}
 	defer p.End()
 
-	if svc.Spec.EndpointSpec != nil {
-		if len(svc.Spec.EndpointSpec.Ports) > 0 {
-			for _, port := range svc.Spec.EndpointSpec.Ports {
+	if svc.EndpointSpec != nil {
+		if len(svc.EndpointSpec.Ports) > 0 {
+			for _, port := range svc.EndpointSpec.Ports {
 				if !p.Validate(config.Username, "port", string(port.PublishedPort), "") {
 					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be published", port.PublishedPort)}
 				}
@@ -46,39 +46,41 @@ func ServiceCreate(req authorization.Request, config *types.Config) *types.Allow
 		}
 	}
 
-	if len(svc.Spec.TaskTemplate.ContainerSpec.Mounts) > 0 {
-		for _, mount := range svc.Spec.TaskTemplate.ContainerSpec.Mounts {
-			if mount.Type == "bind" {
-				if len(mount.Source) > 0 {
-					if !AllowVolume(mount.Source, config) {
-						return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume %s is not allowed to be mounted", mount.Source)}
+	if svc.TaskTemplate.ContainerSpec != nil {
+		if len(svc.TaskTemplate.ContainerSpec.Mounts) > 0 {
+			for _, mount := range svc.TaskTemplate.ContainerSpec.Mounts {
+				if mount.Type == "bind" {
+					if len(mount.Source) > 0 {
+						if !AllowVolume(mount.Source, config) {
+							return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume %s is not allowed to be mounted", mount.Source)}
+						}
 					}
 				}
 			}
 		}
+
+		if len(svc.TaskTemplate.ContainerSpec.User) > 0 {
+			if svc.TaskTemplate.ContainerSpec.User == "root" && !p.Validate(config.Username, "config", "container_create_user_root", "") {
+				return &types.AllowResult{Allow: false, Msg: "Running as user \"root\" is not allowed. Please use --user=\"someuser\" param."}
+			}
+		}
 	}
 
-	if svc.Spec.TaskTemplate.LogDriver != nil {
-		if len(svc.Spec.TaskTemplate.LogDriver.Name) > 0 {
-			if !p.Validate(config.Username, "logdriver", svc.Spec.TaskTemplate.LogDriver.Name, "") {
-				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log driver %s is not allowed", svc.Spec.TaskTemplate.LogDriver.Name)}
+	if svc.TaskTemplate.LogDriver != nil {
+		if len(svc.TaskTemplate.LogDriver.Name) > 0 {
+			if !p.Validate(config.Username, "logdriver", svc.TaskTemplate.LogDriver.Name, "") {
+				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log driver %s is not allowed", svc.TaskTemplate.LogDriver.Name)}
 			}
 		}
 
-		if len(svc.Spec.TaskTemplate.LogDriver.Options) > 0 {
-			for k, v := range svc.Spec.TaskTemplate.LogDriver.Options {
+		if len(svc.TaskTemplate.LogDriver.Options) > 0 {
+			for k, v := range svc.TaskTemplate.LogDriver.Options {
 				los := fmt.Sprintf("%s=%s", k, v)
 
 				if !p.Validate(config.Username, "logopt", los, "") {
 					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log driver %s is not allowed", los)}
 				}
 			}
-		}
-	}
-
-	if len(svc.Spec.TaskTemplate.ContainerSpec.User) > 0 {
-		if svc.Spec.TaskTemplate.ContainerSpec.User == "root" && !p.Validate(config.Username, "config", "container_create_user_root", "") {
-			return &types.AllowResult{Allow: false, Msg: "Running as user \"root\" is not allowed. Please use --user=\"someuser\" param."}
 		}
 	}
 
