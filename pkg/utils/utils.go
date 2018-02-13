@@ -6,6 +6,26 @@ import (
 	"strings"
 )
 
+func ContainsPasswordString(value string) bool {
+	passwordKeys := []string{
+		"password",
+		"pass",
+		"passwd",
+	}
+
+	newValue := strings.ToLower(value)
+
+	for _, k := range passwordKeys {
+		re := regexp.MustCompile(k)
+
+		if re.MatchString(newValue) {
+			return true
+		}
+	}
+
+	return false
+}
+
 func GetPortRangeFromString(value string) (int, int, error) {
 	var startPort int
 	var endPort int

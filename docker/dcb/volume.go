@@ -9,6 +9,7 @@ import (
 	"github.com/docker/docker/api/types/volume"
 	"github.com/docker/go-plugins-helpers/authorization"
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
+	"github.com/kassisol/hbm/pkg/utils"
 )
 
 func VolumeList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
@@ -40,7 +41,11 @@ func VolumeCreate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 
 	if len(vol.DriverOpts) > 0 {
 		for k, v := range vol.DriverOpts {
-			cmd.Add(fmt.Sprintf("--opt %s=%s", k, v))
+			if utils.ContainsPasswordString(k) {
+				cmd.Add(fmt.Sprintf("--opt %s=xxx", k))
+			} else {
+				cmd.Add(fmt.Sprintf("--opt %s=%s", k, v))
+			}
 		}
 	}
 
