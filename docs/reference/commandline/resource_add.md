@@ -19,7 +19,7 @@ Usage:
 
 Flags:
   -o, --option value   Specify options (default [])
-  -t, --type string    Set resource type (action|capability|config|device|dns|image|logdriver|logopt|port|registry|volume) (default "action")
+  -t, --type string    Set resource type (action|capability|config|device|dns|image|logdriver|logopt|plugin|port|registry|volume) (default "action")
   -v, --value string   Set resource value
 ```
 
@@ -215,6 +215,16 @@ No option available
 ### Log Option
 #### Type
 `logopt`
+
+#### Value
+
+#### Option
+No option available
+
+---
+### Plugin
+#### Type
+`port`
 
 #### Value
 

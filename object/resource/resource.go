@@ -3,6 +3,7 @@ package resource
 import (
 	"fmt"
 
+	"github.com/juliengk/go-docker/image"
 	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/json"
 	"github.com/juliengk/go-utils/validation"
@@ -68,6 +69,11 @@ func (c *Config) Add(name, rType, rValue string, rOptions []string) error {
 		if err = res.ValidOptions(options); err != nil {
 			return err
 		}
+	}
+
+	if rType == "image" || rType == "plugin" {
+		i := image.NewImage(rValue)
+		rValue = i.String()
 	}
 
 	opts := ""

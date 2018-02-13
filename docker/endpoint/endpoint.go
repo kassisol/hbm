@@ -108,7 +108,7 @@ func GetUris() *uri.URIs {
 	uris.Register("POST", `^/plugins/(.+)/set`, allow.True, dcb.PluginSet, "plugin_set", "plugin set", "Configure a plugin")
 	uris.Register("POST", `^/plugins/(.+)/upgrade`, allow.True, dcb.PluginUpgrade, "plugin_upgrade", "plugin upgrade", "Upgrade a plugin")
 	uris.Register("POST", `^/plugins/create`, allow.True, dcb.PluginCreate, "plugin_create", "plugin create", "Create a plugin")
-	uris.Register("POST", `^/plugins/pull`, allow.True, dcb.PluginPull, "plugin_pull", "plugin pull", "Install a plugin")
+	uris.Register("POST", `^/plugins/pull`, allow.PluginPull, dcb.PluginPull, "plugin_pull", "plugin install", "Install a plugin")
 	uris.Register("DELETE", `^/plugins/(.+)`, allow.True, dcb.PluginRemove, "plugin_remove", "plugin rm", "Remove a plugin")
 
 	uris.Register("POST", `^/auth`, allow.True, dcb.Auth, "auth", "login", "Log in to a Docker registry")
