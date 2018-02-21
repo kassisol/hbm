@@ -37,9 +37,8 @@ install -p -m 644 shellcompletion/bash $RPM_BUILD_ROOT/usr/share/bash-completion
 
 # install manpages
 install -d $RPM_BUILD_ROOT/%{_mandir}/man8
-install -p -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8
+install -p -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8/
 
-# list files owned by the package here
 %files
 #%doc README.md
 %{_sbindir}/hbm
@@ -59,6 +58,10 @@ install -p -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8
 
 %postun
 rm -f %{_sbindir}/hbm
+rm -f /%{_unitdir}/hbm.service
+rm -f /%{_unitdir}/hbm.socket
+rm -f /usr/share/bash-completion/completions/hbm
+rm -f /%{_mandir}/man8/hbm*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
