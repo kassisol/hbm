@@ -528,8 +528,10 @@ func ContainerUpdate(req authorization.Request, urlPath string, re *regexp.Regex
 		cmd.Add(fmt.Sprintf("--memory-swap %s", uc.MemorySwap))
 	}
 
-	if *uc.MemorySwappiness > 0 {
-		cmd.Add(fmt.Sprintf("--memory-swappiness %s", uc.MemorySwappiness))
+	if uc.MemorySwappiness != nil {
+		if *uc.MemorySwappiness > 0 {
+			cmd.Add(fmt.Sprintf("--memory-swappiness %s", uc.MemorySwappiness))
+		}
 	}
 
 	if uc.KernelMemory > 0 {
