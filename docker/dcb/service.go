@@ -204,16 +204,22 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 			cmd.Add(fmt.Sprintf("--restart-condition %s", svc.TaskTemplate.RestartPolicy.Condition))
 		}
 
-		if *svc.TaskTemplate.RestartPolicy.Delay > 0 {
-			cmd.Add(fmt.Sprintf("--restart-delay %s", svc.TaskTemplate.RestartPolicy.Delay))
+		if svc.TaskTemplate.RestartPolicy.Delay != nil {
+			if *svc.TaskTemplate.RestartPolicy.Delay > 0 {
+				cmd.Add(fmt.Sprintf("--restart-delay %s", svc.TaskTemplate.RestartPolicy.Delay))
+			}
 		}
 
-		if *svc.TaskTemplate.RestartPolicy.MaxAttempts > 0 {
-			cmd.Add(fmt.Sprintf("--restart-max-attempts %s", svc.TaskTemplate.RestartPolicy.MaxAttempts))
+		if svc.TaskTemplate.RestartPolicy.MaxAttempts != nil {
+			if *svc.TaskTemplate.RestartPolicy.MaxAttempts > 0 {
+				cmd.Add(fmt.Sprintf("--restart-max-attempts %s", svc.TaskTemplate.RestartPolicy.MaxAttempts))
+			}
 		}
 
-		if *svc.TaskTemplate.RestartPolicy.Window > 0 {
-			cmd.Add(fmt.Sprintf("--restart-window %s", svc.TaskTemplate.RestartPolicy.Window))
+		if svc.TaskTemplate.RestartPolicy.Window != nil {
+			if *svc.TaskTemplate.RestartPolicy.Window > 0 {
+				cmd.Add(fmt.Sprintf("--restart-window %s", svc.TaskTemplate.RestartPolicy.Window))
+			}
 		}
 	}
 
@@ -451,16 +457,22 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 			cmd.Add(fmt.Sprintf("--restart-condition %s", svc.TaskTemplate.RestartPolicy.Condition))
 		}
 
-		if *svc.TaskTemplate.RestartPolicy.Delay > 0 {
-			cmd.Add(fmt.Sprintf("--restart-delay %s", svc.TaskTemplate.RestartPolicy.Delay))
+		if svc.TaskTemplate.RestartPolicy.Delay != nil {
+			if *svc.TaskTemplate.RestartPolicy.Delay > 0 {
+				cmd.Add(fmt.Sprintf("--restart-delay %s", svc.TaskTemplate.RestartPolicy.Delay))
+			}
 		}
 
-		if *svc.TaskTemplate.RestartPolicy.MaxAttempts > 0 {
-			cmd.Add(fmt.Sprintf("--restart-max-attempts %s", svc.TaskTemplate.RestartPolicy.MaxAttempts))
+		if svc.TaskTemplate.RestartPolicy.MaxAttempts != nil {
+			if *svc.TaskTemplate.RestartPolicy.MaxAttempts > 0 {
+				cmd.Add(fmt.Sprintf("--restart-max-attempts %s", svc.TaskTemplate.RestartPolicy.MaxAttempts))
+			}
 		}
 
-		if *svc.TaskTemplate.RestartPolicy.Window > 0 {
-			cmd.Add(fmt.Sprintf("--restart-window %s", svc.TaskTemplate.RestartPolicy.Window))
+		if svc.TaskTemplate.RestartPolicy.Window != nil {
+			if *svc.TaskTemplate.RestartPolicy.Window > 0 {
+				cmd.Add(fmt.Sprintf("--restart-window %s", svc.TaskTemplate.RestartPolicy.Window))
+			}
 		}
 	}
 
