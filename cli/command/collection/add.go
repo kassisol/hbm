@@ -29,7 +29,7 @@ func runAdd(cmd *cobra.Command, args []string) {
 	}
 	defer c.End()
 
-	if err := c.Add(args[0]); err !=nil {
+	if err := c.Add(args[0]); err != nil {
 		log.Fatal(err)
 	}
 }

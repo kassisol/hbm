@@ -33,7 +33,7 @@ func runGet(cmd *cobra.Command, args []string) {
 	defer c.End()
 
 	result, err := c.Get(args[0])
-	if err !=nil {
+	if err != nil {
 		log.Fatal(err)
 	}
 

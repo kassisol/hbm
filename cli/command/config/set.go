@@ -29,7 +29,7 @@ func runSet(cmd *cobra.Command, args []string) {
 	}
 	defer c.End()
 
-	if err := c.Set(args[0], args[1]); err !=nil {
+	if err := c.Set(args[0], args[1]); err != nil {
 		log.Fatal(err)
 	}
 }

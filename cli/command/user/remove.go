@@ -30,7 +30,7 @@ func runRemove(cmd *cobra.Command, args []string) {
 	}
 	defer u.End()
 
-	if err := u.Remove(args[0]); err !=nil {
+	if err := u.Remove(args[0]); err != nil {
 		log.Fatal(err)
 	}
 }

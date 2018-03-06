@@ -43,7 +43,7 @@ func runList(cmd *cobra.Command, args []string) {
 	filters := utils.ConvertSliceToMap("=", userListFilter)
 
 	users, err := u.List(filters)
-	if err !=nil {
+	if err != nil {
 		log.Fatal(err)
 	}
 
