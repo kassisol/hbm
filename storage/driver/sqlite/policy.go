@@ -23,6 +23,9 @@ func (c *Config) ListPolicies(filter map[string]string) []types.Policy {
 
 	sql := c.DB.Table("policies").Select("policies.name, groups.name, collections.name").Joins("JOIN groups ON groups.id = policies.group_id").Joins("JOIN collections ON collections.id = policies.collection_id")
 
+	if v, ok := filter["name"]; ok {
+		sql = sql.Where("policies.name = ?", v)
+	}
 	if v, ok := filter["user"]; ok {
 		sql = sql.Joins("JOIN group_users ON group_users.group_id = groups.id").Joins("JOIN users ON users.id = group_users.user_id").Where("users.name = ?", v)
 	}

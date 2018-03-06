@@ -8,6 +8,7 @@ import (
 
 func isValidFilterKeys(filters map[string]string) error {
 	validKeys := []string{
+		"name",
 		"user",
 		"group",
 		"resource-type",
