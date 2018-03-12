@@ -1,5 +1,5 @@
 // HBM is an application to authorize and manage authorized docker command using Docker AuthZ plugin.
-// Copyright (C) 2016-2017 Kassisol inc.
+// Copyright (C) 2016-2018 Kassisol inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
