@@ -303,16 +303,16 @@
 			"revisionTime": "2017-08-22T13:27:46Z"
 		},
 		{
-			"checksumSHA1": "XX+smR57bB/ZccIMo+kdc+IFz/4=",
+			"checksumSHA1": "VNUkFQcdmHCkMDIcFtqlxsQQlls=",
 			"path": "github.com/spf13/cobra",
-			"revision": "2da4a54c5ceefcee7ca5dd0eea1e18a3b6366489",
-			"revisionTime": "2017-11-02T15:22:38Z"
+			"revision": "c6c44e6fdcc30161c7f4480754da7230d01c06e3",
+			"revisionTime": "2018-03-01T18:15:57Z"
 		},
 		{
-			"checksumSHA1": "UEirrwOOCy2HmqrjzwKQFgI/pCg=",
+			"checksumSHA1": "UV6A5TUHJK1cLjRq5+eLHOcrLlc=",
 			"path": "github.com/spf13/cobra/doc",
-			"revision": "2da4a54c5ceefcee7ca5dd0eea1e18a3b6366489",
-			"revisionTime": "2017-11-02T15:22:38Z"
+			"revision": "c6c44e6fdcc30161c7f4480754da7230d01c06e3",
+			"revisionTime": "2018-03-01T18:15:57Z"
 		},
 		{
 			"checksumSHA1": "fKq6NiaqP3DFxnCRF5mmpJWTSUA=",
