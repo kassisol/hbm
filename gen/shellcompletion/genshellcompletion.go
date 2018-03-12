@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/juliengk/go-utils/filedir"
+	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/cli/command/commands"
-	"github.com/spf13/cobra"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	cmd := &cobra.Command{Use: "hbm"}
+	cmd := command.NewHBMCommand()
 	commands.AddCommands(cmd)
 	cmd.DisableAutoGenTag = true
 
