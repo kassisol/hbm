@@ -13,7 +13,7 @@ import (
 	"github.com/juliengk/go-log"
 	"github.com/juliengk/go-log/driver"
 	"github.com/juliengk/go-utils/filedir"
-	"github.com/kassisol/hbm/cli/command"
+	"github.com/kassisol/hbm/pkg/adf"
 	"github.com/kassisol/hbm/plugin"
 	"github.com/kassisol/hbm/version"
 	"github.com/spf13/cobra"
@@ -81,7 +81,7 @@ func runStart(cmd *cobra.Command, args []string) {
 	signal.Notify(ch, syscall.SIGTERM)
 
 	go func() {
-		p, err := plugin.NewPlugin(command.AppPath)
+		p, err := plugin.NewPlugin(adf.AppPath)
 		if err != nil {
 			l.Fatal(err)
 		}

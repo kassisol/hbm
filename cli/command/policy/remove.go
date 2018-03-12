@@ -2,8 +2,8 @@ package policy
 
 import (
 	"github.com/juliengk/go-utils"
-	"github.com/kassisol/hbm/cli/command"
 	policyobj "github.com/kassisol/hbm/object/policy"
+	"github.com/kassisol/hbm/pkg/adf"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -24,7 +24,7 @@ func newRemoveCommand() *cobra.Command {
 func runRemove(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	p, err := policyobj.New("sqlite", command.AppPath)
+	p, err := policyobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}

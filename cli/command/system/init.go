@@ -5,13 +5,13 @@ import (
 
 	"github.com/juliengk/go-utils"
 	"github.com/juliengk/go-utils/filedir"
-	"github.com/kassisol/hbm/cli/command"
 	"github.com/kassisol/hbm/docker/endpoint"
 	resourcepkg "github.com/kassisol/hbm/docker/resource"
 	rconfigdrv "github.com/kassisol/hbm/docker/resource/driver/config"
 	configobj "github.com/kassisol/hbm/object/config"
 	groupobj "github.com/kassisol/hbm/object/group"
 	resourceobj "github.com/kassisol/hbm/object/resource"
+	"github.com/kassisol/hbm/pkg/adf"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -38,11 +38,11 @@ func NewInitCommand() *cobra.Command {
 }
 
 func runInit(cmd *cobra.Command, args []string) {
-	if err := filedir.CreateDirIfNotExist(command.AppPath, false, 0700); err != nil {
+	if err := filedir.CreateDirIfNotExist(adf.AppPath, false, 0700); err != nil {
 		log.Fatal(err)
 	}
 
-	s, err := configobj.New("sqlite", command.AppPath)
+	s, err := configobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -58,7 +58,7 @@ func runInit(cmd *cobra.Command, args []string) {
 		s.Set("default-allow-action-error", "false")
 	}
 
-	g, err := groupobj.New("sqlite", command.AppPath)
+	g, err := groupobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -72,7 +72,7 @@ func runInit(cmd *cobra.Command, args []string) {
 		g.Add("administrators")
 	}
 
-	r, err := resourceobj.New("sqlite", command.AppPath)
+	r, err := resourceobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}

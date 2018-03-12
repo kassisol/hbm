@@ -6,13 +6,13 @@ import (
 
 	"github.com/docker/docker/client"
 	"github.com/juliengk/go-utils"
-	"github.com/kassisol/hbm/cli/command"
 	collectionobj "github.com/kassisol/hbm/object/collection"
 	configobj "github.com/kassisol/hbm/object/config"
 	groupobj "github.com/kassisol/hbm/object/group"
 	policyobj "github.com/kassisol/hbm/object/policy"
 	resourceobj "github.com/kassisol/hbm/object/resource"
 	userobj "github.com/kassisol/hbm/object/user"
+	"github.com/kassisol/hbm/pkg/adf"
 	"github.com/kassisol/hbm/version"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -33,37 +33,37 @@ func NewInfoCommand() *cobra.Command {
 func runInfo(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	cfg, err := configobj.New("sqlite", command.AppPath)
+	cfg, err := configobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer cfg.End()
 
-	p, err := policyobj.New("sqlite", command.AppPath)
+	p, err := policyobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer p.End()
 
-	g, err := groupobj.New("sqlite", command.AppPath)
+	g, err := groupobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer g.End()
 
-	u, err := userobj.New("sqlite", command.AppPath)
+	u, err := userobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer u.End()
 
-	c, err := collectionobj.New("sqlite", command.AppPath)
+	c, err := collectionobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer c.End()
 
-	r, err := resourceobj.New("sqlite", command.AppPath)
+	r, err := resourceobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -93,7 +93,7 @@ func runInfo(cmd *cobra.Command, args []string) {
 	fmt.Println("Server Version:", version.Version)
 	fmt.Println("Storage Driver: sqlite")
 	fmt.Println("Logging Driver: standard")
-	fmt.Println("Harbormaster Root Dir:", command.AppPath)
+	fmt.Println("Harbormaster Root Dir:", adf.AppPath)
 	fmt.Println("Docker AuthZ Plugin Enabled:", pluginEnabled())
 }
 

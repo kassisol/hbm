@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/juliengk/go-utils"
-	"github.com/kassisol/hbm/cli/command"
 	groupobj "github.com/kassisol/hbm/object/group"
+	"github.com/kassisol/hbm/pkg/adf"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -25,7 +25,7 @@ func newFindCommand() *cobra.Command {
 func runFind(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	g, err := groupobj.New("sqlite", command.AppPath)
+	g, err := groupobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}

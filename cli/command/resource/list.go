@@ -7,8 +7,8 @@ import (
 	"text/tabwriter"
 
 	"github.com/juliengk/go-utils"
-	"github.com/kassisol/hbm/cli/command"
 	resourceobj "github.com/kassisol/hbm/object/resource"
+	"github.com/kassisol/hbm/pkg/adf"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -34,7 +34,7 @@ func newListCommand() *cobra.Command {
 func runList(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	r, err := resourceobj.New("sqlite", command.AppPath)
+	r, err := resourceobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/juliengk/go-utils"
-	"github.com/kassisol/hbm/cli/command"
 	resourcepkg "github.com/kassisol/hbm/docker/resource"
 	resourceobj "github.com/kassisol/hbm/object/resource"
+	"github.com/kassisol/hbm/pkg/adf"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -37,7 +37,7 @@ func newAddCommand() *cobra.Command {
 func runAdd(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	r, err := resourceobj.New("sqlite", command.AppPath)
+	r, err := resourceobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}

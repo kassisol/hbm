@@ -2,8 +2,8 @@ package config
 
 import (
 	"github.com/juliengk/go-utils"
-	"github.com/kassisol/hbm/cli/command"
 	configobj "github.com/kassisol/hbm/object/config"
+	"github.com/kassisol/hbm/pkg/adf"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -23,7 +23,7 @@ func newSetCommand() *cobra.Command {
 func runSet(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	c, err := configobj.New("sqlite", command.AppPath)
+	c, err := configobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}

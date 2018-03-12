@@ -2,8 +2,8 @@ package collection
 
 import (
 	"github.com/juliengk/go-utils"
-	"github.com/kassisol/hbm/cli/command"
 	collectionobj "github.com/kassisol/hbm/object/collection"
+	"github.com/kassisol/hbm/pkg/adf"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -24,7 +24,7 @@ func newRemoveCommand() *cobra.Command {
 func runRemove(cmd *cobra.Command, args []string) {
 	defer utils.RecoverFunc()
 
-	c, err := collectionobj.New("sqlite", command.AppPath)
+	c, err := collectionobj.New("sqlite", adf.AppPath)
 	if err != nil {
 		log.Fatal(err)
 	}
