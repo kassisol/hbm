@@ -4,7 +4,7 @@ Release: %{_release}%{?dist}
 Summary: Docker Engine Access Authorization Plugin
 Group: Tools/Docker
 
-License: GPL
+License: GPLv3+
 
 URL: https://github.com/kassisol/hbm
 Vendor: Kassisol
@@ -40,12 +40,11 @@ install -d $RPM_BUILD_ROOT/%{_mandir}/man8
 install -p -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8/
 
 %files
-#%doc README.md
+#%doc README.md LICENSE
 %{_sbindir}/hbm
 /%{_unitdir}/hbm.service
 /%{_unitdir}/hbm.socket
 /usr/share/bash-completion/completions/hbm
-%doc
 /%{_mandir}/man8/*
 
 %post
@@ -55,13 +54,6 @@ install -p -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8/
 %preun
 %systemd_preun hbm.service
 %systemd_preun hbm.socket
-
-%postun
-rm -f %{_sbindir}/hbm
-rm -f /%{_unitdir}/hbm.service
-rm -f /%{_unitdir}/hbm.socket
-rm -f /usr/share/bash-completion/completions/hbm
-rm -f /%{_mandir}/man8/hbm*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
