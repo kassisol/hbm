@@ -164,7 +164,7 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 	}
 
 	if len(cc.User) > 0 {
-		if cc.Config.User == "root" && !p.Validate(config.Username, "config", "container_create_user_root", "") {
+		if cc.Config.User == "root" && !p.Validate(config.Username, "config", "container_create_param_user_root", "") {
 			return &types.AllowResult{Allow: false, Msg: "Running as user \"root\" is not allowed. Please use --user=\"someuser\" param."}
 		}
 	}
