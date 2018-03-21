@@ -45,6 +45,14 @@ func (c *Config) Add(name, group, collection string) error {
 		return err
 	}
 
+	if len(group) == 0 {
+		return fmt.Errorf("group is MANDATORY")
+	}
+
+	if len(collection) == 0 {
+		return fmt.Errorf("collection is MANDATORY")
+	}
+
 	if c.Storage.FindPolicy(name) {
 		return fmt.Errorf("policy '%s' already exists", name)
 	}
