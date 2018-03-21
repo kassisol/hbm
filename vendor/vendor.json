@@ -201,10 +201,10 @@
 			"revisionTime": "2017-01-02T12:52:26Z"
 		},
 		{
-			"checksumSHA1": "ltddWnwM8N4LYmpywWH8zM8y1qI=",
+			"checksumSHA1": "QJ9viP4pJ+snRnt+WKmZL4+Dj9M=",
 			"path": "github.com/juliengk/go-docker/image",
-			"revision": "6fd225f521b5352ca79d27605992b819054bab12",
-			"revisionTime": "2016-10-09T12:45:36Z"
+			"revision": "f5cda316edb720bb440ba601e70156782e013dbb",
+			"revisionTime": "2018-03-21T16:31:38Z"
 		},
 		{
 			"checksumSHA1": "aCD52FQVq1FK+aGh0RML8mnJ0lw=",
@@ -255,10 +255,10 @@
 			"revisionTime": "2017-09-18T19:42:09Z"
 		},
 		{
-			"checksumSHA1": "y38Rg9KmUt/wEGmuBHODoyLImik=",
+			"checksumSHA1": "og4tQBQGfx5/KU7HyZaVNu4Od70=",
 			"path": "github.com/juliengk/go-utils/validation",
-			"revision": "ba07cad93eab284a98050606ba044c4f5ac7d5ab",
-			"revisionTime": "2018-02-02T00:24:46Z"
+			"revision": "20776979abdb7b88224d22b021041eaceb833659",
+			"revisionTime": "2018-03-21T16:21:44Z"
 		},
 		{
 			"checksumSHA1": "vJOfjdXbjymKpuay2nyRnGncJUw=",
