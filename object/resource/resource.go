@@ -51,7 +51,7 @@ func (c *Config) Add(name, rType, rValue string, rOptions []string) error {
 	}
 
 	if c.Storage.FindResource(name) {
-		return fmt.Errorf("%s already exists", name)
+		return fmt.Errorf("resource '%s' already exists", name)
 	}
 
 	if rType != "all" {
@@ -96,7 +96,7 @@ func (c *Config) Add(name, rType, rValue string, rOptions []string) error {
 
 func (c *Config) Remove(name string) error {
 	if !c.Storage.FindResource(name) {
-		return fmt.Errorf("%s does not exist", name)
+		return fmt.Errorf("resource '%s' does not exist", name)
 	}
 
 	if err := c.Storage.RemoveResource(name); err != nil {
@@ -131,11 +131,11 @@ func (c *Config) Find(name string) bool {
 
 func (c *Config) AddToCollection(resource, collection string) error {
 	if !c.Storage.FindResource(resource) {
-		return fmt.Errorf("%s does not exist", resource)
+		return fmt.Errorf("resource '%s' does not exist", resource)
 	}
 
 	if !c.Storage.FindCollection(collection) {
-		return fmt.Errorf("%s does not exist", collection)
+		return fmt.Errorf("collection '%s' does not exist", collection)
 	}
 
 	c.Storage.AddResourceToCollection(collection, resource)
@@ -145,11 +145,11 @@ func (c *Config) AddToCollection(resource, collection string) error {
 
 func (c *Config) RemoveFromCollection(resource, collection string) error {
 	if !c.Storage.FindResource(resource) {
-		return fmt.Errorf("%s does not exist", resource)
+		return fmt.Errorf("resource '%s' does not exist", resource)
 	}
 
 	if !c.Storage.FindCollection(collection) {
-		return fmt.Errorf("%s does not exist", collection)
+		return fmt.Errorf("collection '%s' does not exist", collection)
 	}
 
 	c.Storage.RemoveResourceFromCollection(collection, resource)

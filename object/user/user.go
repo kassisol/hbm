@@ -44,7 +44,7 @@ func (c *Config) Add(name string) error {
 	}
 
 	if c.Storage.FindUser(name) {
-		return fmt.Errorf("%s already exists", name)
+		return fmt.Errorf("user '%s' already exists", name)
 	}
 
 	c.Storage.AddUser(name)
@@ -54,7 +54,7 @@ func (c *Config) Add(name string) error {
 
 func (c *Config) Remove(name string) error {
 	if !c.Storage.FindUser(name) {
-		return fmt.Errorf("%s does not exist", name)
+		return fmt.Errorf("user '%s' does not exist", name)
 	}
 
 	if err := c.Storage.RemoveUser(name); err != nil {
@@ -89,11 +89,11 @@ func (c *Config) Find(name string) bool {
 
 func (c *Config) AddToGroup(user, group string) error {
 	if !c.Storage.FindUser(user) {
-		return fmt.Errorf("%s does not exist", user)
+		return fmt.Errorf("user '%s' does not exist", user)
 	}
 
 	if !c.Storage.FindGroup(group) {
-		return fmt.Errorf("%s does not exist", group)
+		return fmt.Errorf("group '%s' does not exist", group)
 	}
 
 	c.Storage.AddUserToGroup(group, user)
@@ -103,11 +103,11 @@ func (c *Config) AddToGroup(user, group string) error {
 
 func (c *Config) RemoveFromGroup(user, group string) error {
 	if !c.Storage.FindUser(user) {
-		return fmt.Errorf("%s does not exist", user)
+		return fmt.Errorf("user '%s' does not exist", user)
 	}
 
 	if !c.Storage.FindGroup(group) {
-		return fmt.Errorf("%s does not exist", group)
+		return fmt.Errorf("group '%s' does not exist", group)
 	}
 
 	c.Storage.RemoveUserFromGroup(group, user)

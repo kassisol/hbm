@@ -42,7 +42,7 @@ func (c *Config) Add(name string) error {
 	}
 
 	if c.Storage.FindCollection(name) {
-		return fmt.Errorf("%s already exists", name)
+		return fmt.Errorf("collection '%s' already exists", name)
 	}
 
 	c.Storage.AddCollection(name)
@@ -52,7 +52,7 @@ func (c *Config) Add(name string) error {
 
 func (c *Config) Remove(name string) error {
 	if !c.Storage.FindCollection(name) {
-		return fmt.Errorf("%s does not exist", name)
+		return fmt.Errorf("collection '%s' does not exist", name)
 	}
 
 	if err := c.Storage.RemoveCollection(name); err != nil {

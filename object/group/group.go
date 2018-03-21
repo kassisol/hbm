@@ -42,7 +42,7 @@ func (c *Config) Add(name string) error {
 	}
 
 	if c.Storage.FindGroup(name) {
-		return fmt.Errorf("%s already exists", name)
+		return fmt.Errorf("group '%s' already exists", name)
 	}
 
 	c.Storage.AddGroup(name)
@@ -52,11 +52,11 @@ func (c *Config) Add(name string) error {
 
 func (c *Config) Remove(name string) error {
 	if name == "administrators" {
-		return fmt.Errorf("group \"administrators\" cannot be removed")
+		return fmt.Errorf("group 'administrators' cannot be removed")
 	}
 
 	if !c.Storage.FindGroup(name) {
-		return fmt.Errorf("%s does not exist", name)
+		return fmt.Errorf("group '%s' does not exist", name)
 	}
 
 	if err := c.Storage.RemoveGroup(name); err != nil {

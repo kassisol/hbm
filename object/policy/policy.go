@@ -46,15 +46,15 @@ func (c *Config) Add(name, group, collection string) error {
 	}
 
 	if c.Storage.FindPolicy(name) {
-		return fmt.Errorf("%s already exists", name)
+		return fmt.Errorf("policy '%s' already exists", name)
 	}
 
 	if !c.Storage.FindGroup(group) {
-		return fmt.Errorf("%s does not exist", group)
+		return fmt.Errorf("group '%s' does not exist", group)
 	}
 
 	if !c.Storage.FindCollection(collection) {
-		return fmt.Errorf("%s does not exist", collection)
+		return fmt.Errorf("collection '%s' does not exist", collection)
 	}
 
 	c.Storage.AddPolicy(name, group, collection)
@@ -64,7 +64,7 @@ func (c *Config) Add(name, group, collection string) error {
 
 func (c *Config) Remove(name string) error {
 	if !c.Storage.FindPolicy(name) {
-		return fmt.Errorf("%s does not exist", name)
+		return fmt.Errorf("policy '%s' does not exist", name)
 	}
 
 	c.Storage.RemovePolicy(name)
