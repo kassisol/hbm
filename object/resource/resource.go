@@ -46,6 +46,10 @@ func (c *Config) End() {
 func (c *Config) Add(name, rType, rValue string, rOptions []string) error {
 	options := utils.ConvertSliceToMap("=", rOptions)
 
+	if rType == "all" && rValue == "all" {
+		return fmt.Errorf("add user to 'administrators' group instead of adding a resource with type and value to 'all'")
+	}
+
 	if err := validation.IsValidName(name); err != nil {
 		return err
 	}
