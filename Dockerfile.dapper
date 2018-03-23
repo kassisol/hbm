@@ -6,8 +6,7 @@ RUN apt-get update \
 		ca-certificates \
 		curl \
 		gccgo \
-		git \
-		vim
+		git
 
 ########## Dapper Configuration #####################
 ENV DAPPER_DOCKER_SOCKET true
@@ -24,7 +23,7 @@ ARG ARCH=${HOST_ARCH}
 
 ARG APP_REPO=kassisol
 
-ARG DOCKER_VERSION=17.12.1
+ARG DOCKER_VERSION=18.03.0
 
 ARG DOCKER_URL_amd64=https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}-ce.tgz
 
