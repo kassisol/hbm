@@ -1,23 +1,4 @@
-FROM debian:stable-slim
-
-COPY scripts/dev/go.sh /etc/profile.d/go.sh
-
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends \
-		build-essential \
-		ca-certificates \
-		curl \
-		gccgo \
-		git \
-		iproute2 \
-		iptables \
-		iputils-ping \
-		less \
-		procps \
-		sqlite3 \
-		vim \
-		wget \
-	&& mkdir /root/.ssh
+FROM kassis/dev:go
 
 ########## Dapper Configuration #####################
 ENV DAPPER_RUN_ARGS --privileged --name hbm_dev
@@ -33,45 +14,18 @@ ARG ARCH=${HOST_ARCH}
 
 ARG APP_REPO=kassisol
 
-ARG DOCKER_VERSION=17.12.1
-
-ARG DOCKER_URL_amd64=https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}-ce.tgz
+ARG DOCKER_VERSION=18.03.0
 
 # Set up environment and export all ARGS as ENV
 ENV ARCH=${ARCH} \
 	HOST_ARCH=${HOST_ARCH}
 
-ENV DOCKER_URL=${DOCKER_URL_amd64} \
-	DOCKER_COMPOSE_VERSION=1.14.0 \
-	DAPPER_HOST_ARCH=${DAPPER_HOST_ARCH} \
-	GOPATH=/go \
-	GOARCH=$ARCH \
-	GO_VERSION=1.8.3
-
-ENV PATH=/go/bin:/usr/local/go/bin:$PATH
+ENV DOCKER_COMPOSE_VERSION=1.14.0 \
+	DAPPER_HOST_ARCH=${DAPPER_HOST_ARCH}
 
 # Install Docker
-RUN curl -sfL ${DOCKER_URL} | tar -xzC /usr/local/src \
-	&& cp /usr/local/src/docker/docker* /usr/bin/ \
-	&& mkdir -p /etc/docker/plugins
+RUN get-docker.sh $DOCKER_VERSION
 
 # Install Docker Compose
 RUN wget https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-Linux-x86_64 -O /usr/bin/docker-compose \
 	&& chmod +x /usr/bin/docker-compose
-
-# Install Go
-RUN curl -sfL https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz | tar -xzC /usr/local
-
-# Install govendor
-RUN go get -u github.com/kardianos/govendor
-
-# Install Golint
-RUN go get -u github.com/golang/lint/golint
-
-# Install dotfiles
-RUN git clone https://github.com/juliengk/dot-files /root/Dotfiles \
-	&& mkdir /root/bin \
-	&& wget https://raw.githubusercontent.com/juliengk/dotfiles/master/misc/get-dotfiles.sh -O /root/bin/get-dotfiles.sh \
-	&& chmod +x /root/bin/get-dotfiles.sh \
-	&& /root/bin/get-dotfiles.sh \
-	&& /root/bin/dotfiles -sync -force
