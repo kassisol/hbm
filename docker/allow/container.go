@@ -208,7 +208,7 @@ func AllowVolume(vol string, config *types.Config) bool {
 		vo.NoSuid = true
 	}
 	jsonVO := json.Encode(vo)
-	opts := jsonVO.String()
+	opts := strings.TrimSpace(jsonVO.String())
 
 	if p.Validate(config.Username, "volume", vol, opts) {
 		return true
@@ -231,7 +231,7 @@ func AllowVolume(vol string, config *types.Config) bool {
 			vo.NoSuid = false
 		}
 		jsonVO = json.Encode(vo)
-		opts = jsonVO.String()
+		opts = strings.TrimSpace(jsonVO.String())
 
 		if p.Validate(config.Username, "volume", path.Join(val...), opts) {
 			return true

@@ -2,6 +2,7 @@ package resource
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/juliengk/go-docker/image"
 	"github.com/juliengk/go-utils"
@@ -93,7 +94,7 @@ func (c *Config) Add(name, rType, rValue string, rOptions []string) error {
 		opts = jsonR.String()
 	}
 
-	c.Storage.AddResource(name, rType, rValue, opts)
+	c.Storage.AddResource(name, rType, rValue, strings.TrimSpace(opts))
 
 	return nil
 }
