@@ -224,7 +224,7 @@ No option available
 ---
 ### Plugin
 #### Type
-`port`
+`plugin`
 
 #### Value
 
