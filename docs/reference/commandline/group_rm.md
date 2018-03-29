@@ -1,15 +1,12 @@
 ---
-description: The group rm command description and usage
-keywords:
-- group, rm
+title: "hbm group rm"
+description: "The group rm command description and usage"
+keywords: [ "group", "rm" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: group rm
 ---
-
-# hbm group rm
-***
 
 ```markdown
 Remove group from the whitelist

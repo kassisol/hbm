@@ -1,15 +1,12 @@
 ---
-description: The user member command description and usage
-keywords:
-- user, member
+title: "hbm user member"
+description: "The user member command description and usage"
+keywords: [ "user", "member" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: user member
 ---
-
-# hbm user member
-***
 
 ```markdown
 Manage user membership to group

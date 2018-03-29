@@ -1,15 +1,12 @@
 ---
-description: The group add command description and usage
-keywords:
-- group, add
+title: "hbm group add"
+description: "The group add command description and usage"
+keywords: [ "group", "add" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: group add
 ---
-
-# hbm group add
-***
 
 ```markdown
 Add group to the whitelist

@@ -1,15 +1,12 @@
 ---
-description: The user ls command description and usage
-keywords:
-- user, ls
+title: "hbm user ls"
+description: "The user ls command description and usage"
+keywords: [ "user", "ls" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: user ls
 ---
-
-# hbm user ls
-***
 
 ```markdown
 List whitelisted users

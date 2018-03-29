@@ -1,15 +1,12 @@
 ---
-description: The resource ls command description and usage
-keywords:
-- resource, ls
+title: "hbm resource ls"
+description: "The resource ls command description and usage"
+keywords: [ "resource", "ls" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: resource ls
 ---
-
-# hbm resource ls
-***
 
 ```markdown
 List whitelisted resources

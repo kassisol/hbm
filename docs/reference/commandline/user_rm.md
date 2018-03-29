@@ -1,15 +1,12 @@
 ---
-description: The user rm command description and usage
-keywords:
-- user, rm
+title: "hbm user rm"
+description: "The user rm command description and usage"
+keywords: [ "user", "rm" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: user rm
 ---
-
-# hbm user rm
-***
 
 ```markdown
 Remove user from the whitelist

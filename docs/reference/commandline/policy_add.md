@@ -1,15 +1,12 @@
 ---
-description: The policy add command description and usage
-keywords:
-- policy, add
+title: "hbm policy add"
+description: "The policy add command description and usage"
+keywords: [ "policy", "add" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: policy add
 ---
-
-# hbm policy add
-***
 
 ```markdown
 Add policy

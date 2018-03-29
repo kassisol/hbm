@@ -1,15 +1,13 @@
 ---
+title: "About HBM"
 description: HBM
-keywords:
-  - hbm
+keywords: [ "hbm" ]
+date: "2017-01-27"
 menu:
   main:
     identifier: hbm_use
     weight: -85
-title: HBM
 ---
-
-# About HBM
 
 **Secure, restrict Docker's capabilities**
 

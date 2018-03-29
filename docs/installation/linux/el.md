@@ -1,16 +1,13 @@
 ---
-description: Instructions for installing Docker on CentOS.
-keywords:
-  - HBM, HBM documentation, requirements, linux, centos
+title: "Installation on Enterprise Linux"
+description: "Instructions for installing HBM on Enterprise Linux"
+keywords: [ "HBM", "documentation", "requirements", "linux", "centos" ]
+date: "2017-01-27"
 menu:
   main:
     parent: hbm_linux
     weight: -4
-title: Installation on Enterprise Linux
 ---
-
-# EL
-***
 
 HBM runs on EL. An installation on other binary compatible EL7
 distributions such as CentOS, RHEL, Scientific Linux might succeed, but Harbormaster does not test

@@ -1,15 +1,12 @@
 ---
-description: The config get command description and usage
-keywords:
-- config, get
+title: "hbm config get"
+description: "The config get command description and usage"
+keywords: [ "config", "get" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: config get
 ---
-
-# hbm config get
-***
 
 ```markdown
 Get config option value

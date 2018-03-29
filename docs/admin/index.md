@@ -1,15 +1,13 @@
 ---
-description: Configuring and running the HBM server on various distributions
-keywords:
-  - hbm, server, configuration, running,  process managers
+title: "Configuring and running HBM"
+description: "Configuring and running the HBM server on various distributions"
+keywords: [ "hbm", "server", "configuration", "running", "process managers" ]
+date: "2017-01-27"
 menu:
   main:
     parent: hbm_admin
     weight: 0
-title: Configuring and running HBM
 ---
-
-# ?
 
 ## Configuration
 

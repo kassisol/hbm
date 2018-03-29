@@ -1,15 +1,12 @@
 ---
-description: The config set command description and usage
-keywords:
-- config, set
+title: "hbm config set"
+description: "The config set command description and usage"
+keywords: [ "config", "set" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: config set
 ---
-
-# hbm config set
-***
 
 ```markdown
 Set HBM config option

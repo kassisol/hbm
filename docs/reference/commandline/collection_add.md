@@ -1,15 +1,12 @@
 ---
-description: The collection add command description and usage
-keywords:
-- collection, add
+title: "hbm collection add"
+description: "The collection add command description and usage"
+keywords: [ "collection", "add" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: collection add
 ---
-
-# hbm collection add
-***
 
 ```markdown
 Add collection to the whitelist

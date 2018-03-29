@@ -1,15 +1,12 @@
 ---
-description: The group find command description and usage
-keywords:
-- group, find
+title: "hbm group find"
+description: "The group find command description and usage"
+keywords: [ "group", "find" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: group find
 ---
-
-# hbm group find
-***
 
 ```markdown
 Verify if group exists in the whitelist

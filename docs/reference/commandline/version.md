@@ -1,15 +1,12 @@
 ---
-description: The version command description and usage
-keywords:
-- version
+title: "hbm version"
+description: "The version command description and usage"
+keywords: [ "version" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: version
 ---
-
-# hbm version
-***
 
 ```markdown
 Show the HBM version information

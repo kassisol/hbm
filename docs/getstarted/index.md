@@ -1,17 +1,15 @@
 ---
 title: "Get started with HBM"
 description: "Getting started with HBM"
-tags: [ "getting started", "HBM" ]
+keywords: [ "getting started", "HBM" ]
 date: "2017-01-27"
-url: "/docs/getstarted/install/"
+url: "/docs/getstarted/hbm/"
 menu:
   main:
     identifier: hbm_getstarted_install
     parent: getstarted
     weight: -85
 ---
-
-# Getting Started
 
 ## Install
 

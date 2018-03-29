@@ -1,15 +1,12 @@
 ---
-description: The policy ls command description and usage
-keywords:
-- policy, ls
+title: "hbm policy ls"
+description: "The policy ls command description and usage"
+keywords: [ "policy", "ls" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: policy ls
 ---
-
-# hbm policy ls
-***
 
 ```markdown
 List policies

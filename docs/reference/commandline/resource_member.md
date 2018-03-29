@@ -1,15 +1,12 @@
 ---
-description: The resource member command description and usage
-keywords:
-- resource, member
+title: "hbm resource member"
+description: "The resource member command description and usage"
+keywords: [ "resource", "member" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: resource member
 ---
-
-# hbm resource member
-***
 
 ```markdown
 Manage resource membership to collection

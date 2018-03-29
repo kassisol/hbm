@@ -1,15 +1,12 @@
 ---
-description: The collection ls command description and usage
-keywords:
-- collection, ls
+title: "hbm collection ls"
+description: "The collection ls command description and usage"
+keywords: [ "collection", "ls" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: collection ls
 ---
-
-# hbm collection ls
-***
 
 ```markdown
 List whitelisted collections

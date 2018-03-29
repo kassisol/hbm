@@ -1,15 +1,12 @@
 ---
-description: The server command description and usage
-keywords:
-- server
+title: "hbm server"
+description: "The server command description and usage"
+keywords: [ "server" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: server
 ---
-
-# hbm server
-***
 
 ```markdown
 Launch the HBM server

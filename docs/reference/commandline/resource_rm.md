@@ -1,15 +1,12 @@
 ---
-description: The resource rm command description and usage
-keywords:
-- resource, rm
+title: "hbm resource rm"
+description: "The resource rm command description and usage"
+keywords: [ "resource", "rm" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: resource rm
 ---
-
-# hbm resource rm
-***
 
 ```markdown
 Remove resource from the whitelist

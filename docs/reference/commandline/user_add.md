@@ -1,15 +1,12 @@
 ---
-description: The user add command description and usage
-keywords:
-- user, add
+title: "hbm user add"
+description: "The user add command description and usage"
+keywords: [ "user", "add" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: user add
 ---
-
-# hbm user add
-***
 
 ```markdown
 Add user to the whitelist

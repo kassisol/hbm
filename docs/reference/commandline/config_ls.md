@@ -1,15 +1,12 @@
 ---
-description: The config ls command description and usage
-keywords:
-- config, ls
+title: "hbm config ls"
+description: "The config ls command description and usage"
+keywords: [ "config", "ls" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: config ls
 ---
-
-# hbm config ls
-***
 
 ```markdown
 List HBM configs

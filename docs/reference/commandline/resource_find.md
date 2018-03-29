@@ -1,15 +1,12 @@
 ---
-description: The resource find command description and usage
-keywords:
-- resource, find
+title: "hbm resource find"
+description: "The resource find command description and usage"
+keywords: [ "resource", "find" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: resource find
 ---
-
-# hbm resource find
-***
 
 ```markdown
 Verify if resource exists in the whitelist

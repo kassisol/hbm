@@ -1,17 +1,14 @@
 ---
-description: HBM's CLI command description and usage
-keywords:
-  - HBM, HBM documentation, CLI, command line
+title: "Command line reference"
+description: "HBM's CLI command description and usage"
+keywords: [ "HBM", "documentation", "CLI", "command line" ]
+date: "2017-01-27"
 menu:
   main:
     parent: hbm_ref
     identifier: smn_cli
     weight: -75
-title: Command line reference
 ---
-
-# The HBM commands
-***
 
 This section contains reference information on using HBM's command line
 client. Each command has a reference page along with samples.

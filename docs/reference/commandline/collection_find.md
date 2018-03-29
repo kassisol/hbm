@@ -1,15 +1,12 @@
 ---
-description: The collection find command description and usage
-keywords:
-- collection, find
+title: "hbm collection find"
+description: "The collection find command description and usage"
+keywords: [ "collection", "find" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: collection find
 ---
-
-# hbm collection find
-***
 
 ```markdown
 Verify if collection exists in the whitelist

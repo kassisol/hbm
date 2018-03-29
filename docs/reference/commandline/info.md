@@ -1,15 +1,11 @@
 ---
-description: The info command description and usage
-keywords:
-- display, hbm, information
+title: "hbm info"
+description: "The info command description and usage"
+keywords: [ "display", "hbm", "information" ]
 menu:
   main:
     parent: smn_cli
-title: info
 ---
-
-# hbm info
-***
 
 ```markdown
 Display information about HBM

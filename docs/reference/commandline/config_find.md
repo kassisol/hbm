@@ -1,15 +1,12 @@
 ---
-description: The config find command description and usage
-keywords:
-- config, find
+title: "hbm config find"
+description: "The config find command description and usage"
+keywords: [ "config", "find" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: config find
 ---
-
-# hbm config find
-***
 
 ```markdown
 Verify if feature is enabled

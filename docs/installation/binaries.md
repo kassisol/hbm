@@ -1,16 +1,13 @@
 ---
-description: Instructions for installing HBM as a binary. Mostly meant for hackers who want to try out HBM on a variety of environments.
-keywords:
-  - binaries, installation, hbm, documentation,  linux
+title: "Installation from binaries"
+description: "Instructions for installing HBM as a binary. Mostly meant for hackers who want to try out HBM on a variety of environments."
+keywords: [ "binaries", "installation", "hbm", "documentation", "linux" ]
+date: "2017-01-27"
 menu:
   main:
     parent: hbm_install
     weight: 110
-title: Installation from binaries
 ---
-
-# Installation from binaries
-***
 
 ## Get the HBM binaries
 

@@ -1,15 +1,12 @@
 ---
-description: The policy rm command description and usage
-keywords:
-- policy, rm
+title: "hbm policy rm"
+description: "The policy rm command description and usage"
+keywords: [ "policy", "rm" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: policy rm
 ---
-
-# hbm policy rm
-***
 
 ```markdown
 Remove policy

@@ -1,15 +1,12 @@
 ---
-description: The collection rm command description and usage
-keywords:
-- collection, rm
+title: "hbm collection rm"
+description: "The collection rm command description and usage"
+keywords: [ "collection", "rm" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: collection rm
 ---
-
-# hbm collection rm
-***
 
 ```markdown
 Remove collection from the whitelist

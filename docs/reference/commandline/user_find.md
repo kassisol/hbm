@@ -1,15 +1,12 @@
 ---
-description: The user find command description and usage
-keywords:
-- user, find
+title: "hbm user find"
+description: "The user find command description and usage"
+keywords: [ "user", "find" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: user find
 ---
-
-# hbm user find
-***
 
 ```markdown
 Verify if user exists in the whitelist

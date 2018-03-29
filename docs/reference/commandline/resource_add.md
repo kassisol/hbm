@@ -1,15 +1,12 @@
 ---
-description: The resource add command description and usage
-keywords:
-- resource, add
+title: "hbm resource add"
+description: "The resource add command description and usage"
+keywords: [ "resource", "add" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: resource add
 ---
-
-# hbm resource add
-***
 
 ```markdown
 Add resource to the whitelist

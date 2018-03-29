@@ -1,15 +1,12 @@
 ---
-description: The group ls command description and usage
-keywords:
-- group, ls
+title: "hbm group ls"
+description: "The group ls command description and usage"
+keywords: [ "group", "ls" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: group ls
 ---
-
-# hbm group ls
-***
 
 ```markdown
 List whitelisted groups

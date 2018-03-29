@@ -1,15 +1,12 @@
 ---
-description: The policy find command description and usage
-keywords:
-- policy, find
+title: "hbm policy find"
+description: "The policy find command description and usage"
+keywords: [ "policy", "find" ]
+date: "2017-01-27"
 menu:
   main:
     parent: smn_cli
-title: policy find
 ---
-
-# hbm policy find
-***
 
 ```markdown
 Verify if policy exists
