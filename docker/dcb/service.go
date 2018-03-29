@@ -135,10 +135,11 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 						}
 					}
 
-					if len(mount.VolumeOptions.DriverConfig.Name) > 0 {
-						str = append(str, fmt.Sprintf("volume-driver=%s", mount.VolumeOptions.DriverConfig.Name))
-					}
 					if mount.VolumeOptions.DriverConfig != nil {
+						if len(mount.VolumeOptions.DriverConfig.Name) > 0 {
+							str = append(str, fmt.Sprintf("volume-driver=%s", mount.VolumeOptions.DriverConfig.Name))
+						}
+
 						if len(mount.VolumeOptions.DriverConfig.Options) > 0 {
 							for k, v := range mount.VolumeOptions.DriverConfig.Options {
 								str = append(str, fmt.Sprintf("volume-opt=\"%s=%s\"", k, v))
@@ -408,10 +409,11 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 						}
 					}
 
-					if len(mount.VolumeOptions.DriverConfig.Name) > 0 {
-						str = append(str, fmt.Sprintf("volume-driver=%s", mount.VolumeOptions.DriverConfig.Name))
-					}
 					if mount.VolumeOptions.DriverConfig != nil {
+						if len(mount.VolumeOptions.DriverConfig.Name) > 0 {
+							str = append(str, fmt.Sprintf("volume-driver=%s", mount.VolumeOptions.DriverConfig.Name))
+						}
+
 						if len(mount.VolumeOptions.DriverConfig.Options) > 0 {
 							for k, v := range mount.VolumeOptions.DriverConfig.Options {
 								str = append(str, fmt.Sprintf("volume-opt=\"%s=%s\"", k, v))
