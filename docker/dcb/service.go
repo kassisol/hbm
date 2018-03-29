@@ -174,7 +174,7 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 
 		if len(svc.EndpointSpec.Ports) > 0 {
 			for _, port := range svc.EndpointSpec.Ports {
-				pc := fmt.Sprintf("%s:%s", port.TargetPort, port.PublishedPort)
+				pc := fmt.Sprintf("%d:%d", port.TargetPort, port.PublishedPort)
 				if len(port.Protocol) > 0 {
 					pc = fmt.Sprintf("%s/%s", port.Protocol, pc)
 				}
@@ -438,7 +438,7 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 
 		if len(svc.EndpointSpec.Ports) > 0 {
 			for _, port := range svc.EndpointSpec.Ports {
-				pc := fmt.Sprintf("%s:%s", port.TargetPort, port.PublishedPort)
+				pc := fmt.Sprintf("%d:%d", port.TargetPort, port.PublishedPort)
 				if len(port.Protocol) > 0 {
 					pc = fmt.Sprintf("%s/%s", port.Protocol, pc)
 				}
