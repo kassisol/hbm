@@ -1,12 +1,16 @@
 ---
 title: "About HBM"
-description: HBM
-keywords: [ "hbm" ]
+linktitle: "Overview"
+description: "HBM"
+keywords: [ "hbm", "about" ]
 date: "2017-01-27"
+url: "/docs/hbm/overview/"
 menu:
-  main:
-    identifier: hbm_use
+  docs:
+    parent: "hbm_use"
     weight: -85
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/overview.md"
+toc: true
 ---
 
 **Secure, restrict Docker's capabilities**
@@ -44,8 +48,7 @@ By default Harbormaster plugin prevents from executing commands and certains par
 The [installation section](installation/index.md) will show you how to install HBM
 on a variety of platforms.
 
-
-### HBM admin guide
+### Admin guide
 
 To learn about HBM in more detail and to answer questions about usage and
 implementation, check out the [Admin Guide](admin/index.md).

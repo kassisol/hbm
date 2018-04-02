@@ -4,8 +4,9 @@ description: "The server command description and usage"
 keywords: [ "server" ]
 date: "2017-01-27"
 menu:
-  main:
-    parent: smn_cli
+  docs:
+    parent: "hbm_cli"
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/reference/commandline/server.md"
 ---
 
 ```markdown

@@ -4,8 +4,9 @@ description: "The user find command description and usage"
 keywords: [ "user", "find" ]
 date: "2017-01-27"
 menu:
-  main:
-    parent: smn_cli
+  docs:
+    parent: "hbm_cli_user"
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/reference/commandline/user_find.md"
 ---
 
 ```markdown

@@ -1,12 +1,16 @@
 ---
 title: "Installation on Enterprise Linux"
+linktitle: "Enterprise Linux"
 description: "Instructions for installing HBM on Enterprise Linux"
 keywords: [ "HBM", "documentation", "requirements", "linux", "centos" ]
 date: "2017-01-27"
+url: "/docs/hbm/install/linux/el/"
 menu:
-  main:
-    parent: hbm_linux
+  docs:
+    parent: "hbm_linux"
     weight: -4
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/install/linux/el.md"
+toc: true
 ---
 
 HBM runs on EL. An installation on other binary compatible EL7

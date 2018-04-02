@@ -5,10 +5,10 @@ keywords: [ "getting started", "HBM" ]
 date: "2017-01-27"
 url: "/docs/getstarted/hbm/"
 menu:
-  main:
-    identifier: hbm_getstarted_install
-    parent: getstarted
+  docs:
+    parent: "getstarted"
     weight: -85
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/getstarted/index.md"
 ---
 
 ## Install

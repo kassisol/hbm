@@ -4,8 +4,8 @@ description: "The version command description and usage"
 keywords: [ "version" ]
 date: "2017-01-27"
 menu:
-  main:
-    parent: smn_cli
+  docs:
+    parent: "hbm_cli"
 ---
 
 ```markdown

@@ -3,8 +3,9 @@ title: "hbm info"
 description: "The info command description and usage"
 keywords: [ "display", "hbm", "information" ]
 menu:
-  main:
-    parent: smn_cli
+  docs:
+    parent: "hbm_cli"
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/reference/commandline/info.md"
 ---
 
 ```markdown

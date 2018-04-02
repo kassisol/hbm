@@ -3,10 +3,13 @@ title: "Configuring and running HBM"
 description: "Configuring and running the HBM server on various distributions"
 keywords: [ "hbm", "server", "configuration", "running", "process managers" ]
 date: "2017-01-27"
+url: "/docs/hbm/admin/configure/"
 menu:
-  main:
-    parent: hbm_admin
-    weight: 0
+  docs:
+    parent: "hbm_admin"
+    weight: -10
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/admin/configure.md"
+toc: true
 ---
 
 ## Configuration

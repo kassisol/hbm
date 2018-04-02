@@ -4,8 +4,9 @@ description: "The group ls command description and usage"
 keywords: [ "group", "ls" ]
 date: "2017-01-27"
 menu:
-  main:
-    parent: smn_cli
+  docs:
+    parent: "hbm_cli_group"
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/reference/commandline/group_ls.md"
 ---
 
 ```markdown

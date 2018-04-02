@@ -4,9 +4,9 @@ description: "HBM reference"
 keywords: [ "HBM" ]
 date: "2017-01-27"
 menu:
-  main:
-    parent: hbm_use
-    identifier: hbm_ref
+  docs:
+    identifier: "hbm_ref"
+    parent: "hbm_use"
     weight: 70
 ---
 

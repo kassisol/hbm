@@ -4,8 +4,9 @@ description: "The config find command description and usage"
 keywords: [ "config", "find" ]
 date: "2017-01-27"
 menu:
-  main:
-    parent: smn_cli
+  docs:
+    parent: "hbm_cli_config"
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/reference/commandline/config_find.md"
 ---
 
 ```markdown

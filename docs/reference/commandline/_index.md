@@ -4,9 +4,9 @@ description: "HBM's CLI command description and usage"
 keywords: [ "HBM", "documentation", "CLI", "command line" ]
 date: "2017-01-27"
 menu:
-  main:
-    parent: hbm_ref
-    identifier: smn_cli
+  docs:
+    identifier: "hbm_cli"
+    parent: "hbm_ref"
     weight: -75
 ---
 

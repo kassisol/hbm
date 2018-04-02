@@ -5,7 +5,8 @@ keywords: [ "group", "add" ]
 date: "2017-01-27"
 menu:
   main:
-    parent: smn_cli
+    parent: "hbm_cli_group"
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/reference/commandline/group_add.md"
 ---
 
 ```markdown

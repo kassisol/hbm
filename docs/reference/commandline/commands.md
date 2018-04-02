@@ -4,16 +4,17 @@ description: "HBM's CLI command description and usage"
 keywords: [ "HBM", "documentation", "CLI", "command line" ]
 date: "2017-01-27"
 menu:
-  main:
-    parent: smn_cli
-    identifier: smn_cli_guide
-    weight: -70
+  docs:
+    parent: "hbm_cli"
+    weight: -200
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/reference/commandline/commands.md"
+toc: true
 ---
 
 This section contains reference information on using HBM's command line
 client. Each command has a reference page along with samples.
 
-### HBM management commands
+### Management commands
 
 | Command | Description                                                                |
 |:--------|:---------------------------------------------------------------------------|

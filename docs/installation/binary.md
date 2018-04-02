@@ -1,22 +1,26 @@
 ---
-title: "Installation from binaries"
+title: "Installation from binary"
+linkTitle: "From binary"
 description: "Instructions for installing HBM as a binary. Mostly meant for hackers who want to try out HBM on a variety of environments."
-keywords: [ "binaries", "installation", "hbm", "documentation", "linux" ]
+keywords: [ "binary", "installation", "hbm", "documentation", "linux" ]
 date: "2017-01-27"
+url: "/docs/hbm/install/binary/"
 menu:
-  main:
-    parent: hbm_install
+  docs:
+    parent: "hbm_install"
     weight: 110
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/install/binary.md"
+toc: true
 ---
 
-## Get the HBM binaries
+## Get the HBM binary
 
 You can download a specific version. To get the list of stable
 release version numbers from GitHub, view the `harbormaster/hbm`
 [releases page](https://github.com/kassisol/hbm/releases).
 
 
-### Get the Linux binaries
+### Get the Linux binary
 
 To download a specific release version, use the following
 URL patterns:
@@ -26,7 +30,7 @@ https://github.com/kassisol/hbm/releases/download/x.x.x/hbm
 ```
 
 
-#### Install the Linux binaries
+#### Install the Linux binary
 
 After downloading, HBM requires this binary to be installed in your host's `$PATH`.
 For example, to install the binaries in `/usr/local/sbin`:

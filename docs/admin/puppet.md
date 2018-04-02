@@ -3,10 +3,13 @@ title: "Using Puppet"
 description: "Installing and using Puppet"
 keywords: [ "puppet", "installation", "usage", "hbm", "documentation" ]
 date: "2017-01-27"
+url: "/docs/hbm/admin/puppet/"
 menu:
-  main:
-    parent: hbm_admin
-    weight: 12
+  docs:
+    parent: "hbm_admin"
+    weight: 10
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/admin/puppet.md"
+toc: true
 ---
 
 ## Requirements
@@ -21,9 +24,7 @@ The module is available on the [GitHub](https://github.com/kassisol/puppet-modul
 ## Usage
 
 The module provides a puppet class for installing HBM and types
-for managing resources and policies.
-
-### Installation
+for managing groups, users, collections, resources and policies.
 
 ```
 classes:
@@ -43,7 +44,7 @@ hbm::configs:
 This is equivalent to running:
 
 ```bash
-# hbm config enable authorization
+# hbm config set authorization true
 ```
 
 #### Disable
@@ -57,7 +58,7 @@ hbm::configs:
 This is equivalent to running:
 
 ```bash
-# hbm config disable authorization
+# hbm config set authorization false
 ```
 
 ### Groups
@@ -136,24 +137,6 @@ This is equivalent to running:
 ```bash
 # hbm user member --add group1 user1
 # hbm user member --add group2 user1
-```
-
-#### Member
-
-```
-hbm::hosts:
-  'host1:
-    ensure: 'present'
-    members:
-      - cluster1
-      - cluster2
-```
-
-This is equivalent to running:
-
-```bash
-# hbm host member --add cluster1 host1
-# hbm host member --add cluster2 host1
 ```
 
 ### Collections
@@ -257,7 +240,7 @@ hbm::policies:
 This is equivalent to running the following command:
 
 ```bash
-# hbm policy add --cluster cluster1 --collection collection1 --group group1 policy1
+# hbm policy add --collection collection1 --group group1 policy1
 ```
 
 #### Remove
