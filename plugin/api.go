@@ -118,6 +118,7 @@ func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 
 		if !r.Allow {
 			fields["msg"] = r.Msg
+			fields["action"] = u.Action
 		}
 
 		l.WithFields(fields).Info(lmsg)
