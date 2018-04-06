@@ -94,8 +94,9 @@ func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 	config := types.Config{AppPath: a.AppPath, Username: username}
 	r := allow.True(req, &config)
 
+	aR, _ := s.Get("authorization")
+
 	if !isAdmin {
-		aR, _ := s.Get("authorization")
 		if aR {
 			r = allow.Action(&config, u.Action, u.CmdName)
 			if r.Allow {
@@ -108,12 +109,13 @@ func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 	// Build Docker command from data sent to Docker daemon
 	lmsg := u.DCBFunc(req, a.URIInfo.Path, u.Re)
 
-	// Log event to syslog
+	// Log event
 	if len(lmsg) > 0 {
 		fields := driver.Fields{
-			"user":    username,
-			"admin":   isAdmin,
-			"allowed": r.Allow,
+			"user":          username,
+			"admin":         isAdmin,
+			"allowed":       r.Allow,
+			"authorization": aR,
 		}
 
 		if !r.Allow {
