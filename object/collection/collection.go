@@ -55,6 +55,10 @@ func (c *Config) Remove(name string) error {
 		return fmt.Errorf("collection '%s' does not exist", name)
 	}
 
+	if len(c.Storage.ListResources(map[string]string{"elem": name})) > 0 {
+		return fmt.Errorf("collection '%s' cannot be removed. It is used by at least one resource", name)
+	}
+
 	if err := c.Storage.RemoveCollection(name); err != nil {
 		return err
 	}
