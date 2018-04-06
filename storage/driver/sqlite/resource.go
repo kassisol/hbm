@@ -1,8 +1,6 @@
 package sqlite
 
 import (
-	"fmt"
-
 	"github.com/kassisol/hbm/object/types"
 )
 
@@ -16,10 +14,6 @@ func (c *Config) AddResource(name, rtype, value, options string) {
 }
 
 func (c *Config) RemoveResource(name string) error {
-	if c.memberOfCollection(name) {
-		return fmt.Errorf("resource \"%s\" cannot be removed. It is being used by a collection", name)
-	}
-
 	c.DB.Where("name = ?", name).Delete(Resource{})
 
 	return nil
@@ -108,16 +102,4 @@ func (c *Config) RemoveResourceFromCollection(collection, resource string) {
 	c.DB.Where("name = ?", collection).Find(&col)
 
 	c.DB.Model(&col).Association("Resources").Delete(&res)
-}
-
-func (c *Config) memberOfCollection(name string) bool {
-	var count int64
-
-	c.DB.Table("collections").Joins("JOIN collection_resources ON collection_resources.collection_id = collections.id").Joins("JOIN resources ON resources.id = collection_resources.resource_id").Where("resources.name = ?", name).Count(&count)
-
-	if count > 0 {
-		return true
-	}
-
-	return false
 }

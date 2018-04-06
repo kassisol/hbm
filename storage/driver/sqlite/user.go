@@ -1,18 +1,10 @@
 package sqlite
 
-import (
-	"fmt"
-)
-
 func (c *Config) AddUser(name string) {
 	c.DB.Create(&User{Name: name})
 }
 
 func (c *Config) RemoveUser(name string) error {
-	if c.memberOfGroup(name) {
-		return fmt.Errorf("user \"%s\" cannot be removed. It is being used by a group", name)
-	}
-
 	c.DB.Where("name = ?", name).Delete(User{})
 
 	return nil
@@ -84,16 +76,4 @@ func (c *Config) RemoveUserFromGroup(group, user string) {
 	c.DB.Where("name = ?", group).Find(&g)
 
 	c.DB.Model(&g).Association("Users").Delete(&u)
-}
-
-func (c *Config) memberOfGroup(name string) bool {
-	var count int64
-
-	c.DB.Table("groups").Joins("JOIN group_users ON group_users.group_id = groups.id").Joins("JOIN users ON users.id = group_users.user_id").Where("users.name = ?", name).Count(&count)
-
-	if count > 0 {
-		return true
-	}
-
-	return false
 }

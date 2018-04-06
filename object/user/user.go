@@ -57,6 +57,10 @@ func (c *Config) Remove(name string) error {
 		return fmt.Errorf("user '%s' does not exist", name)
 	}
 
+	if len(c.Storage.ListGroups(map[string]string{"elem": name})) > 0 {
+		return fmt.Errorf("user '%s' cannot be removed. It is used by at least one group", name)
+	}
+
 	if err := c.Storage.RemoveUser(name); err != nil {
 		return err
 	}
