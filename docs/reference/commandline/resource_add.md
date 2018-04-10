@@ -125,7 +125,7 @@ Flags:
 | auth                      | login              | Log in to a Docker registry                                          |
 | info                      | info               | Display system-wide information                                      |
 | version                   | version            | Show the Docker version information                                  |
-| events                    | events             | Monitor Docker’s events                                              |
+| events                    | events             | Monitor Docker's events                                              |
 | system_df                 | system df          | Get data usage information                                           |
 | config_inspect            | config inspect     | Inspect a config                                                     |
 | config_list               | config ls          | List configs                                                         |
@@ -135,6 +135,15 @@ Flags:
 
 #### Option
 No option available
+
+#### Examples
+
+```bash
+# hbm resource add --type action --value container_list resource1
+# hbm resource ls -f "type=action"
+NAME                TYPE                VALUE               OPTION              COLLECTIONS
+resource1           action              container_list
+```
 
 ---
 ### Capability
@@ -146,6 +155,15 @@ By default Docker drops all capabilities except [those needed](https://github.co
 
 #### Option
 No option available
+
+#### Examples
+
+```bash
+# hbm resource add --type cap --value SYS_ADMIN resource1
+# hbm resource ls -f "type=cap"
+NAME                TYPE                VALUE               OPTION              COLLECTIONS
+resource1           cap                 SYS_ADMIN
+```
 
 ---
 ### Config
@@ -170,6 +188,15 @@ No option available
 #### Option
 No option available
 
+#### Examples
+
+```bash
+# hbm resource add --type config --value container_create_param_privileged resource1
+# hbm resource ls -f "type=config"
+NAME                TYPE                VALUE                                      OPTION              COLLECTIONS
+resource1           config              container_create_param_privileged
+```
+
 ---
 ### Device
 #### Type
@@ -179,6 +206,15 @@ No option available
 
 #### Option
 No option available
+
+#### Examples
+
+```bash
+# hbm resource add --type device --value /dev/snd resource1
+# hbm resource ls -f "type=device"
+NAME                TYPE                VALUE               OPTION              COLLECTIONS
+resource1           device              /dev/snd
+```
 
 ---
 ### DNS Server
@@ -190,6 +226,15 @@ No option available
 #### Option
 No option available
 
+#### Examples
+
+```bash
+# hbm resource add --type dns --value 1.1.1.1 resource1
+# hbm resource ls -f "type=dns"
+NAME                TYPE                VALUE               OPTION              COLLECTIONS
+resource1           dns                 1.1.1.1
+```
+
 ---
 ### Image
 #### Type
@@ -199,6 +244,15 @@ No option available
 
 #### Option
 No option available
+
+#### Examples
+
+```bash
+# hbm resource add --type image --value kassisol/hbm resource1
+# hbm resource ls -f "type=image"
+NAME                TYPE                VALUE               OPTION              COLLECTIONS
+resource1           image               kassisol/hbm
+```
 
 ---
 ### Log Driver
@@ -230,6 +284,15 @@ No option available
 #### Option
 No option available
 
+#### Examples
+
+```bash
+# hbm resource add --type plugin --value kassisol/gitvol resource1
+# hbm resource ls -f "type=plugin"
+NAME                TYPE                VALUE               OPTION              COLLECTIONS
+resource1           plugin              kassisol/gitvol
+```
+
 ---
 ### Port
 #### Type
@@ -241,6 +304,17 @@ Port can be specify individually or a range of ports is also possible. Range of 
 #### Option
 No option available
 
+#### Examples
+
+```bash
+# hbm resource add --type port --value 80 resource1
+# hbm resource add --type port --value 10000-10010 resource2
+# hbm resource ls -f "type=port"
+NAME                TYPE                VALUE               OPTION              COLLECTIONS
+resource1           port                80
+resource2           port                10000-10010
+```
+
 ---
 ### Registry
 #### Type
@@ -250,6 +324,15 @@ No option available
 
 #### Option
 No option available
+
+#### Examples
+
+```bash
+# hbm resource add --type registry --value registry.example.com resource1
+# hbm resource ls -f "type=plugin"
+NAME                TYPE                VALUE                         OPTION              COLLECTIONS
+resource1           registry            registry.example.com
+```
 
 ---
 ### Volume
@@ -265,14 +348,14 @@ Any path
 | recursive | boolean |             |
 | suid      | boolean |             |
 
-
-## Examples
+#### Examples
 
 ```bash
-# hbm resource add --type action --value container_list resource1
-# hbm resource ls
-NAME                TYPE                VALUE               OPTION              COLLECTIONS
-resource1           action              container_list
+# hbm resource add --type volume --value /path/to/dir1 resource1
+# hbm resource add --type volume --value /path/to --option "recursive=true" resource2
+# hbm resource ls -f "type=volume"
+NAME                TYPE                VALUE                  OPTION              COLLECTIONS
+resource1           volume              /path/to/dir1
 ```
 
 ## Related information
