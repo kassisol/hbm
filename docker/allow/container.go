@@ -136,8 +136,6 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 	}
 
 	if len(cc.HostConfig.Binds) > 0 {
-		p.End()
-
 		for _, b := range cc.HostConfig.Binds {
 			vol := strings.Split(b, ":")
 
