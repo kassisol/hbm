@@ -66,21 +66,21 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	if svc.TaskTemplate.Resources != nil {
 		if svc.TaskTemplate.Resources.Limits != nil {
 			if svc.TaskTemplate.Resources.Limits.NanoCPUs > 0 {
-				cmd.Add(fmt.Sprintf("--limit-cpu %s", svc.TaskTemplate.Resources.Limits.NanoCPUs))
+				cmd.Add(fmt.Sprintf("--limit-cpu %d", svc.TaskTemplate.Resources.Limits.NanoCPUs))
 			}
 
 			if svc.TaskTemplate.Resources.Limits.MemoryBytes > 0 {
-				cmd.Add(fmt.Sprintf("--limit-memory %s", svc.TaskTemplate.Resources.Limits.MemoryBytes))
+				cmd.Add(fmt.Sprintf("--limit-memory %d", svc.TaskTemplate.Resources.Limits.MemoryBytes))
 			}
 		}
 
 		if svc.TaskTemplate.Resources.Reservations != nil {
 			if svc.TaskTemplate.Resources.Reservations.NanoCPUs > 0 {
-				cmd.Add(fmt.Sprintf("--reserve-cpu %s", svc.TaskTemplate.Resources.Reservations.NanoCPUs))
+				cmd.Add(fmt.Sprintf("--reserve-cpu %d", svc.TaskTemplate.Resources.Reservations.NanoCPUs))
 			}
 
 			if svc.TaskTemplate.Resources.Reservations.MemoryBytes > 0 {
-				cmd.Add(fmt.Sprintf("--reserve-memory %s", svc.TaskTemplate.Resources.Reservations.MemoryBytes))
+				cmd.Add(fmt.Sprintf("--reserve-memory %d", svc.TaskTemplate.Resources.Reservations.MemoryBytes))
 			}
 		}
 	}
@@ -207,19 +207,19 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 
 		if svc.TaskTemplate.RestartPolicy.Delay != nil {
 			if *svc.TaskTemplate.RestartPolicy.Delay > 0 {
-				cmd.Add(fmt.Sprintf("--restart-delay %s", svc.TaskTemplate.RestartPolicy.Delay))
+				cmd.Add(fmt.Sprintf("--restart-delay %d", svc.TaskTemplate.RestartPolicy.Delay))
 			}
 		}
 
 		if svc.TaskTemplate.RestartPolicy.MaxAttempts != nil {
 			if *svc.TaskTemplate.RestartPolicy.MaxAttempts > 0 {
-				cmd.Add(fmt.Sprintf("--restart-max-attempts %s", svc.TaskTemplate.RestartPolicy.MaxAttempts))
+				cmd.Add(fmt.Sprintf("--restart-max-attempts %d", svc.TaskTemplate.RestartPolicy.MaxAttempts))
 			}
 		}
 
 		if svc.TaskTemplate.RestartPolicy.Window != nil {
 			if *svc.TaskTemplate.RestartPolicy.Window > 0 {
-				cmd.Add(fmt.Sprintf("--restart-window %s", svc.TaskTemplate.RestartPolicy.Window))
+				cmd.Add(fmt.Sprintf("--restart-window %d", svc.TaskTemplate.RestartPolicy.Window))
 			}
 		}
 	}
@@ -232,7 +232,7 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 
 	if svc.UpdateConfig != nil {
 		if svc.UpdateConfig.Delay > 0 {
-			cmd.Add(fmt.Sprintf("--update-delay %s", svc.UpdateConfig.Delay))
+			cmd.Add(fmt.Sprintf("--update-delay %d", svc.UpdateConfig.Delay))
 		}
 
 		if len(svc.UpdateConfig.FailureAction) > 0 {
@@ -240,7 +240,7 @@ func ServiceCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 		}
 
 		if svc.UpdateConfig.Parallelism > 0 {
-			cmd.Add(fmt.Sprintf("--update-parallelism %s", svc.UpdateConfig.Parallelism))
+			cmd.Add(fmt.Sprintf("--update-parallelism %d", svc.UpdateConfig.Parallelism))
 		}
 	}
 
@@ -340,21 +340,21 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 	if svc.TaskTemplate.Resources != nil {
 		if svc.TaskTemplate.Resources.Limits != nil {
 			if svc.TaskTemplate.Resources.Limits.NanoCPUs > 0 {
-				cmd.Add(fmt.Sprintf("--limit-cpu %s", svc.TaskTemplate.Resources.Limits.NanoCPUs))
+				cmd.Add(fmt.Sprintf("--limit-cpu %d", svc.TaskTemplate.Resources.Limits.NanoCPUs))
 			}
 
 			if svc.TaskTemplate.Resources.Limits.MemoryBytes > 0 {
-				cmd.Add(fmt.Sprintf("--limit-memory %s", svc.TaskTemplate.Resources.Limits.MemoryBytes))
+				cmd.Add(fmt.Sprintf("--limit-memory %d", svc.TaskTemplate.Resources.Limits.MemoryBytes))
 			}
 		}
 
 		if svc.TaskTemplate.Resources.Reservations != nil {
 			if svc.TaskTemplate.Resources.Reservations.NanoCPUs > 0 {
-				cmd.Add(fmt.Sprintf("--reserve-cpu %s", svc.TaskTemplate.Resources.Reservations.NanoCPUs))
+				cmd.Add(fmt.Sprintf("--reserve-cpu %d", svc.TaskTemplate.Resources.Reservations.NanoCPUs))
 			}
 
 			if svc.TaskTemplate.Resources.Reservations.MemoryBytes > 0 {
-				cmd.Add(fmt.Sprintf("--reserve-memory %s", svc.TaskTemplate.Resources.Reservations.MemoryBytes))
+				cmd.Add(fmt.Sprintf("--reserve-memory %d", svc.TaskTemplate.Resources.Reservations.MemoryBytes))
 			}
 		}
 	}
@@ -461,19 +461,19 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 
 		if svc.TaskTemplate.RestartPolicy.Delay != nil {
 			if *svc.TaskTemplate.RestartPolicy.Delay > 0 {
-				cmd.Add(fmt.Sprintf("--restart-delay %s", svc.TaskTemplate.RestartPolicy.Delay))
+				cmd.Add(fmt.Sprintf("--restart-delay %d", svc.TaskTemplate.RestartPolicy.Delay))
 			}
 		}
 
 		if svc.TaskTemplate.RestartPolicy.MaxAttempts != nil {
 			if *svc.TaskTemplate.RestartPolicy.MaxAttempts > 0 {
-				cmd.Add(fmt.Sprintf("--restart-max-attempts %s", svc.TaskTemplate.RestartPolicy.MaxAttempts))
+				cmd.Add(fmt.Sprintf("--restart-max-attempts %d", svc.TaskTemplate.RestartPolicy.MaxAttempts))
 			}
 		}
 
 		if svc.TaskTemplate.RestartPolicy.Window != nil {
 			if *svc.TaskTemplate.RestartPolicy.Window > 0 {
-				cmd.Add(fmt.Sprintf("--restart-window %s", svc.TaskTemplate.RestartPolicy.Window))
+				cmd.Add(fmt.Sprintf("--restart-window %d", svc.TaskTemplate.RestartPolicy.Window))
 			}
 		}
 	}
@@ -486,7 +486,7 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 
 	if svc.UpdateConfig != nil {
 		if svc.UpdateConfig.Delay > 0 {
-			cmd.Add(fmt.Sprintf("--update-delay %s", svc.UpdateConfig.Delay))
+			cmd.Add(fmt.Sprintf("--update-delay %d", svc.UpdateConfig.Delay))
 		}
 
 		if len(svc.UpdateConfig.FailureAction) > 0 {
@@ -494,7 +494,7 @@ func ServiceUpdate(req authorization.Request, urlPath string, re *regexp.Regexp)
 		}
 
 		if svc.UpdateConfig.Parallelism > 0 {
-			cmd.Add(fmt.Sprintf("--update-parallelism %s", svc.UpdateConfig.Parallelism))
+			cmd.Add(fmt.Sprintf("--update-parallelism %d", svc.UpdateConfig.Parallelism))
 		}
 	}
 

@@ -107,29 +107,29 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 	}
 
 	if cc.HostConfig.Memory > 0 {
-		cmd.Add(fmt.Sprintf("-m %s", cc.HostConfig.Memory))
+		cmd.Add(fmt.Sprintf("-m %d", cc.HostConfig.Memory))
 	}
 
 	if cc.HostConfig.MemoryReservation > 0 {
-		cmd.Add(fmt.Sprintf("--memory-reservation %s", cc.HostConfig.MemoryReservation))
+		cmd.Add(fmt.Sprintf("--memory-reservation %d", cc.HostConfig.MemoryReservation))
 	}
 
 	if cc.HostConfig.MemorySwap > 0 {
-		cmd.Add(fmt.Sprintf("--memory-swap %s", cc.HostConfig.MemorySwap))
+		cmd.Add(fmt.Sprintf("--memory-swap %d", cc.HostConfig.MemorySwap))
 	}
 
 	if cc.HostConfig.MemorySwappiness != nil {
 		if *cc.HostConfig.MemorySwappiness > 0 {
-			cmd.Add(fmt.Sprintf("--memory-swappiness %s", *cc.HostConfig.MemorySwappiness))
+			cmd.Add(fmt.Sprintf("--memory-swappiness %d", *cc.HostConfig.MemorySwappiness))
 		}
 	}
 
 	if cc.HostConfig.KernelMemory > 0 {
-		cmd.Add(fmt.Sprintf("--kernel-memory %s", cc.HostConfig.KernelMemory))
+		cmd.Add(fmt.Sprintf("--kernel-memory %d", cc.HostConfig.KernelMemory))
 	}
 
 	if cc.HostConfig.CPUShares > 0 {
-		cmd.Add(fmt.Sprintf("--cpu-shares %s", cc.HostConfig.CPUShares))
+		cmd.Add(fmt.Sprintf("--cpu-shares %d", cc.HostConfig.CPUShares))
 	}
 
 	if cc.HostConfig.CPUPeriod > 0 {
@@ -149,7 +149,7 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 	}
 
 	if cc.HostConfig.BlkioWeight > 0 {
-		cmd.Add(fmt.Sprintf("--blkio-weight %s", cc.HostConfig.BlkioWeight))
+		cmd.Add(fmt.Sprintf("--blkio-weight %d", cc.HostConfig.BlkioWeight))
 	}
 
 	if len(cc.HostConfig.BlkioWeightDevice) > 0 {
@@ -187,11 +187,11 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 	}
 
 	if cc.HostConfig.OomScoreAdj > 0 {
-		cmd.Add(fmt.Sprintf("--oom-score-adj %s", cc.HostConfig.OomScoreAdj))
+		cmd.Add(fmt.Sprintf("--oom-score-adj %d", cc.HostConfig.OomScoreAdj))
 	}
 
 	if cc.HostConfig.PidsLimit > 0 {
-		cmd.Add(fmt.Sprintf("--pids-limit %s", cc.HostConfig.PidsLimit))
+		cmd.Add(fmt.Sprintf("--pids-limit %d", cc.HostConfig.PidsLimit))
 	}
 
 	if cc.HostConfig.Privileged {
@@ -307,7 +307,7 @@ func ContainerCreate(req authorization.Request, urlPath string, re *regexp.Regex
 	}
 
 	if cc.HostConfig.ShmSize > 0 {
-		cmd.Add(fmt.Sprintf("--shm-size %s", cc.HostConfig.ShmSize))
+		cmd.Add(fmt.Sprintf("--shm-size %d", cc.HostConfig.ShmSize))
 	}
 
 	if len(cc.Entrypoint) > 0 {
@@ -493,19 +493,19 @@ func ContainerUpdate(req authorization.Request, urlPath string, re *regexp.Regex
 	}
 
 	if uc.BlkioWeight > 0 {
-		cmd.Add(fmt.Sprintf("--blkio-weight %s", uc.BlkioWeight))
+		cmd.Add(fmt.Sprintf("--blkio-weight %d", uc.BlkioWeight))
 	}
 
 	if uc.CPUShares > 0 {
-		cmd.Add(fmt.Sprintf("--cpu-shares %s", uc.CPUShares))
+		cmd.Add(fmt.Sprintf("--cpu-shares %d", uc.CPUShares))
 	}
 
 	if uc.CPUPeriod > 0 {
-		cmd.Add(fmt.Sprintf("--cpu-period %s", uc.CPUPeriod))
+		cmd.Add(fmt.Sprintf("--cpu-period %d", uc.CPUPeriod))
 	}
 
 	if uc.CPUQuota > 0 {
-		cmd.Add(fmt.Sprintf("--cpu-quota %s", uc.CPUQuota))
+		cmd.Add(fmt.Sprintf("--cpu-quota %d", uc.CPUQuota))
 	}
 
 	if len(uc.CpusetCpus) > 0 {
@@ -517,25 +517,25 @@ func ContainerUpdate(req authorization.Request, urlPath string, re *regexp.Regex
 	}
 
 	if uc.Memory > 0 {
-		cmd.Add(fmt.Sprintf("-m %s", uc.Memory))
+		cmd.Add(fmt.Sprintf("-m %d", uc.Memory))
 	}
 
 	if uc.MemoryReservation > 0 {
-		cmd.Add(fmt.Sprintf("--memory-reservation %s", uc.MemoryReservation))
+		cmd.Add(fmt.Sprintf("--memory-reservation %d", uc.MemoryReservation))
 	}
 
 	if uc.MemorySwap > 0 {
-		cmd.Add(fmt.Sprintf("--memory-swap %s", uc.MemorySwap))
+		cmd.Add(fmt.Sprintf("--memory-swap %d", uc.MemorySwap))
 	}
 
 	if uc.MemorySwappiness != nil {
 		if *uc.MemorySwappiness > 0 {
-			cmd.Add(fmt.Sprintf("--memory-swappiness %s", uc.MemorySwappiness))
+			cmd.Add(fmt.Sprintf("--memory-swappiness %d", uc.MemorySwappiness))
 		}
 	}
 
 	if uc.KernelMemory > 0 {
-		cmd.Add(fmt.Sprintf("--kernel-memory %s", uc.KernelMemory))
+		cmd.Add(fmt.Sprintf("--kernel-memory %d", uc.KernelMemory))
 	}
 
 	// TODO: Restart
