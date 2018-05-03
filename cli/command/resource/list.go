@@ -53,9 +53,9 @@ func runList(cmd *cobra.Command, args []string) {
 
 		for resource, collections := range resources {
 			if len(collections) > 0 {
-				fmt.Fprintf(tw, "%s\t%s\t%s\t%s\t%s\n", resource.Name, resource.Type, resource.Value, utils.RemoveLastChar(resource.Option), strings.Join(collections, ", "))
+				fmt.Fprintf(tw, "%s\t%s\t%s\t%s\t%s\n", resource.Name, resource.Type, resource.Value, resource.Option, strings.Join(collections, ", "))
 			} else {
-				fmt.Fprintf(tw, "%s\t%s\t%s\t%s\n", resource.Name, resource.Type, resource.Value, utils.RemoveLastChar(resource.Option))
+				fmt.Fprintf(tw, "%s\t%s\t%s\t%s\n", resource.Name, resource.Type, resource.Value, resource.Option)
 			}
 		}
 
