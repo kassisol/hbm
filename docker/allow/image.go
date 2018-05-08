@@ -22,8 +22,10 @@ func ImageCreate(req authorization.Request, config *types.Config) *types.AllowRe
 
 	params := u.Query()
 
-	if !AllowImage(params["fromImage"][0], config) {
-		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Image %s is not allowed to be pulled", params["fromImage"][0])}
+	if v, ok := params["fromImage"]; ok {
+		if !AllowImage(v[0], config) {
+			return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Image %s is not allowed to be pulled", v[0])}
+		}
 	}
 
 	return &types.AllowResult{Allow: true}
