@@ -105,26 +105,20 @@ func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 		}
 	}
 
-	// Accounting
-	// Build Docker command from data sent to Docker daemon
-	lmsg := u.DCBFunc(req, a.URIInfo.Path, u.Re)
-
 	// Log event
-	if len(lmsg) > 0 {
-		fields := driver.Fields{
-			"user":          username,
-			"admin":         isAdmin,
-			"allowed":       r.Allow,
-			"authorization": aR,
-		}
-
-		if !r.Allow {
-			fields["msg"] = r.Msg
-			fields["action"] = u.Action
-		}
-
-		l.WithFields(fields).Info(lmsg)
+	fields := driver.Fields{
+		"user":          username,
+		"admin":         isAdmin,
+		"allowed":       r.Allow,
+		"authorization": aR,
+		"action":        u.Action,
 	}
+
+	if !r.Allow {
+		fields["msg"] = r.Msg
+	}
+
+	l.WithFields(fields).Info()
 
 	// If Docker command is not allowed, return
 	if !r.Allow {
