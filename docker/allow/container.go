@@ -145,6 +145,18 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 		}
 	}
 
+	if len(cc.HostConfig.Mounts) > 0 {
+		for _, mount := range cc.HostConfig.Mounts {
+			if mount.Type == "bind" {
+				if len(mount.Source) > 0 {
+					if !AllowVolume(mount.Source, config) {
+						return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume %s is not allowed to be mounted", mount.Source)}
+					}
+				}
+			}
+		}
+	}
+
 	if len(cc.HostConfig.LogConfig.Type) > 0 {
 		if !p.Validate(config.Username, "logdriver", cc.HostConfig.LogConfig.Type, "") {
 			return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log driver %s is not allowed", cc.HostConfig.LogConfig.Type)}
