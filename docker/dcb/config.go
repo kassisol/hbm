@@ -11,17 +11,6 @@ import (
 	"github.com/kassisol/hbm/pkg/cmdbuilder"
 )
 
-func ConfigList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
-	cmd := cmdbuilder.New("config")
-	cmd.Add("ls")
-
-	cmd.GetParams(req.RequestURI)
-
-	cmd.AddFilters()
-
-	return cmd.String()
-}
-
 func ConfigCreate(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("config")
 	cmd.Add("create")
@@ -40,6 +29,8 @@ func ConfigCreate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 		}
 	}
 
+	// --template-driver
+
 	cmd.Add(c.Annotations.Name)
 
 	return cmd.String()
@@ -50,6 +41,17 @@ func ConfigInspect(req authorization.Request, urlPath string, re *regexp.Regexp)
 	cmd.Add("inspect")
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
+
+	return cmd.String()
+}
+
+func ConfigList(req authorization.Request, urlPath string, re *regexp.Regexp) string {
+	cmd := cmdbuilder.New("config")
+	cmd.Add("ls")
+
+	cmd.GetParams(req.RequestURI)
+
+	cmd.AddFilters()
 
 	return cmd.String()
 }

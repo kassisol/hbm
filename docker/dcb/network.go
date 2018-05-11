@@ -43,19 +43,25 @@ func NetworkCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 		}
 	}
 
+	if nc.Attachable {
+		cmd.Add("--attachable")
+	}
+
+	// --config-from
+	// --config-only
+
 	if len(nc.Driver) > 0 {
 		cmd.Add(fmt.Sprintf("--driver %s", nc.Driver))
+	}
+
+	if nc.Ingress {
+		cmd.Add("--ingress")
 	}
 
 	if nc.Internal {
 		cmd.Add("--internal")
 	}
 
-	if nc.EnableIPv6 {
-		cmd.Add("--ipv6")
-	}
-
-	// IPAM
 	if nc.IPAM != nil {
 		if len(nc.IPAM.Driver) > 0 {
 			cmd.Add(fmt.Sprintf("--ipam-driver %s", nc.IPAM.Driver))
@@ -90,11 +96,8 @@ func NetworkCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 		}
 	}
 
-	// Options
-	if len(nc.Options) > 0 {
-		for k, v := range nc.Options {
-			cmd.Add(fmt.Sprintf("--opt %s=%s", k, v))
-		}
+	if nc.EnableIPv6 {
+		cmd.Add("--ipv6")
 	}
 
 	if len(nc.Labels) > 0 {
@@ -102,6 +105,14 @@ func NetworkCreate(req authorization.Request, urlPath string, re *regexp.Regexp)
 			cmd.Add(fmt.Sprintf("--label %s=%s", k, v))
 		}
 	}
+
+	if len(nc.Options) > 0 {
+		for k, v := range nc.Options {
+			cmd.Add(fmt.Sprintf("--opt %s=%s", k, v))
+		}
+	}
+
+	// --scope
 
 	if len(nc.Name) > 0 {
 		cmd.Add(nc.Name)
@@ -122,6 +133,12 @@ func NetworkConnect(req authorization.Request, urlPath string, re *regexp.Regexp
 		}
 	}
 
+	if len(nc.EndpointConfig.Aliases) > 0 {
+		for _, v := range nc.EndpointConfig.Aliases {
+			cmd.Add(fmt.Sprintf("--alias %s", v))
+		}
+	}
+
 	if nc.EndpointConfig.IPAMConfig != nil {
 		if len(nc.EndpointConfig.IPAMConfig.IPv4Address) > 0 {
 			cmd.Add(fmt.Sprintf("--ip %s", nc.EndpointConfig.IPAMConfig.IPv4Address))
@@ -135,12 +152,6 @@ func NetworkConnect(req authorization.Request, urlPath string, re *regexp.Regexp
 	if len(nc.EndpointConfig.Links) > 0 {
 		for _, v := range nc.EndpointConfig.Links {
 			cmd.Add(fmt.Sprintf("--link %s", v))
-		}
-	}
-
-	if len(nc.EndpointConfig.Aliases) > 0 {
-		for _, v := range nc.EndpointConfig.Aliases {
-			cmd.Add(fmt.Sprintf("--alias %s", v))
 		}
 	}
 
@@ -194,6 +205,10 @@ func NetworkRemove(req authorization.Request, urlPath string, re *regexp.Regexp)
 func NetworkPrune(req authorization.Request, urlPath string, re *regexp.Regexp) string {
 	cmd := cmdbuilder.New("network")
 	cmd.Add("prune")
+
+	cmd.GetParams(req.RequestURI)
+
+	cmd.AddFilters()
 
 	return cmd.String()
 }

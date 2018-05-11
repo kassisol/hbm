@@ -27,7 +27,7 @@ func GetUris() *uri.URIs {
 	uris.Register("POST", `^/containers/(.+)/pause`, allow.True, dcb.ContainerPause, "container_pause", "container pause", "Use the cgroups freezer to suspend all processes in a container")
 	uris.Register("POST", `^/containers/(.+)/unpause`, allow.True, dcb.ContainerUnpause, "container_unpause", "container unpause", "Resume a container which has been paused")
 	uris.Register("POST", `^/containers/(.+)/attach`, allow.True, dcb.ContainerAttach, "container_attach", "container attach", "Attach to a container to read its output or send it input")
-	uris.Register("GET", `^/containers/(.+)/attach/ws`, allow.True, dcb.ContainerAttachWS, "container_attach_ws", "attach_ws", "Attach to a container via a websocket")
+	uris.Register("GET", `^/containers/(.+)/attach/ws`, allow.True, dcb.ContainerAttach, "container_attach_ws", "attach_ws", "Attach to a container via a websocket")
 	uris.Register("POST", `^/containers/(.+)/wait`, allow.True, dcb.ContainerWait, "container_wait", "container wait", "Block until a container stops, then returns the exit code")
 	uris.Register("DELETE", `^/containers/(.+)`, allow.True, dcb.ContainerRemove, "container_remove", "container rm", "Remove a container")
 	uris.Register("HEAD", `^/containers/(.+)/archive`, allow.True, dcb.ContainerArchiveInfo, "container_archive_info", "archive", "Get information about files in a container")

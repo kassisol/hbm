@@ -23,27 +23,37 @@ func ContainerExecCreate(req authorization.Request, urlPath string, re *regexp.R
 	}
 
 	if ec.Detach {
-		cmd.Add("-d")
+		cmd.Add("--detach")
 	}
 
 	if len(ec.DetachKeys) > 0 {
 		cmd.Add(fmt.Sprintf("--detach-keys=%s", ec.DetachKeys))
 	}
 
-	if ec.Tty {
-		cmd.Add("-t")
+	if len(ec.Env) > 0 {
+		for _, e := range ec.Env {
+			cmd.Add(fmt.Sprintf("--env %s", e))
+		}
 	}
 
 	if ec.AttachStdin {
-		cmd.Add("-i")
+		cmd.Add("--interactive")
 	}
 
 	if ec.Privileged {
 		cmd.Add("--privileged")
 	}
 
+	if ec.Tty {
+		cmd.Add("--tty")
+	}
+
 	if len(ec.User) > 0 {
-		cmd.Add(fmt.Sprintf("-u %s", ec.User))
+		cmd.Add(fmt.Sprintf("--user %s", ec.User))
+	}
+
+	if len(ec.WorkingDir) > 0 {
+		cmd.Add("--workdir")
 	}
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])

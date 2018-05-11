@@ -38,7 +38,7 @@ func NodeRemove(req authorization.Request, urlPath string, re *regexp.Regexp) st
 	cmd.GetParams(req.RequestURI)
 
 	if len(cmd.Params) > 0 {
-		cmd.GetParamAndAdd("force", "-f", true)
+		cmd.GetParamAndAdd("force", "--force", true)
 	}
 
 	cmd.Add(re.FindStringSubmatch(urlPath)[1])
@@ -58,14 +58,14 @@ func NodeUpdate(req authorization.Request, urlPath string, re *regexp.Regexp) st
 		}
 	}
 
+	if len(ns.Availability) > 0 {
+		cmd.Add(fmt.Sprintf("--availability %s", ns.Availability))
+	}
+
 	if len(ns.Labels) > 0 {
 		for k, v := range ns.Labels {
 			cmd.Add(fmt.Sprintf("--label \"%s=%s\"", k, v))
 		}
-	}
-
-	if len(ns.Availability) > 0 {
-		cmd.Add(fmt.Sprintf("--availability %s", ns.Availability))
 	}
 
 	if len(ns.Role) > 0 {

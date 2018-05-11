@@ -34,11 +34,15 @@ func SecretCreate(req authorization.Request, urlPath string, re *regexp.Regexp) 
 		}
 	}
 
+	// --driver
+
 	if len(s.Annotations.Labels) > 0 {
 		for k, v := range s.Annotations.Labels {
 			cmd.Add(fmt.Sprintf("--label \"%s=%s\"", k, v))
 		}
 	}
+
+	// --template-driver
 
 	cmd.Add(s.Annotations.Name)
 

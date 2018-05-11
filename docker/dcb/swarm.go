@@ -30,32 +30,47 @@ func SwarmInit(req authorization.Request, urlPath string, re *regexp.Regexp) str
 		}
 	}
 
-	if len(ir.ListenAddr) > 0 {
-		cmd.Add(fmt.Sprintf("--listen-addr=%s", ir.ListenAddr))
+	if len(ir.AdvertiseAddr) > 0 {
+		cmd.Add(fmt.Sprintf("--advertise-addr %s", ir.AdvertiseAddr))
 	}
 
-	if len(ir.AdvertiseAddr) > 0 {
-		cmd.Add(fmt.Sprintf("--advertise-addr=%s", ir.AdvertiseAddr))
+	if ir.Spec.EncryptionConfig.AutoLockManagers {
+		cmd.Add("--autolock")
+	}
+
+	// --availability
+
+	if ir.Spec.CAConfig.NodeCertExpiry > 0 {
+		cmd.Add(fmt.Sprintf("--cert-expiry %d", ir.Spec.CAConfig.NodeCertExpiry))
+	}
+
+	if len(ir.DataPathAddr) > 0 {
+		cmd.Add(fmt.Sprintf("--data-path-addr %s", ir.DataPathAddr))
+	}
+
+	if ir.Spec.Dispatcher.HeartbeatPeriod > 0 {
+		cmd.Add(fmt.Sprintf("--dispatcher-heartbeat %d", ir.Spec.Dispatcher.HeartbeatPeriod))
+	}
+
+	if len(ir.Spec.CAConfig.ExternalCAs) > 0 {
+		for _, eca := range ir.Spec.CAConfig.ExternalCAs {
+			cmd.Add(fmt.Sprintf("--external-ca %d", eca))
+		}
 	}
 
 	if ir.ForceNewCluster {
 		cmd.Add("--force-new-cluster")
 	}
 
-	if ir.Spec.CAConfig.NodeCertExpiry > 0 {
-		cmd.Add(fmt.Sprintf("--cert-expiry=%d", ir.Spec.CAConfig.NodeCertExpiry))
+	if len(ir.ListenAddr) > 0 {
+		cmd.Add(fmt.Sprintf("--listen-addr %s", ir.ListenAddr))
 	}
 
-	if len(ir.Spec.CAConfig.ExternalCAs) > 0 {
-		cmd.Add(fmt.Sprintf("--external-ca=%d", ir.Spec.CAConfig.ExternalCAs))
-	}
-
-	if ir.Spec.Dispatcher.HeartbeatPeriod > 0 {
-		cmd.Add(fmt.Sprintf("--dispatcher-heartbeat=%d", ir.Spec.Dispatcher.HeartbeatPeriod))
-	}
+	// --max-snapshots
+	// --snapshot-interval
 
 	if ir.Spec.Orchestration.TaskHistoryRetentionLimit != nil {
-		cmd.Add(fmt.Sprintf("--task-history-limit=%d", ir.Spec.Orchestration.TaskHistoryRetentionLimit))
+		cmd.Add(fmt.Sprintf("--task-history-limit %d", ir.Spec.Orchestration.TaskHistoryRetentionLimit))
 	}
 
 	return cmd.String()
