@@ -1,11 +1,11 @@
-package client
+package client // import "github.com/docker/docker/client"
 
 import (
 	"net/url"
 
-	"github.com/docker/docker/api/types"
+	"context"
 
-	"golang.org/x/net/context"
+	"github.com/docker/docker/api/types"
 )
 
 // NodeRemove removes a Node.

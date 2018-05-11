@@ -1,11 +1,10 @@
-package client
+package client // import "github.com/docker/docker/client"
 
 import (
+	"context"
 	"io"
 	"net/url"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/docker/docker/api/types"
 	timetypes "github.com/docker/docker/api/types/time"
@@ -51,6 +50,14 @@ func (cli *Client) ContainerLogs(ctx context.Context, container string, options 
 		query.Set("since", ts)
 	}
 
+	if options.Until != "" {
+		ts, err := timetypes.GetTimestamp(options.Until, time.Now())
+		if err != nil {
+			return nil, err
+		}
+		query.Set("until", ts)
+	}
+
 	if options.Timestamps {
 		query.Set("timestamps", "1")
 	}
@@ -66,7 +73,7 @@ func (cli *Client) ContainerLogs(ctx context.Context, container string, options 
 
 	resp, err := cli.get(ctx, "/containers/"+container+"/logs", query, nil)
 	if err != nil {
-		return nil, err
+		return nil, wrapResponseError(err, resp, "container", container)
 	}
 	return resp.body, nil
 }
