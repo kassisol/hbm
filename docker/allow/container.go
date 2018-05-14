@@ -66,7 +66,7 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 			los := fmt.Sprintf("%s=%s", k, v)
 
 			if !p.Validate(config.Username, "logopt", los, "") {
-				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log driver %s is not allowed", los)}
+				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log option %s is not allowed", los)}
 			}
 		}
 	}
