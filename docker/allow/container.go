@@ -161,6 +161,12 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 		}
 	}
 
+	if len(cc.HostConfig.Tmpfs) > 0 {
+		if !p.Validate(config.Username, "config", "container_create_param_tmpfs", "") {
+			return &types.AllowResult{Allow: false, Msg: "--tmpfs param is not allowed"}
+		}
+	}
+
 	if len(cc.HostConfig.Mounts) > 0 {
 		for _, mount := range cc.HostConfig.Mounts {
 			if mount.Type == "bind" {
@@ -168,6 +174,12 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 					if !AllowVolume(mount.Source, config) {
 						return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume %s is not allowed to be mounted", mount.Source)}
 					}
+				}
+			}
+
+			if mount.Type == "tmpfs" {
+				if !p.Validate(config.Username, "config", "container_create_param_tmpfs", "") {
+					return &types.AllowResult{Allow: false, Msg: "--tmpfs param is not allowed"}
 				}
 			}
 		}

@@ -173,16 +173,17 @@ resource1           cap                 SYS_ADMIN
 #### Value
 | Value                               | Description             |
 |:------------------------------------|:------------------------|
-| container_create_param_privileged   | --privileged param      |
 | container_create_param_ipc_host     | --ipc=\"host\" param    |
 | container_create_param_net_host     | --net=\"host\" param    |
 | container_create_param_pid_host     | --pid=\"host\" param    |
-| container_create_param_userns_host  | --userns=\"host\" param |
-| container_create_param_uts_host     | --uts=\"host\" param    |
-| container_create_param_user_root    | --user=\"root\" param   |
+| container_create_param_privileged   | --privileged param      |
 | container_create_param_publish_all  | --publish-all param     |
 | container_create_param_security_opt | --security-opt param    |
 | container_create_param_sysctl       | --sysctl param          |
+| container_create_param_tmpfs        | --tmpfs param           |
+| container_create_param_user_root    | --user=\"root\" param   |
+| container_create_param_userns_host  | --userns=\"host\" param |
+| container_create_param_uts_host     | --uts=\"host\" param    |
 | image_create_official               | Pull of Official image 	|
 
 #### Option

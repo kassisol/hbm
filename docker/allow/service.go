@@ -46,6 +46,12 @@ func ServiceCreate(req authorization.Request, config *types.Config) *types.Allow
 						}
 					}
 				}
+
+				if mount.Type == "tmpfs" {
+					if !p.Validate(config.Username, "config", "container_create_param_tmpfs", "") {
+						return &types.AllowResult{Allow: false, Msg: "--tmpfs param is not allowed"}
+					}
+				}
 			}
 		}
 
