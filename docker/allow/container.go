@@ -45,114 +45,12 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 	}
 	defer p.End()
 
-	if cc.HostConfig.Privileged {
-		if !p.Validate(config.Username, "config", "container_create_param_privileged", "") {
-			return &types.AllowResult{Allow: false, Msg: "--privileged param is not allowed"}
-		}
-	}
-
-	if cc.HostConfig.IpcMode == "host" {
-		if !p.Validate(config.Username, "config", "container_create_param_ipc_host", "") {
-			return &types.AllowResult{Allow: false, Msg: "--ipc=\"host\" param is not allowed"}
-		}
-	}
-
-	if cc.HostConfig.NetworkMode == "host" {
-		if !p.Validate(config.Username, "config", "container_create_param_net_host", "") {
-			return &types.AllowResult{Allow: false, Msg: "--net=\"host\" param is not allowed"}
-		}
-	}
-
-	if cc.HostConfig.PidMode == "host" {
-		if !p.Validate(config.Username, "config", "container_create_param_pid_host", "") {
-			return &types.AllowResult{Allow: false, Msg: "--pid=\"host\" param is not allowed"}
-		}
-	}
-
-	if cc.HostConfig.UsernsMode == "host" {
-		if !p.Validate(config.Username, "config", "container_create_param_userns_host", "") {
-			return &types.AllowResult{Allow: false, Msg: "--userns=\"host\" param is not allowed"}
-		}
-	}
-
-	if cc.HostConfig.UTSMode == "host" {
-		if !p.Validate(config.Username, "config", "container_create_param_uts_host", "") {
-			return &types.AllowResult{Allow: false, Msg: "--uts=\"host\" param is not allowed"}
-		}
-	}
-
-	if len(cc.HostConfig.SecurityOpt) > 0 {
-		if !p.Validate(config.Username, "config", "container_create_param_security_opt", "") {
-			return &types.AllowResult{Allow: false, Msg: "--security-opt param is not allowed"}
-		}
-	}
-
-	if len(cc.HostConfig.Sysctls) > 0 {
-		if !p.Validate(config.Username, "config", "container_create_param_sysctl", "") {
-			return &types.AllowResult{Allow: false, Msg: "--sysctl param is not allowed"}
-		}
-	}
-
-	if len(cc.HostConfig.CapAdd) > 0 {
-		for _, c := range cc.HostConfig.CapAdd {
-			if !p.Validate(config.Username, "capability", c, "") {
-				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Capability %s is not allowed", c)}
-			}
-		}
-	}
-
-	if len(cc.HostConfig.Devices) > 0 {
-		for _, dev := range cc.HostConfig.Devices {
-			if !p.Validate(config.Username, "device", dev.PathOnHost, "") {
-				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Device %s is not allowed to be exported", dev.PathOnHost)}
-			}
-		}
-	}
-
-	if len(cc.HostConfig.DNS) > 0 {
-		for _, dns := range cc.HostConfig.DNS {
-			if !p.Validate(config.Username, "dns", dns, "") {
-				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("DNS server %s is not allowed", dns)}
-			}
-		}
-	}
-
-	if cc.HostConfig.PublishAllPorts {
-		if !p.Validate(config.Username, "config", "container_create_param_publish_all", "") {
-			return &types.AllowResult{Allow: false, Msg: "--publish-all param is not allowed"}
-		}
-	}
-
-	if len(cc.HostConfig.PortBindings) > 0 {
-		for _, pbs := range cc.HostConfig.PortBindings {
-			for _, pb := range pbs {
-				spb := GetPortBindingString(&pb)
-
-				if !p.Validate(config.Username, "port", spb, "") {
-					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be published", spb)}
-				}
-			}
-		}
-	}
-
 	if len(cc.HostConfig.Binds) > 0 {
 		for _, b := range cc.HostConfig.Binds {
 			vol := strings.Split(b, ":")
 
 			if !AllowVolume(vol[0], config) {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume %s is not allowed to be mounted", b)}
-			}
-		}
-	}
-
-	if len(cc.HostConfig.Mounts) > 0 {
-		for _, mount := range cc.HostConfig.Mounts {
-			if mount.Type == "bind" {
-				if len(mount.Source) > 0 {
-					if !AllowVolume(mount.Source, config) {
-						return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume %s is not allowed to be mounted", mount.Source)}
-					}
-				}
 			}
 		}
 	}
@@ -169,6 +67,108 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 
 			if !p.Validate(config.Username, "logopt", los, "") {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log driver %s is not allowed", los)}
+			}
+		}
+	}
+
+	if cc.HostConfig.NetworkMode == "host" {
+		if !p.Validate(config.Username, "config", "container_create_param_net_host", "") {
+			return &types.AllowResult{Allow: false, Msg: "--net=\"host\" param is not allowed"}
+		}
+	}
+
+	if len(cc.HostConfig.PortBindings) > 0 {
+		for _, pbs := range cc.HostConfig.PortBindings {
+			for _, pb := range pbs {
+				spb := GetPortBindingString(&pb)
+
+				if !p.Validate(config.Username, "port", spb, "") {
+					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be published", spb)}
+				}
+			}
+		}
+	}
+
+	if len(cc.HostConfig.CapAdd) > 0 {
+		for _, c := range cc.HostConfig.CapAdd {
+			if !p.Validate(config.Username, "capability", c, "") {
+				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Capability %s is not allowed", c)}
+			}
+		}
+	}
+
+	if len(cc.HostConfig.DNS) > 0 {
+		for _, dns := range cc.HostConfig.DNS {
+			if !p.Validate(config.Username, "dns", dns, "") {
+				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("DNS server %s is not allowed", dns)}
+			}
+		}
+	}
+
+	if cc.HostConfig.IpcMode == "host" {
+		if !p.Validate(config.Username, "config", "container_create_param_ipc_host", "") {
+			return &types.AllowResult{Allow: false, Msg: "--ipc=\"host\" param is not allowed"}
+		}
+	}
+
+	if cc.HostConfig.PidMode == "host" {
+		if !p.Validate(config.Username, "config", "container_create_param_pid_host", "") {
+			return &types.AllowResult{Allow: false, Msg: "--pid=\"host\" param is not allowed"}
+		}
+	}
+
+	if cc.HostConfig.Privileged {
+		if !p.Validate(config.Username, "config", "container_create_param_privileged", "") {
+			return &types.AllowResult{Allow: false, Msg: "--privileged param is not allowed"}
+		}
+	}
+
+	if cc.HostConfig.PublishAllPorts {
+		if !p.Validate(config.Username, "config", "container_create_param_publish_all", "") {
+			return &types.AllowResult{Allow: false, Msg: "--publish-all param is not allowed"}
+		}
+	}
+
+	if len(cc.HostConfig.SecurityOpt) > 0 {
+		if !p.Validate(config.Username, "config", "container_create_param_security_opt", "") {
+			return &types.AllowResult{Allow: false, Msg: "--security-opt param is not allowed"}
+		}
+	}
+
+	if len(cc.HostConfig.Sysctls) > 0 {
+		if !p.Validate(config.Username, "config", "container_create_param_sysctl", "") {
+			return &types.AllowResult{Allow: false, Msg: "--sysctl param is not allowed"}
+		}
+	}
+
+	if cc.HostConfig.UTSMode == "host" {
+		if !p.Validate(config.Username, "config", "container_create_param_uts_host", "") {
+			return &types.AllowResult{Allow: false, Msg: "--uts=\"host\" param is not allowed"}
+		}
+	}
+
+	if cc.HostConfig.UsernsMode == "host" {
+		if !p.Validate(config.Username, "config", "container_create_param_userns_host", "") {
+			return &types.AllowResult{Allow: false, Msg: "--userns=\"host\" param is not allowed"}
+		}
+	}
+
+	if len(cc.HostConfig.Devices) > 0 {
+		for _, dev := range cc.HostConfig.Devices {
+			if !p.Validate(config.Username, "device", dev.PathOnHost, "") {
+				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Device %s is not allowed to be exported", dev.PathOnHost)}
+			}
+		}
+	}
+
+	if len(cc.HostConfig.Mounts) > 0 {
+		for _, mount := range cc.HostConfig.Mounts {
+			if mount.Type == "bind" {
+				if len(mount.Source) > 0 {
+					if !AllowVolume(mount.Source, config) {
+						return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume %s is not allowed to be mounted", mount.Source)}
+					}
+				}
 			}
 		}
 	}

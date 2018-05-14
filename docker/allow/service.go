@@ -36,16 +36,6 @@ func ServiceCreate(req authorization.Request, config *types.Config) *types.Allow
 	}
 	defer p.End()
 
-	if svc.EndpointSpec != nil {
-		if len(svc.EndpointSpec.Ports) > 0 {
-			for _, port := range svc.EndpointSpec.Ports {
-				if !p.Validate(config.Username, "port", string(port.PublishedPort), "") {
-					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be published", port.PublishedPort)}
-				}
-			}
-		}
-	}
-
 	if svc.TaskTemplate.ContainerSpec != nil {
 		if len(svc.TaskTemplate.ContainerSpec.Mounts) > 0 {
 			for _, mount := range svc.TaskTemplate.ContainerSpec.Mounts {
@@ -83,6 +73,16 @@ func ServiceCreate(req authorization.Request, config *types.Config) *types.Allow
 
 				if !p.Validate(config.Username, "logopt", los, "") {
 					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log driver %s is not allowed", los)}
+				}
+			}
+		}
+	}
+
+	if svc.EndpointSpec != nil {
+		if len(svc.EndpointSpec.Ports) > 0 {
+			for _, port := range svc.EndpointSpec.Ports {
+				if !p.Validate(config.Username, "port", string(port.PublishedPort), "") {
+					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be published", port.PublishedPort)}
 				}
 			}
 		}
