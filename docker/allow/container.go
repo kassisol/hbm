@@ -141,9 +141,9 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 		}
 	}
 
-	if len(cc.HostConfig.Sysctls) > 0 {
-		if !p.Validate(config.Username, "config", "container_create_param_sysctl", "") {
-			return &types.AllowResult{Allow: false, Msg: "--sysctl param is not allowed"}
+	if len(cc.HostConfig.Tmpfs) > 0 {
+		if !p.Validate(config.Username, "config", "container_create_param_tmpfs", "") {
+			return &types.AllowResult{Allow: false, Msg: "--tmpfs param is not allowed"}
 		}
 	}
 
@@ -159,17 +159,23 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 		}
 	}
 
+	if len(cc.HostConfig.Sysctls) > 0 {
+		if !p.Validate(config.Username, "config", "container_create_param_sysctl", "") {
+			return &types.AllowResult{Allow: false, Msg: "--sysctl param is not allowed"}
+		}
+	}
+
+	if len(cc.HostConfig.Runtime) > 0 {
+		if !p.Validate(config.Username, "runtime", cc.HostConfig.Runtime, "") {
+			return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Runtime %s is not allowed", cc.HostConfig.Runtime)}
+		}
+	}
+
 	if len(cc.HostConfig.Devices) > 0 {
 		for _, dev := range cc.HostConfig.Devices {
 			if !p.Validate(config.Username, "device", dev.PathOnHost, "") {
 				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Device %s is not allowed to be exported", dev.PathOnHost)}
 			}
-		}
-	}
-
-	if len(cc.HostConfig.Tmpfs) > 0 {
-		if !p.Validate(config.Username, "config", "container_create_param_tmpfs", "") {
-			return &types.AllowResult{Allow: false, Msg: "--tmpfs param is not allowed"}
 		}
 	}
 

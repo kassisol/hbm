@@ -18,7 +18,7 @@ Usage:
 
 Flags:
   -o, --option value   Specify options (default [])
-  -t, --type string    Set resource type (action|capability|config|device|dns|image|logdriver|logopt|plugin|port|registry|volume|volumedriver) (default "action")
+  -t, --type string    Set resource type (action|capability|config|device|dns|image|logdriver|logopt|plugin|port|registry|runtime|volume|volumedriver) (default "action")
   -v, --value string   Set resource value
 ```
 
@@ -333,6 +333,25 @@ No option available
 # hbm resource ls -f "type=plugin"
 NAME                TYPE                VALUE                         OPTION              COLLECTIONS
 resource1           registry            registry.example.com
+```
+
+---
+### Runtime
+#### Type
+`runtime`
+
+#### Value
+
+#### Option
+No option available
+
+#### Examples
+
+```bash
+# hbm resource add --type runtime --value nvidia resource1
+# hbm resource ls -f "type=runtime"
+NAME                TYPE                VALUE                         OPTION              COLLECTIONS
+resource1           runtime             nvidia
 ```
 
 ---
