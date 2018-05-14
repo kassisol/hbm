@@ -23,16 +23,16 @@ func init() {
 func New() (driver.Resourcer, error) {
 	actions := []Action{}
 
-	actions = append(actions, Action{Key: "container_create_param_privileged", Description: "--privileged param"})
 	actions = append(actions, Action{Key: "container_create_param_ipc_host", Description: "--ipc=\"host\" param"})
 	actions = append(actions, Action{Key: "container_create_param_net_host", Description: "--net=\"host\" param"})
 	actions = append(actions, Action{Key: "container_create_param_pid_host", Description: "--pid=\"host\" param"})
-	actions = append(actions, Action{Key: "container_create_param_userns_host", Description: "--userns=\"host\" param"})
-	actions = append(actions, Action{Key: "container_create_param_uts_host", Description: "--uts=\"host\" param"})
-	actions = append(actions, Action{Key: "container_create_param_user_root", Description: "--user=\"root\" param"})
+	actions = append(actions, Action{Key: "container_create_param_privileged", Description: "--privileged param"})
 	actions = append(actions, Action{Key: "container_create_param_publish_all", Description: "--publish-all param"})
 	actions = append(actions, Action{Key: "container_create_param_security_opt", Description: "--security-opt param"})
 	actions = append(actions, Action{Key: "container_create_param_sysctl", Description: "--sysctl param"})
+	actions = append(actions, Action{Key: "container_create_param_user_root", Description: "--user=\"root\" param"})
+	actions = append(actions, Action{Key: "container_create_param_userns_host", Description: "--userns=\"host\" param"})
+	actions = append(actions, Action{Key: "container_create_param_uts_host", Description: "--uts=\"host\" param"})
 
 	actions = append(actions, Action{Key: "image_create_official", Description: "Pull of Official image"})
 
