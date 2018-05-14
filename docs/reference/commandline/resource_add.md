@@ -159,10 +159,10 @@ No option available
 #### Examples
 
 ```bash
-# hbm resource add --type cap --value SYS_ADMIN resource1
-# hbm resource ls -f "type=cap"
+# hbm resource add --type capability --value SYS_ADMIN resource1
+# hbm resource ls -f "type=capability"
 NAME                TYPE                VALUE               OPTION              COLLECTIONS
-resource1           cap                 SYS_ADMIN
+resource1           capability          SYS_ADMIN
 ```
 
 ---
@@ -330,7 +330,7 @@ No option available
 
 ```bash
 # hbm resource add --type registry --value registry.example.com resource1
-# hbm resource ls -f "type=plugin"
+# hbm resource ls -f "type=registry"
 NAME                TYPE                VALUE                         OPTION              COLLECTIONS
 resource1           registry            registry.example.com
 ```
