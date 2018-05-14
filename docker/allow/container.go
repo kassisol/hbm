@@ -89,6 +89,12 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 		}
 	}
 
+	if len(cc.HostConfig.VolumeDriver) > 0 {
+		if !p.Validate(config.Username, "volumedriver", cc.HostConfig.VolumeDriver, "") {
+			return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume driver %s is not allowed", cc.HostConfig.VolumeDriver)}
+		}
+	}
+
 	if len(cc.HostConfig.CapAdd) > 0 {
 		for _, c := range cc.HostConfig.CapAdd {
 			if !p.Validate(config.Username, "capability", c, "") {

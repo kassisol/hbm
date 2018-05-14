@@ -18,7 +18,7 @@ Usage:
 
 Flags:
   -o, --option value   Specify options (default [])
-  -t, --type string    Set resource type (action|capability|config|device|dns|image|logdriver|logopt|plugin|port|registry|volume) (default "action")
+  -t, --type string    Set resource type (action|capability|config|device|dns|image|logdriver|logopt|plugin|port|registry|volume|volumedriver) (default "action")
   -v, --value string   Set resource value
 ```
 
@@ -357,6 +357,25 @@ Any path
 # hbm resource ls -f "type=volume"
 NAME                TYPE                VALUE                  OPTION              COLLECTIONS
 resource1           volume              /path/to/dir1
+```
+
+---
+### Volume Driver
+#### Type
+`volumedriver`
+
+#### Value
+Any volume driver
+
+#### Option
+
+#### Examples
+
+```bash
+# hbm resource add --type volumedriver --value kassisol/gitvol resource1
+# hbm resource ls -f "type=volumedriver"
+NAME                TYPE                VALUE                  OPTION              COLLECTIONS
+resource1           volumedriver        kassisol/gitvol
 ```
 
 ## Related information

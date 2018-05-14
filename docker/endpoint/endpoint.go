@@ -58,7 +58,7 @@ func GetUris() *uri.URIs {
 	uris.Register("POST", `^/networks/prune`, allow.True, "network_prune", "network prune", "Delete unused networks")
 
 	uris.Register("GET", `^/volumes$`, allow.True, "volume_list", "volume ls", "List volumes")
-	uris.Register("POST", `^/volumes/create`, allow.True, "volume_create", "volume create", "Create a volume")
+	uris.Register("POST", `^/volumes/create`, allow.VolumeCreate, "volume_create", "volume create", "Create a volume")
 	uris.Register("GET", `^/volumes/(.+)`, allow.True, "volume_inspect", "volume inspect", "Inspect a volume")
 	uris.Register("DELETE", `^/volumes/(.+)`, allow.True, "volume_remove", "volume rm", "Instruct the driver to remove the volume")
 	uris.Register("POST", `^/volumes/prune`, allow.True, "volume_prune", "volume prune", "Delete unused volumes")
