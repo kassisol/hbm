@@ -5,8 +5,7 @@ import (
 	"github.com/kassisol/hbm/docker/resource/driver"
 )
 
-type Config struct {
-}
+type Config struct {}
 
 func init() {
 	resource.RegisterDriver("image", New)

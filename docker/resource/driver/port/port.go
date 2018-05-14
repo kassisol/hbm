@@ -9,8 +9,7 @@ import (
 	"github.com/kassisol/hbm/pkg/utils"
 )
 
-type Config struct {
-}
+type Config struct {}
 
 func init() {
 	resource.RegisterDriver("port", New)
