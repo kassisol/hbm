@@ -117,6 +117,12 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 		}
 	}
 
+	if cc.HostConfig.OomScoreAdj != 0 {
+		if !p.Validate(config.Username, "config", "container_create_param_oom_score_adj", "") {
+			return &types.AllowResult{Allow: false, Msg: "--oom-score-adj param is not allowed"}
+		}
+	}
+
 	if cc.HostConfig.PidMode == "host" {
 		if !p.Validate(config.Username, "config", "container_create_param_pid_host", "") {
 			return &types.AllowResult{Allow: false, Msg: "--pid=\"host\" param is not allowed"}
