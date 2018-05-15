@@ -79,8 +79,8 @@ func runInit(cmd *cobra.Command, args []string) {
 	defer r.End()
 
 	if initAction {
-		if r.Count("action") == 0 {
-			for _, u := range *endpoint.GetUris() {
+		for _, u := range *endpoint.GetUris() {
+			if !r.Find(u.Action) {
 				if err := r.Add(u.Action, "action", u.Action, []string{}); err != nil {
 					log.Fatal(err)
 				}
@@ -89,16 +89,16 @@ func runInit(cmd *cobra.Command, args []string) {
 	}
 
 	if initConfig {
-		if r.Count("config") == 0 {
-			res, err := resourcepkg.NewDriver("config")
-			if err != nil {
-				log.Fatal(err)
-			}
+		res, err := resourcepkg.NewDriver("config")
+		if err != nil {
+			log.Fatal(err)
+		}
 
-			val := utils.GetReflectValue(reflect.Slice, res.List())
-			v := val.Interface().([]rconfigdrv.Action)
+		val := utils.GetReflectValue(reflect.Slice, res.List())
+		v := val.Interface().([]rconfigdrv.Action)
 
-			for _, c := range v {
+		for _, c := range v {
+			if !r.Find(c.Key) {
 				if err := r.Add(c.Key, "config", c.Key, []string{}); err != nil {
 					log.Fatal(err)
 				}
