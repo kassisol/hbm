@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ROOTDIR=$(dirname $0)/../../..
 cd $(dirname $0)

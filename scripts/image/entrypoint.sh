@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 HBM_LIB="/var/lib/hbm"
 HBM="/usr/local/sbin/hbm"
