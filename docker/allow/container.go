@@ -185,6 +185,12 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 		}
 	}
 
+	if *cc.HostConfig.OomKillDisable {
+		if !p.Validate(config.Username, "config", "container_create_param_oom_kill_disable", "") {
+			return &types.AllowResult{Allow: false, Msg: "--oom-kill-disable param is not allowed"}
+		}
+	}
+
 	if len(cc.HostConfig.Mounts) > 0 {
 		for _, mount := range cc.HostConfig.Mounts {
 			if mount.Type == "bind" {

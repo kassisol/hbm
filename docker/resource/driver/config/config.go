@@ -25,6 +25,7 @@ func New() (driver.Resourcer, error) {
 
 	actions = append(actions, Action{Key: "container_create_param_ipc_host", Description: "--ipc=\"host\" param"})
 	actions = append(actions, Action{Key: "container_create_param_net_host", Description: "--net=\"host\" param"})
+	actions = append(actions, Action{Key: "container_create_param_oom_kill_disable", Description: "--oom-kill-disable param"})
 	actions = append(actions, Action{Key: "container_create_param_oom_score_adj", Description: "--oom-score-adj param"})
 	actions = append(actions, Action{Key: "container_create_param_pid_host", Description: "--pid=\"host\" param"})
 	actions = append(actions, Action{Key: "container_create_param_privileged", Description: "--privileged param"})
