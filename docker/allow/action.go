@@ -27,7 +27,12 @@ func Action(config *types.Config, action, cmd string) *types.AllowResult {
 	defer p.End()
 
 	if !p.Validate(config.Username, "action", action, "") {
-		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("%s is not allowed", cmd)}
+		return &types.AllowResult{
+			Allow: false,
+			Msg: map[string]string{
+				"text": fmt.Sprintf("%s is not allowed", cmd),
+			},
+		}
 	}
 
 	return &types.AllowResult{Allow: true}

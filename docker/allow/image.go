@@ -17,14 +17,26 @@ import (
 func ImageCreate(req authorization.Request, config *types.Config) *types.AllowResult {
 	u, err := url.ParseRequestURI(req.RequestURI)
 	if err != nil {
-		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Could not parse URL query")}
+		return &types.AllowResult{
+			Allow: false,
+			Msg: map[string]string{
+				"text": fmt.Sprintf("Could not parse URL query"),
+			},
+		}
 	}
 
 	params := u.Query()
 
 	if v, ok := params["fromImage"]; ok {
 		if !AllowImage(v[0], config) {
-			return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Image %s is not allowed to be pulled", v[0])}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           fmt.Sprintf("Image %s is not allowed to be pulled", v[0]),
+					"resource_type":  "image",
+					"resource_value": v[0],
+				},
+			}
 		}
 	}
 

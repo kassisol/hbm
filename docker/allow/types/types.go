@@ -7,6 +7,6 @@ type Config struct {
 
 type AllowResult struct {
 	Allow bool
-	Msg   string
+	Msg   map[string]string
 	Error string
 }

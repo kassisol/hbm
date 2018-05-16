@@ -54,7 +54,7 @@ func (p *plugin) AuthZReq(req authorization.Request) authorization.Response {
 		return authorization.Response{Err: r.Error}
 	}
 	if !r.Allow {
-		return authorization.Response{Msg: r.Msg}
+		return authorization.Response{Msg: r.Msg["text"]}
 	}
 
 	return authorization.Response{Allow: true}

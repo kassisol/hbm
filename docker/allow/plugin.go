@@ -19,7 +19,12 @@ func PluginPull(req authorization.Request, config *types.Config) *types.AllowRes
 
 	u, err := url.ParseRequestURI(req.RequestURI)
 	if err != nil {
-		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Could not parse URL query")}
+		return &types.AllowResult{
+			Allow: false,
+			Msg: map[string]string{
+				"text": fmt.Sprintf("Could not parse URL query"),
+			},
+		}
 	}
 
 	params := u.Query()
@@ -54,7 +59,14 @@ func PluginPull(req authorization.Request, config *types.Config) *types.AllowRes
 	}
 
 	if !valid {
-		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Plugin %s is not allowed to be installed", pluginName)}
+		return &types.AllowResult{
+			Allow: false,
+			Msg: map[string]string{
+				"text":           fmt.Sprintf("Plugin %s is not allowed to be installed", pluginName),
+				"resource_type":  "plugin",
+				"resource_value": pluginName,
+			},
+		}
 	}
 
 	return &types.AllowResult{Allow: true}

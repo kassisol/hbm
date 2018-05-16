@@ -38,7 +38,14 @@ func VolumeCreate(req authorization.Request, config *types.Config) *types.AllowR
 
 	if len(vol.Driver) > 0 {
 		if !p.Validate(config.Username, "volumedriver", vol.Driver, "") {
-			return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume driver %s is not allowed", vol.Driver)}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           fmt.Sprintf("Volume driver %s is not allowed", vol.Driver),
+					"resource_type":  "volumedriver",
+					"resource_value": vol.Driver,
+				},
+			}
 		}
 	}
 
@@ -46,7 +53,14 @@ func VolumeCreate(req authorization.Request, config *types.Config) *types.AllowR
 		for k, v := range vol.DriverOpts {
 			if vol.Driver == "local" && k == "type" && v == "tmpfs" {
 				if !p.Validate(config.Username, "config", "container_create_param_tmpfs", "") {
-					return &types.AllowResult{Allow: false, Msg: "--tmpfs param is not allowed"}
+					return &types.AllowResult{
+						Allow: false,
+						Msg: map[string]string{
+							"text":           "--tmpfs param is not allowed",
+							"resource_type":  "config",
+							"resource_value": "container_create_param_tmpfs",
+						},
+					}
 				}
 			}
 		}

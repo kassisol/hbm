@@ -50,14 +50,28 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 			vol := strings.Split(b, ":")
 
 			if !AllowVolume(vol[0], config) {
-				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume %s is not allowed to be mounted", b)}
+				return &types.AllowResult{
+					Allow: false,
+					Msg: map[string]string{
+						"text":           fmt.Sprintf("Volume %s is not allowed to be mounted", b),
+						"resource_type":  "volume",
+						"resource_value": b,
+					},
+				}
 			}
 		}
 	}
 
 	if len(cc.HostConfig.LogConfig.Type) > 0 {
 		if !p.Validate(config.Username, "logdriver", cc.HostConfig.LogConfig.Type, "") {
-			return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log driver %s is not allowed", cc.HostConfig.LogConfig.Type)}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           fmt.Sprintf("Log driver %s is not allowed", cc.HostConfig.LogConfig.Type),
+					"resource_type":  "logdriver",
+					"resource_value": cc.HostConfig.LogConfig.Type,
+				},
+			}
 		}
 	}
 
@@ -66,14 +80,28 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 			los := fmt.Sprintf("%s=%s", k, v)
 
 			if !p.Validate(config.Username, "logopt", los, "") {
-				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Log option %s is not allowed", los)}
+				return &types.AllowResult{
+					Allow: false,
+					Msg: map[string]string{
+						"text":           fmt.Sprintf("Log option %s is not allowed", los),
+						"resource_type":  "logopt",
+						"resource_value": los,
+					},
+				}
 			}
 		}
 	}
 
 	if cc.HostConfig.NetworkMode == "host" {
 		if !p.Validate(config.Username, "config", "container_create_param_net_host", "") {
-			return &types.AllowResult{Allow: false, Msg: "--net=\"host\" param is not allowed"}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           "--net=\"host\" param is not allowed",
+					"resource_type":  "config",
+					"resource_value": "container_create_param_net_host",
+				},
+			}
 		}
 	}
 
@@ -83,7 +111,14 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 				spb := GetPortBindingString(&pb)
 
 				if !p.Validate(config.Username, "port", spb, "") {
-					return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Port %s is not allowed to be published", spb)}
+					return &types.AllowResult{
+						Allow: false,
+						Msg: map[string]string{
+							"text":           fmt.Sprintf("Port %s is not allowed to be published", spb),
+							"resource_type":  "port",
+							"resource_value": spb,
+						},
+					}
 				}
 			}
 		}
@@ -91,14 +126,28 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 
 	if len(cc.HostConfig.VolumeDriver) > 0 {
 		if !p.Validate(config.Username, "volumedriver", cc.HostConfig.VolumeDriver, "") {
-			return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume driver %s is not allowed", cc.HostConfig.VolumeDriver)}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           fmt.Sprintf("Volume driver %s is not allowed", cc.HostConfig.VolumeDriver),
+					"resource_type":  "volumedriver",
+					"resource_value": cc.HostConfig.VolumeDriver,
+				},
+			}
 		}
 	}
 
 	if len(cc.HostConfig.CapAdd) > 0 {
 		for _, c := range cc.HostConfig.CapAdd {
 			if !p.Validate(config.Username, "capability", c, "") {
-				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Capability %s is not allowed", c)}
+				return &types.AllowResult{
+					Allow: false,
+					Msg: map[string]string{
+						"text":           fmt.Sprintf("Capability %s is not allowed", c),
+						"resource_type":  "capability",
+						"resource_value": c,
+					},
+				}
 			}
 		}
 	}
@@ -106,88 +155,186 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 	if len(cc.HostConfig.DNS) > 0 {
 		for _, dns := range cc.HostConfig.DNS {
 			if !p.Validate(config.Username, "dns", dns, "") {
-				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("DNS server %s is not allowed", dns)}
+				return &types.AllowResult{
+					Allow: false,
+					Msg: map[string]string{
+						"text":           fmt.Sprintf("DNS server %s is not allowed", dns),
+						"resource_type":  "dns",
+						"resource_value": dns,
+					},
+				}
 			}
 		}
 	}
 
 	if cc.HostConfig.IpcMode == "host" {
 		if !p.Validate(config.Username, "config", "container_create_param_ipc_host", "") {
-			return &types.AllowResult{Allow: false, Msg: "--ipc=\"host\" param is not allowed"}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           "--ipc=\"host\" param is not allowed",
+					"resource_type":  "config",
+					"resource_value": "container_create_param_ipc_host",
+				},
+			}
 		}
 	}
 
 	if cc.HostConfig.OomScoreAdj != 0 {
 		if !p.Validate(config.Username, "config", "container_create_param_oom_score_adj", "") {
-			return &types.AllowResult{Allow: false, Msg: "--oom-score-adj param is not allowed"}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           "--oom-score-adj param is not allowed",
+					"resource_type":  "config",
+					"resource_value": "container_create_param_oom_score_adj",
+				},
+			}
 		}
 	}
 
 	if cc.HostConfig.PidMode == "host" {
 		if !p.Validate(config.Username, "config", "container_create_param_pid_host", "") {
-			return &types.AllowResult{Allow: false, Msg: "--pid=\"host\" param is not allowed"}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           "--pid=\"host\" param is not allowed",
+					"resource_type":  "config",
+					"resource_value": "container_create_param_pid_host",
+				},
+			}
 		}
 	}
 
 	if cc.HostConfig.Privileged {
 		if !p.Validate(config.Username, "config", "container_create_param_privileged", "") {
-			return &types.AllowResult{Allow: false, Msg: "--privileged param is not allowed"}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           "--privileged param is not allowed",
+					"resource_type":  "config",
+					"resource_value": "container_create_param_privileged",
+				},
+			}
 		}
 	}
 
 	if cc.HostConfig.PublishAllPorts {
 		if !p.Validate(config.Username, "config", "container_create_param_publish_all", "") {
-			return &types.AllowResult{Allow: false, Msg: "--publish-all param is not allowed"}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           "--publish-all param is not allowed",
+					"resource_type":  "config",
+					"resource_value": "container_create_param_publish_all",
+				},
+			}
 		}
 	}
 
 	if len(cc.HostConfig.SecurityOpt) > 0 {
 		if !p.Validate(config.Username, "config", "container_create_param_security_opt", "") {
-			return &types.AllowResult{Allow: false, Msg: "--security-opt param is not allowed"}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           "--security-opt param is not allowed",
+					"resource_type":  "config",
+					"resource_value": "container_create_param_security_opt",
+				},
+			}
 		}
 	}
 
 	if len(cc.HostConfig.Tmpfs) > 0 {
 		if !p.Validate(config.Username, "config", "container_create_param_tmpfs", "") {
-			return &types.AllowResult{Allow: false, Msg: "--tmpfs param is not allowed"}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           "--tmpfs param is not allowed",
+					"resource_type":  "config",
+					"resource_value": "container_create_param_tmpfs",
+				},
+			}
 		}
 	}
 
 	if cc.HostConfig.UTSMode == "host" {
 		if !p.Validate(config.Username, "config", "container_create_param_uts_host", "") {
-			return &types.AllowResult{Allow: false, Msg: "--uts=\"host\" param is not allowed"}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           "--uts=\"host\" param is not allowed",
+					"resource_type":  "config",
+					"resource_value": "container_create_param_uts_host",
+				},
+			}
 		}
 	}
 
 	if cc.HostConfig.UsernsMode == "host" {
 		if !p.Validate(config.Username, "config", "container_create_param_userns_host", "") {
-			return &types.AllowResult{Allow: false, Msg: "--userns=\"host\" param is not allowed"}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           "--userns=\"host\" param is not allowed",
+					"resource_type":  "config",
+					"resource_value": "container_create_param_userns_host",
+				},
+			}
 		}
 	}
 
 	if len(cc.HostConfig.Sysctls) > 0 {
 		if !p.Validate(config.Username, "config", "container_create_param_sysctl", "") {
-			return &types.AllowResult{Allow: false, Msg: "--sysctl param is not allowed"}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           "--sysctl param is not allowed",
+					"resource_type":  "config",
+					"resource_value": "container_create_param_sysctl",
+				},
+			}
 		}
 	}
 
 	if len(cc.HostConfig.Runtime) > 0 {
 		if !p.Validate(config.Username, "runtime", cc.HostConfig.Runtime, "") {
-			return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Runtime %s is not allowed", cc.HostConfig.Runtime)}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           fmt.Sprintf("Runtime %s is not allowed", cc.HostConfig.Runtime),
+					"resource_type":  "runtime",
+					"resource_value": cc.HostConfig.Runtime,
+				},
+			}
 		}
 	}
 
 	if len(cc.HostConfig.Devices) > 0 {
 		for _, dev := range cc.HostConfig.Devices {
 			if !p.Validate(config.Username, "device", dev.PathOnHost, "") {
-				return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Device %s is not allowed to be exported", dev.PathOnHost)}
+				return &types.AllowResult{
+					Allow: false,
+					Msg: map[string]string{
+						"text":           fmt.Sprintf("Device %s is not allowed to be exported", dev.PathOnHost),
+						"resource_type":  "device",
+						"resource_value": dev.PathOnHost,
+					},
+				}
 			}
 		}
 	}
 
 	if *cc.HostConfig.OomKillDisable {
 		if !p.Validate(config.Username, "config", "container_create_param_oom_kill_disable", "") {
-			return &types.AllowResult{Allow: false, Msg: "--oom-kill-disable param is not allowed"}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           "--oom-kill-disable param is not allowed",
+					"resource_type":  "config",
+					"resource_value": "container_create_param_oom_kill_disable",
+				},
+			}
 		}
 	}
 
@@ -196,14 +343,28 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 			if mount.Type == "bind" {
 				if len(mount.Source) > 0 {
 					if !AllowVolume(mount.Source, config) {
-						return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Volume %s is not allowed to be mounted", mount.Source)}
+						return &types.AllowResult{
+							Allow: false,
+							Msg: map[string]string{
+								"text":           fmt.Sprintf("Volume %s is not allowed to be mounted", mount.Source),
+								"resource_type":  "volume",
+								"resource_value": mount.Source,
+							},
+						}
 					}
 				}
 			}
 
 			if mount.Type == "tmpfs" {
 				if !p.Validate(config.Username, "config", "container_create_param_tmpfs", "") {
-					return &types.AllowResult{Allow: false, Msg: "--tmpfs param is not allowed"}
+					return &types.AllowResult{
+						Allow: false,
+						Msg: map[string]string{
+							"text":           "--tmpfs param is not allowed",
+							"resource_type":  "config",
+							"resource_value": "container_create_param_tmpfs",
+						},
+					}
 				}
 			}
 		}
@@ -211,12 +372,26 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 
 	if len(cc.User) > 0 {
 		if cc.Config.User == "root" && !p.Validate(config.Username, "config", "container_create_param_user_root", "") {
-			return &types.AllowResult{Allow: false, Msg: "Running as user \"root\" is not allowed. Please use --user=\"someuser\" param."}
+			return &types.AllowResult{
+				Allow: false,
+				Msg: map[string]string{
+					"text":           "Running as user \"root\" is not allowed. Please use --user=\"someuser\" param.",
+					"resource_type":  "config",
+					"resource_value": "container_create_param_user_root",
+				},
+			}
 		}
 	}
 
 	if !AllowImage(cc.Image, config) {
-		return &types.AllowResult{Allow: false, Msg: fmt.Sprintf("Image %s is not allowed", cc.Image)}
+		return &types.AllowResult{
+			Allow: false,
+			Msg: map[string]string{
+				"text":           fmt.Sprintf("Image %s is not allowed", cc.Image),
+				"resource_type":  "image",
+				"resource_value": cc.Image,
+			},
+		}
 	}
 
 	return &types.AllowResult{Allow: true}

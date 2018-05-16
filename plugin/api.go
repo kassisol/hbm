@@ -115,7 +115,16 @@ func (a *Api) Allow(req authorization.Request) (ar *types.AllowResult) {
 	}
 
 	if !r.Allow {
-		fields["msg"] = r.Msg
+		fields["msg"] = r.Msg["text"]
+
+		v, ok := r.Msg["resource_type"]
+		if ok {
+			fields["resource_type"] = v
+		}
+		v, ok = r.Msg["resource_value"]
+		if ok {
+			fields["resource_value"] = v
+		}
 	}
 
 	l.WithFields(fields).Info()
