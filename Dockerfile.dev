@@ -1,7 +1,7 @@
 FROM kassis/dev:go
 
 ########## Dapper Configuration #####################
-ENV DAPPER_RUN_ARGS --privileged --name hbm_dev
+ENV DAPPER_RUN_ARGS --privileged -p 127.0.0.1:2345:2345 --name hbm_dev
 ENV DAPPER_SOURCE /go/src/github.com/kassisol/hbm
 ENV SHELL /bin/bash
 
