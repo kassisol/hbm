@@ -178,7 +178,7 @@ func (c *Config) Validate(user, rType, rValue, rOptions string) bool {
 	}
 
 	if rType == "port" {
-		return c.allowPort(user, rValue)
+		return c.allowPort(user, rValue) || c.allowPort("all", rValue)
 	}
 
 	return false
