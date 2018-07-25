@@ -325,7 +325,7 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 		}
 	}
 
-	if *cc.HostConfig.OomKillDisable {
+	if cc.HostConfig.OomKillDisable != nil && *cc.HostConfig.OomKillDisable {
 		if !p.Validate(config.Username, "config", "container_create_param_oom_kill_disable", "") {
 			return &types.AllowResult{
 				Allow: false,
