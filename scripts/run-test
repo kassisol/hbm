@@ -35,6 +35,13 @@ function cert-create() {
 	chmod 444 cert.pem
 }
 
+function image-exists() {
+	if [ $(docker image ls --format "{{.Repository}}\t{{.Tag}}\t{{.ID}}" -f "reference=${1}" | wc -l) -eq 0 ]; then
+		echo "Image '${1}' does not exist"
+		exit 1
+	fi
+}
+
 function container-running() {
 	sleep 5
 	if [ $(docker container ls --format "{{.ID}}\t{{.Image}}\t{{.Names}}" -f "name=${1}" | wc -l) -eq 0 ]; then
@@ -49,6 +56,9 @@ function set-env-docker() {
 	export DOCKER_TLS_VERIFY=1
 }
 
+function unset-env-docker() {
+	unset DOCKER_CERT_PATH DOCKER_HOST DOCKER_TLS_VERIFY
+}
 
 set -x
 
@@ -63,8 +73,12 @@ TEST_PATH="/tmp/hbm-test"
 DOCKER_PATH="${TEST_PATH}/docker/${DOCKER_VER}"
 CERTS_PATH="${TEST_PATH}/certs"
 
+sudo rm -rf ${TEST_PATH}
+
 mkdir -p ${DOCKER_PATH}/{conf,run}
 mkdir -p ${CERTS_PATH}
+
+image-exists ${HBM_IMAGE_NAME}
 
 ## Create certificates
 ca-create
@@ -76,8 +90,8 @@ cert-create "client" "user1"
 
 ## Start HBM
 docker container run -d --rm \
-	-v ${DOCKER_PATH}/conf:/etc/docker/plugins \
-	-v ${DOCKER_PATH}/run:/var/run/docker \
+	--mount type=bind,src=${DOCKER_PATH}/conf,dst=/etc/docker/plugins \
+	--mount type=bind,src=${DOCKER_PATH}/run,dst=/var/run/docker \
 	--name hbm-test \
 	${HBM_IMAGE_NAME}:${VERSION}
 
@@ -86,9 +100,9 @@ container-running "hbm-test"
 ## Start Docker DIND
 docker container run -d --rm \
 	--privileged \
-	-v ${CERTS_PATH}/localhost:/etc/docker/tls \
-	-v ${DOCKER_PATH}/conf:/etc/docker/plugins \
-	-v ${DOCKER_PATH}/run:/var/run/docker \
+	--mount type=bind,src=${CERTS_PATH}/localhost,dst=/etc/docker/tls \
+	--mount type=bind,src=${DOCKER_PATH}/conf,dst=/etc/docker/plugins \
+	--mount type=bind,src=${DOCKER_PATH}/run,dst=/var/run/docker \
 	-p 127.0.0.1:2376:2376 \
 	--name docker-test \
 	${DOCKER_IMAGE_NAME} \
@@ -106,6 +120,8 @@ HBM="docker container exec -t hbm-test hbm"
 
 ${HBM} init --action --config
 
+${HBM} config set authorization true
+
 ${HBM} user add admin1
 ${HBM} user member --add administrators admin1
 
@@ -120,10 +136,12 @@ ${HBM} resource member --add default version
 ${HBM} policy add --group local --collection default policy1
 
 ## Run Docker commands
-docker-set-env "user1"
+set-env-docker "user1"
 
 docker version
 docker info
+
+unset-env-docker
 
 ## Stop Docker
 docker container kill docker-test
