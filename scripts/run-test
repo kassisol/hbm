@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+set -e
+
+function ca-create() {
+	local SUBJECT_CA="/C=CA/ST=Quebec/L=Montreal/O=Kassisol/OU=IT Services/CN=localhost"
+
+	mkdir ${CERTS_PATH}/selfca
+	cd ${CERTS_PATH}/selfca
+
+	openssl genrsa -out ca-key.pem 4096
+	openssl req -new -x509 -sha256 -key ca-key.pem -out ca.pem -days 730 -subj "${SUBJECT_CA}"
+
+	chmod 400 ca-key.pem
+	chmod 444 ca.pem
+}
+
+function cert-create() {
+	mkdir ${CERTS_PATH}/${2}
+	cd ${CERTS_PATH}/${2}
+
+	openssl genrsa -out key.pem 4096
+	openssl req -new -sha256 -key key.pem -out client.csr -subj "/CN=${2}"
+
+	echo "extendedKeyUsage = ${1}Auth" > extfile.cnf
+
+	if [ $1 == "server" ]; then
+		echo "subjectAltName = DNS:localhost,IP:127.0.0.1" >> extfile.cnf
+	fi
+
+	openssl x509 -req -days 365 -sha256 -in client.csr -CA ${CERTS_PATH}/selfca/ca.pem -CAkey ${CERTS_PATH}/selfca/ca-key.pem -CAcreateserial -out cert.pem -extfile extfile.cnf
+
+	cp ${CERTS_PATH}/selfca/ca.pem ${CERTS_PATH}/${2}/
+
+	chmod 400 key.pem
+	chmod 444 cert.pem
+}
+
+function container-running() {
+	sleep 5
+	if [ $(docker container ls --format "{{.ID}}\t{{.Image}}\t{{.Names}}" -f "name=${1}" | wc -l) -eq 0 ]; then
+		echo "Container name '${1}' is not running"
+		exit 1
+	fi
+}
+
+function set-env-docker() {
+	export DOCKER_CERT_PATH="${CERTS_PATH}/${1}"
+	export DOCKER_HOST="tcp://127.0.0.1:2376"
+	export DOCKER_TLS_VERIFY=1
+}
+
+
+set -x
+
+DOCKER_VER=${DOCKER_VERSION:-18.03}
+
+source $(dirname $0)/version
+
+HBM_IMAGE_NAME="kassisol/hbm"
+DOCKER_IMAGE_NAME="docker:${DOCKER_VER}-dind"
+
+TEST_PATH="/tmp/hbm-test"
+DOCKER_PATH="${TEST_PATH}/docker/${DOCKER_VER}"
+CERTS_PATH="${TEST_PATH}/certs"
+
+mkdir -p ${DOCKER_PATH}/{conf,run}
+mkdir -p ${CERTS_PATH}
+
+## Create certificates
+ca-create
+
+cert-create "server" "localhost"
+
+cert-create "client" "admin1"
+cert-create "client" "user1"
+
+## Start HBM
+docker container run -d --rm \
+	-v ${DOCKER_PATH}/conf:/etc/docker/plugins \
+	-v ${DOCKER_PATH}/run:/var/run/docker \
+	--name hbm-test \
+	${HBM_IMAGE_NAME}:${VERSION}
+
+container-running "hbm-test"
+
+## Start Docker DIND
+docker container run -d --rm \
+	--privileged \
+	-v ${CERTS_PATH}/localhost:/etc/docker/tls \
+	-v ${DOCKER_PATH}/conf:/etc/docker/plugins \
+	-v ${DOCKER_PATH}/run:/var/run/docker \
+	-p 127.0.0.1:2376:2376 \
+	--name docker-test \
+	${DOCKER_IMAGE_NAME} \
+	--tlsverify \
+	--tlscacert /etc/docker/tls/ca.pem \
+	--tlscert /etc/docker/tls/cert.pem \
+	--tlskey /etc/docker/tls/key.pem \
+	--host 0.0.0.0:2376 \
+	--authorization-plugin=hbm
+
+container-running "docker-test"
+
+## Create HBM resources and policies
+HBM="docker container exec -t hbm-test hbm"
+
+${HBM} init --action --config
+
+${HBM} user add admin1
+${HBM} user member --add administrators admin1
+
+${HBM} group add local
+${HBM} user add user1
+${HBM} user member --add local user1
+
+${HBM} collection add default
+${HBM} resource member --add default info
+${HBM} resource member --add default version
+
+${HBM} policy add --group local --collection default policy1
+
+## Run Docker commands
+docker-set-env "user1"
+
+docker version
+docker info
+
+## Stop Docker
+docker container kill docker-test
+docker container kill hbm-test
