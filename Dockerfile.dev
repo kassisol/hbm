@@ -14,7 +14,7 @@ ARG ARCH=${HOST_ARCH}
 
 ARG APP_REPO=kassisol
 
-ARG DOCKER_VERSION=18.03.0
+ARG docker_version=18.03.0
 
 # Set up environment and export all ARGS as ENV
 ENV ARCH=${ARCH} \
@@ -24,7 +24,7 @@ ENV DOCKER_COMPOSE_VERSION=1.14.0 \
 	DAPPER_HOST_ARCH=${DAPPER_HOST_ARCH}
 
 # Install Docker
-RUN get-docker.sh $DOCKER_VERSION
+RUN get-docker.sh $docker_version
 
 # Install Docker Compose
 RUN wget https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-Linux-x86_64 -O /usr/bin/docker-compose \

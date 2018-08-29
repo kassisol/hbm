@@ -23,9 +23,9 @@ ARG ARCH=${HOST_ARCH}
 
 ARG APP_REPO=kassisol
 
-ARG DOCKER_VERSION=18.03.0
+ARG docker_version=18.03.0
 
-ARG DOCKER_URL_amd64=https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}-ce.tgz
+ARG DOCKER_URL_amd64=https://download.docker.com/linux/static/stable/x86_64/docker-${docker_version}-ce.tgz
 
 # Set up environment and export all ARGS as ENV
 ENV ARCH=${ARCH} \
