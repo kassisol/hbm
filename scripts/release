@@ -12,6 +12,18 @@ function upload_file() {
 	done
 }
 
+function get-tag-message() {
+	git --no-pager show -s --format=%B ${LATEST_TAG} | sed 's/*/<STAR>/' | while read line; do
+		if [ $(echo $line | grep -E "Release|<STAR>" | wc -l) -eq 1 ]; then
+			if [ $(echo $line | grep -E "^Release" | wc -l) -eq 1 ]; then
+				echo -e "${line}\n"
+			else
+				echo $line | sed 's/<STAR>/    \*/'
+			fi
+		fi
+	done
+}
+
 source $(dirname $0)/version
 
 if [ -n "$DIRTY" ]; then
@@ -25,7 +37,17 @@ if [ $VERSION_OK -eq 0 ]; then
 	exit 100
 fi
 
-./.github-release release --user ${GITHUB_USER} --repo ${REPO_NAME} --tag ${VERSION} --pre-release --draft
+if [ ! -z "${TRAVIS}" ]; then
+	mkdir -p ${HOME}/.docker
+	echo -e "{\n\t\"auths\": {\n\t\t\"https://index.docker.io/v1/\": {\n\t\t\t\"auth\": \"${DOCKER_AUTH_TOKEN}\"\n\t\t}\n\t}\n}" > ${HOME}/.docker/config.json
+
+	if [ -z "$TRAVIS_TAG" ]; then
+		echo "Only release on Tag"
+		exit
+	fi
+fi
+
+./.github-release release --user ${GITHUB_USER} --repo ${REPO_NAME} --tag ${VERSION} --description "$(get-tag-message)" --pre-release --draft
 
 upload_file "bin"
 upload_file "dist"
