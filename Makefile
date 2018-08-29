@@ -1,4 +1,4 @@
-TARGETS := $(shell ls scripts | grep -vE 'clean|dev|help|release|run-test')
+TARGETS := $(shell ls scripts | grep -vE 'clean|dev|help|release|run-test|tag')
 
 TMUX := $(shell command -v tmux 2> /dev/null)
 
@@ -54,5 +54,9 @@ release: .github-release
 .PHONY: run-test
 run-test:
 	./scripts/run-test
+
+.PHONY: tag
+tag:
+	./scripts/tag
 
 .DEFAULT_GOAL := ci

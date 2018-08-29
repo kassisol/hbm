@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+LATEST_TAG=$(git tag | sort -V | tail -n 1)
+
+if [ -z "$TAG_VERSION" ]; then
+	echo "Please run the command as follow: TAG_VERSION=<VERSION> make tag"
+	exit 1
+fi
+
+if [ "${TAG_VERSION}" == "${LATEST_TAG}" ]; then
+	echo "Tag ${TAG_VERSION} already exists"
+	exit 1
+fi
+
+tagfile=$(mktemp)
+
+echo -e "Release HBM ${TAG_VERSION}\n" > ${tagfile}
+git --no-pager log --pretty=format:'    * %s' --abbrev-commit ${LATEST_TAG}..HEAD >> ${tagfile}
+echo -e "\n" >> ${tagfile}
+
+vim ${tagfile}
+
+if [ $(wc -l ${tagfile} | awk '{ print $1 }') -eq 0 ]; then
+	echo "No tag creation"
+	exit 1
+fi
+
+git tag -a -F ${tagfile} ${TAG_VERSION}
+
+rm -f ${tagfile}
