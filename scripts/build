@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+if [ $TRAVIS_BUILD_STAGE_NAME == "Deploy" ]; then
+	exit
+fi
+
 $(dirname $0)/build-target
 $(dirname $0)/build-packages
 $(dirname $0)/build-image
