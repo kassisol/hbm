@@ -6,7 +6,7 @@
 
 Harbormaster is a basic extendable Docker Engine [access authorization plugin](https://docs.docker.com/engine/extend/plugins_authorization/) that runs on directly on the host.
 
-By default Harbormaster plugin prevents from executing commands with certains parameters.
+By default, Harbormaster plugin prevents from executing commands with certain parameters.
  1. Pull images
  2. Start containers
   * `--privileged`
