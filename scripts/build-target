@@ -28,11 +28,11 @@ if [ "$CROSS" = 1 ]; then
 
 	strip --strip-all ${OUTPUT}-Linux-x86_64
 
-	echo Built ${OUTPUT}-Linux-x86_64
+	echo "Built ${OUTPUT}-Linux-x86_64"
 else
 	go build -ldflags "${CONST} ${LDFLAGS}" -o ${OUTPUT}
 
 	strip --strip-all ${OUTPUT}
 
-	echo Built ${OUTPUT}
+	echo "Built ${OUTPUT}"
 fi

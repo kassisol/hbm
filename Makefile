@@ -63,7 +63,7 @@ tag:
 shellcheck:
 	@for file in $(shell find . -type f -executable -not -path "./.git/*" -not -path "./vendor/*"); do \
 		echo "Validating : $$file"; \
-		docker container run --rm --mount type=bind,src=$$PWD,dst=/mnt,ro koalaman/shellcheck "$$file"; \
+		docker container run --rm --mount type=bind,src=$$PWD,dst=/mnt,ro koalaman/shellcheck -e SC2086 -e SC2046 -e SC1090 "$$file"; \
 		if [ $$? -gt 0 ]; then \
 			continue; \
 		fi; \

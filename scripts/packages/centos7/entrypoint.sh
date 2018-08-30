@@ -3,9 +3,9 @@
 VERSION=$1
 RELEASE=$2
 
-VERSION=`echo ${VERSION} | sed 's/-/_/'`
+VERSION=${VERSION//-/_}
 
-cd ${RPMBUILD_PATH}/SPECS
+cd "${RPMBUILD_PATH}/SPECS" || exit
 
 rpmbuild -ba \
 	--define "_version ${VERSION}" \

@@ -19,8 +19,7 @@ if [ -x "prebuild.sh" ]; then
 	./prebuild.sh
 fi
 
-docker image build --build-arg version=${VERSION} -t ${IMAGE_NAME}:${VERSION} .
-if [ $? -eq 0 ]; then
+if docker image build --build-arg version=${VERSION} -t ${IMAGE_NAME}:${VERSION} .; then
 	echo "${IMAGE_NAME}:${VERSION}" > ${DIST_IMAGE_FILE}
 fi
 

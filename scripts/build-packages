@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 set -e
 
-ORIGIN=`pwd`
+ORIGIN=$(pwd)
 BASE="scripts/packages"
 
 source $(dirname $0)/version
 
-for i in ${BASE}/*; do
+for i in "${BASE}"/*; do
 	echo "build-package: Building ${i}"
 
-	cd ${ORIGIN}/${i}
+	cd "${ORIGIN}/${i}"
 
 	if [ ! -f "Dockerfile" ]; then
 		echo "WARN: Skipping"
