@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/kassisol/hbm.svg?branch=master)](https://travis-ci.org/kassisol/hbm)
 [![Go Report Card](https://goreportcard.com/badge/github.com/kassisol/hbm)](https://goreportcard.com/report/github.com/kassisol/hbm)
+[![MicroBadger](https://images.microbadger.com/badges/version/kassisol/hbm:0.11.0.svg)](https://microbadger.com/images/kassisol/hbm:0.11.0 "Get your own version badge on microbadger.com")
 
 Harbormaster is a basic extendable Docker Engine [access authorization plugin](https://docs.docker.com/engine/extend/plugins_authorization/) that runs on directly on the host.
 
