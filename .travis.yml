@@ -11,6 +11,10 @@ env:
     secure: "KGaSw3ulJNrg+mwTkX/xSpXhkRc8acDJKdSzVyzjfFkVH2Ogi4kcwFl7vNh0nsQUxSOO18Aq7VChC5Eq9uLsMt6DaDLdl2xpuePNUzEflWpGzWxItsQlc1UtZbuuCFO13dthbsS1Mz5GKuDDBdDTbxXA+yEtaVhWy1Msg0Goinn1WxqCOBfi4ZMRNgqpRRcSMwIa/0WMv4z04NKiyqBGw3RPJNz5ymFvtlPJCJ1vQ6FK3gGDvrUoNTulKnHKtJsMlO6QVt8I6JWZJIBLryElyT9rF2K7nkEk/lMh2cyqjt9TjjbGXiB4qUXSxp2Sf8AOuf5YiCKmNBGEV7qmYBp7UlwkahiX02LjvAaxHDOc/JsSmdLlpCL63Q/EI5Grf/D7GVMijHpiYTheDm/wMiIhskfdPYgeR9zOWXVeh/sph/OTqFuzrqF2MXZli4hi1zy1yZ37ZuOKcIdC079spbL26RBEcGTytglYy6m3dO9Bgq/Yd0knVinhqgVtOJ8MtuQfBL/6KOTalOC9V+OB8LrehzHiNUARuaeK3/xSTBfr+FNV02pYMuoBteayd1m+4+6R85GGh2skL89kHALrY3Nlb0az/OiXXE4Vs1qOpzYdTFDAWTjK5nzkN+9j47Ne644zttO2LRr+zRBO30ku5L9IngfwEDc/yKnng0HL3YLer+I="
 jobs:
   include:
+    - stage: Validate
+      script:
+        - make shellcheck
+        - make dockerlint
     - stage: Run Test
       script:
         - make
