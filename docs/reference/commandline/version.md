@@ -6,6 +6,7 @@ date: "2017-01-27"
 menu:
   docs:
     parent: "hbm_cli"
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/reference/commandline/version.md"
 ---
 
 ```markdown

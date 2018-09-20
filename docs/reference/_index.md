@@ -1,7 +1,7 @@
 ---
 title: "HBM reference"
 description: "HBM reference"
-keywords: [ "HBM" ]
+keywords: [ "HBM", "reference" ]
 date: "2017-01-27"
 menu:
   docs:
@@ -9,5 +9,3 @@ menu:
     parent: "hbm_use"
     weight: 70
 ---
-
-* [Command line reference](commandline/index.md)

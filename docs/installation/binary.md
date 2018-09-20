@@ -9,14 +9,14 @@ menu:
   docs:
     parent: "hbm_install"
     weight: 110
-github_edit: "https://github.com/kassisol/hbm/edit/master/docs/install/binary.md"
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/installation/binary.md"
 toc: true
 ---
 
 ## Get the HBM binary
 
 You can download a specific version. To get the list of stable
-release version numbers from GitHub, view the `harbormaster/hbm`
+release version numbers from GitHub, view the `kassisol/hbm`
 [releases page](https://github.com/kassisol/hbm/releases).
 
 
@@ -33,7 +33,7 @@ https://github.com/kassisol/hbm/releases/download/x.x.x/hbm
 #### Install the Linux binary
 
 After downloading, HBM requires this binary to be installed in your host's `$PATH`.
-For example, to install the binaries in `/usr/local/sbin`:
+For example, to install the binary in `/usr/local/sbin`:
 
 ```bash
 $ mv hbm /usr/local/sbin/
@@ -70,8 +70,8 @@ server:
 # killall hbm
 ```
 
-Then follow the [regular installation steps](#get-the-linux-binaries).
+Then follow the [regular installation steps](#get-the-linux-binary).
 
 ## Next steps
 
-Continue with the [Admin Guide](../admin/index.md).
+Continue with the [Admin Guide](../admin/overview.md).

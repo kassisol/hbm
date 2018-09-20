@@ -9,7 +9,7 @@ menu:
   docs:
     parent: "hbm_linux"
     weight: -4
-github_edit: "https://github.com/kassisol/hbm/edit/master/docs/install/linux/rancheros.md"
+github_edit: "https://github.com/kassisol/hbm/edit/master/docs/installation/linux/rancheros.md"
 toc: true
 ---
 

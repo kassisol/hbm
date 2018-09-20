@@ -45,18 +45,18 @@ By default Harbormaster plugin prevents from executing commands and certains par
 
 ### Installation guides
 
-The [installation section](installation/index.md) will show you how to install HBM
+The [installation section](installation/overview.md) will show you how to install HBM
 on a variety of platforms.
 
 ### Admin guide
 
 To learn about HBM in more detail and to answer questions about usage and
-implementation, check out the [Admin Guide](admin/index.md).
+implementation, check out the [Admin Guide](admin/overview.md).
 
 ## Release notes
 
 A summary of the changes in each release in the current series can now be found
-on the separate [Release Notes page](http://harbormaster.io/docs/release-notes)
+on the separate [Release Notes page](https://github.com/kassisol/hbm/releases)
 
 ## Licensing
 

@@ -13,7 +13,7 @@ github_edit: "https://github.com/kassisol/hbm/edit/master/docs/getstarted/index.
 
 ## Install
 
-Refer to the [page](../installation/index.md) specific to your Linux distribution.
+Refer to the [page](../installation/overview.md) specific to your Linux distribution.
 
 ## Configure
 
