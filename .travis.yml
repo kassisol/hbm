@@ -8,23 +8,24 @@ addons:
     - docker-ce
 env:
   global:
-    secure: "KGaSw3ulJNrg+mwTkX/xSpXhkRc8acDJKdSzVyzjfFkVH2Ogi4kcwFl7vNh0nsQUxSOO18Aq7VChC5Eq9uLsMt6DaDLdl2xpuePNUzEflWpGzWxItsQlc1UtZbuuCFO13dthbsS1Mz5GKuDDBdDTbxXA+yEtaVhWy1Msg0Goinn1WxqCOBfi4ZMRNgqpRRcSMwIa/0WMv4z04NKiyqBGw3RPJNz5ymFvtlPJCJ1vQ6FK3gGDvrUoNTulKnHKtJsMlO6QVt8I6JWZJIBLryElyT9rF2K7nkEk/lMh2cyqjt9TjjbGXiB4qUXSxp2Sf8AOuf5YiCKmNBGEV7qmYBp7UlwkahiX02LjvAaxHDOc/JsSmdLlpCL63Q/EI5Grf/D7GVMijHpiYTheDm/wMiIhskfdPYgeR9zOWXVeh/sph/OTqFuzrqF2MXZli4hi1zy1yZ37ZuOKcIdC079spbL26RBEcGTytglYy6m3dO9Bgq/Yd0knVinhqgVtOJ8MtuQfBL/6KOTalOC9V+OB8LrehzHiNUARuaeK3/xSTBfr+FNV02pYMuoBteayd1m+4+6R85GGh2skL89kHALrY3Nlb0az/OiXXE4Vs1qOpzYdTFDAWTjK5nzkN+9j47Ne644zttO2LRr+zRBO30ku5L9IngfwEDc/yKnng0HL3YLer+I="
+  - secure: KGaSw3ulJNrg+mwTkX/xSpXhkRc8acDJKdSzVyzjfFkVH2Ogi4kcwFl7vNh0nsQUxSOO18Aq7VChC5Eq9uLsMt6DaDLdl2xpuePNUzEflWpGzWxItsQlc1UtZbuuCFO13dthbsS1Mz5GKuDDBdDTbxXA+yEtaVhWy1Msg0Goinn1WxqCOBfi4ZMRNgqpRRcSMwIa/0WMv4z04NKiyqBGw3RPJNz5ymFvtlPJCJ1vQ6FK3gGDvrUoNTulKnHKtJsMlO6QVt8I6JWZJIBLryElyT9rF2K7nkEk/lMh2cyqjt9TjjbGXiB4qUXSxp2Sf8AOuf5YiCKmNBGEV7qmYBp7UlwkahiX02LjvAaxHDOc/JsSmdLlpCL63Q/EI5Grf/D7GVMijHpiYTheDm/wMiIhskfdPYgeR9zOWXVeh/sph/OTqFuzrqF2MXZli4hi1zy1yZ37ZuOKcIdC079spbL26RBEcGTytglYy6m3dO9Bgq/Yd0knVinhqgVtOJ8MtuQfBL/6KOTalOC9V+OB8LrehzHiNUARuaeK3/xSTBfr+FNV02pYMuoBteayd1m+4+6R85GGh2skL89kHALrY3Nlb0az/OiXXE4Vs1qOpzYdTFDAWTjK5nzkN+9j47Ne644zttO2LRr+zRBO30ku5L9IngfwEDc/yKnng0HL3YLer+I=
+  - secure: G58iPUEXRj6mdpC3UaoE0VKlbURnj5ZN46jEZluXbYgDdhdG2Aoh+GiNcTbQnm5m+79GSpA6xxtbbVRlwXs+YZLlt9xlHvz3KggloPGr00DHN99MCqOtNoEEY+LWgidunaTSI/4qSHrAGJQruJmm2UYkWhmV/JBzyK8eLyNv0Xx/DAHiv1VpHOp4/h58NRhv4AsegaiMAC0OkyJD1l1kGJubOujgIbER7wz/MGXzytYzgMUPFVF5twvGzB8niDfmTYam+AfPK+5O+9e6wWtzIDCFcrsqhTBZmuI3aBbRtYng4Fxiz/gFpyW0HCmouyacDUZ7LkL/OP8Mu0kauLrUZ8zGXvtdAZx8vmhnBe1mOwHGOIoDy3O0epw6Q6MtaC1iQpEnpNLWdtBqsun6cNvWg4Scap4Lq/qyH0mUYuK97csjKFlTD/sEC0iYf+Z17QKG40/yV86lvE/lwm6r4Q0x0BSa/2MA7YE1ynh1cRod6+3fU0XiUReoLd9WYxkAsIDSo0o0PHba2xGMtckWQ0gqKjNmI2G3TfGXVSgArM9GAHzjR6frIV4kOC4UmA/gSxgwImSMbnx0baoe/J6oc5plRfGyMX0YRzBcwrv43ugo1ffP5/8MWhdweFn1QBjfdh8iD4YCO8JqxwmFq1Omy+ecGmqA9NfYbjVAgAcBw2vLim4=
 jobs:
   include:
-    - stage: Validate
-      script:
-        - make shellcheck
-        - make dockerlint
-    - stage: Run Test
-      script:
-        - make
-        - DOCKER_VERSION="17.12" make run-test
-        - DOCKER_VERSION="18.03" make run-test
-        - DOCKER_VERSION="18.06" make run-test
-    - stage: Deploy
-      deploy:
-        provider: script
-        script: make && make release
-        skip_cleanup: true
-        on:
-          tags: true
+  - stage: Validate
+    script:
+    - make shellcheck
+    - make dockerlint
+  - stage: Run Test
+    script:
+    - make
+    - DOCKER_VERSION="17.12" make run-test
+    - DOCKER_VERSION="18.03" make run-test
+    - DOCKER_VERSION="18.06" make run-test
+  - stage: Deploy
+    deploy:
+      provider: script
+      script: make && make release
+      skip_cleanup: true
+      on:
+        tags: true
