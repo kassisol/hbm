@@ -13,7 +13,7 @@ function upload_file() {
 }
 
 function get-tag-message() {
-	git --no-pager show -s --format=%B ${LATEST_TAG} | sed 's/*/<STAR>/' | while read line; do
+	git --no-pager show -s --format=%B ${VERSION} | sed 's/*/<STAR>/' | while read line; do
 		if [ $(echo $line | grep -Ec "Release|<STAR>") -eq 1 ]; then
 			if [ $(echo $line | grep -Ec "^Release") -eq 1 ]; then
 				echo -e "${line}\n"
