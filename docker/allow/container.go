@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path"
 	"strings"
+	"path/filepath"
 
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/go-connections/nat"
@@ -48,7 +49,8 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 	if len(cc.HostConfig.Binds) > 0 {
 		for _, b := range cc.HostConfig.Binds {
 			vol := strings.Split(b, ":")
-
+			
+			vol[0], _ = filepath.Abs(vol[0])
 			if !AllowVolumePath(vol[0]) {
 				return &types.AllowResult{
 					Allow: false,
@@ -422,6 +424,11 @@ func AllowVolumePath(vol string) bool {
 		return false
 	}
 	if strings.Contains(vol, "/..") {
+		return false
+	}
+
+	volevaluated, _ := filepath.EvalSymlinks(vol)
+	if strings.Compare(vol,volevaluated) != 0 {
 		return false
 	}
 	return true
