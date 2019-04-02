@@ -49,6 +49,16 @@ func ContainerCreate(req authorization.Request, config *types.Config) *types.All
 		for _, b := range cc.HostConfig.Binds {
 			vol := strings.Split(b, ":")
 
+			if !AllowVolumePath(vol[0]) {
+				return &types.AllowResult{
+					Allow: false,
+					Msg: map[string]string{
+						"text":           fmt.Sprintf("Volume path %s is illegal", b),
+						"resource_type":  "volume",
+						"resource_value": b,
+					},
+				}
+			}
 			if !AllowVolume(vol[0], config) {
 				return &types.AllowResult{
 					Allow: false,
@@ -405,6 +415,16 @@ func GetPortBindingString(pb *nat.PortBinding) string {
 	}
 
 	return result
+}
+
+func AllowVolumePath(vol string) bool {
+	if strings.Contains(vol, "../") {
+		return false
+	}
+	if strings.Contains(vol, "/..") {
+		return false
+	}
+	return true
 }
 
 func AllowVolume(vol string, config *types.Config) bool {
