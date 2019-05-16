@@ -2,6 +2,7 @@ package allow
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/docker/docker/api/types/swarm"
 	"github.com/docker/go-plugins-helpers/authorization"
@@ -129,11 +130,11 @@ func ServiceCreate(req authorization.Request, config *types.Config) *types.Allow
 	if svc.EndpointSpec != nil {
 		if len(svc.EndpointSpec.Ports) > 0 {
 			for _, port := range svc.EndpointSpec.Ports {
-				if !p.Validate(config.Username, "port", string(port.PublishedPort), "") {
+				if !p.Validate(config.Username, "port", strconv.Itoa(int(port.PublishedPort)), "") {
 					return &types.AllowResult{
 						Allow: false,
 						Msg: map[string]string{
-							"text":           fmt.Sprintf("Port %s is not allowed to be published", port.PublishedPort),
+							"text":           fmt.Sprintf("Port %d is not allowed to be published", port.PublishedPort),
 							"resource_type":  "port",
 							"resource_value": fmt.Sprintf("%d", port.PublishedPort),
 						},
