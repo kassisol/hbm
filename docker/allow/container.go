@@ -422,6 +422,15 @@ func AllowVolume(vol string, config *types.Config) bool {
 	}
 	defer p.End()
 
+	// Check for double dots in volume path
+	if strings.Contains(vol, "/..") {
+		return false
+	}
+	if strings.Contains(vol, "../") {
+		return false
+	}
+
+	// Check for one volume path
 	vo := objtypes.VolumeOptions{
 		Recursive: false,
 	}
@@ -435,6 +444,7 @@ func AllowVolume(vol string, config *types.Config) bool {
 		return true
 	}
 
+	// Check for recursive volume path
 	v := strings.Split(vol, "/")
 
 	val := make([]string, len(v))
