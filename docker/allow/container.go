@@ -448,8 +448,6 @@ func AllowVolume(vol string, config *types.Config) bool {
 		}
 		if AllowMount(vol) {
 			vo.NoSuid = true
-		} else {
-			vo.NoSuid = false
 		}
 		jsonVO = json.Encode(vo)
 		opts = strings.TrimSpace(jsonVO.String())
