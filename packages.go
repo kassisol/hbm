@@ -16,4 +16,5 @@ import (
 	_ "github.com/kassisol/hbm/docker/resource/driver/port"
 	_ "github.com/kassisol/hbm/docker/resource/driver/registry"
 	_ "github.com/kassisol/hbm/docker/resource/driver/volume"
+	_ "github.com/kassisol/hbm/docker/resource/driver/volumedriver"
 )
